@@ -1,11 +1,12 @@
 # pinenote-debian-recipes
 
-Creates a Debian root filesystem hierachy for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end result, a `tar.gz` file can be extracted onto an existing partition on the PineNote. 
+Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end result, a `tar.gz` file can be extracted onto an existing partition on the PineNote. 
 
-Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn[1] or Dorian[2]. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs. This project allows creation of such a rootfs for the Debian distribution (bookworm by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and components, install some basic programs and do some setup including creating the `initrd` using 'dracut'. Booting it on the PineNote would get you to the console. No graphical environments are installed yet.
+Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn\[1\] or Dorian\[2\]. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs. This project allows creation of such a rootfs for the Debian distribution (`bookworm` by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and components, install some basic programs and do some setup including creating the `initrd` using `dracut`. Booting it on the PineNote would get you to the console. No graphical environments are installed.
 
-[1]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
-[2]:  [https://github.com/DorianRudolph/pinenotes](https://github.com/DorianRudolph/pinenotes)
+  \[1\]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
+
+  \[2\]:  [https://github.com/DorianRudolph/pinenotes](https://github.com/DorianRudolph/pinenotes)
 
 ## Build
 
@@ -36,16 +37,19 @@ pinenote-debian-recipes/overlays/
     └── kernel-modules.tar.gz
 ```
 Symbolic links doesn't work(!) so either use hard links or simply copy the files in the right place.
+
 Some details (check also the recipes to see how they are used):
-`original-firmware.tar.gz` contains the `firmware/` directory which is found on the PineNote in `/vendor/etc/`.
-`kernel-modules.tar.gz` contains the `/lib/modules/..` directory (entire hierarchy including starting with `/lib`)
+
+- `original-firmware.tar.gz` contains the `firmware/` directory which is found on the PineNote in `/vendor/etc/`.
+- `kernel-modules.tar.gz` contains the `/lib/modules/..` directory (entire hierarchy including starting with `/lib`)
 
 ### Build the recipes
-As a normal user, just run inside the `pinenote-debian-recipes` directory:```
+As a normal user, just run inside the `pinenote-debian-recipes` directory:
+```
 ./build.sh
 ```
 That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the target PineNote partition to `/dev/mmcblk0p17` (TODO: try to make that an option instead).
-To do that, `./build.sh` would call `debos` on each recipe in the default pipeline, the file `recipes-pipeline`. Here it is its content:
+To do that, `./build.sh` would call `debos` on each recipe in the default pipeline -- the file `recipes-pipeline`. Here is its content:
 ```
 # calls debootstrap
 rootminfs.yaml
@@ -59,12 +63,12 @@ baseprograms.yaml
 # setup hostname, first user, initrd (using dracut)
 finalsetup.yaml
 ```
-The work done by each recipe is save at each step as a `.tar.gz` file. So you would take the last archive, `finalsetup.tar.gz` to extract on the PineNote.
+The work done by each recipe is saved as a `.tar.gz` file. So you would take the last archive, `finalsetup.tar.gz`, to extract on the PineNote.
 
 ## Install the rootfs on the PineNote
 Basically, you have to extract the `finalsetup.tar.gz` inside the prepared partition. You need to follow Martyn's and Dorian's guides to get to this point.
-Here is how I'm installing the rootfs:
-On my laptop connected to the PineNote booted in Android:
+
+Here is how I'm installing the rootfs. On my laptop connected to the PineNote booted in Android, I do:
 ```
 $ adb push finalsetup.tar.gz /sdcard/Download
 $ adb shell
@@ -86,4 +90,5 @@ And that would boot our system on partition 17 (11 in base 16).
 # License
 
 This software is licensed under the terms of the GNU General Public License, version 3.
+
 Inspiration and some code parts are from [mobian-recipes project](https://gitlab.com/mobian1/mobian-recipes).
