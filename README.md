@@ -63,7 +63,7 @@ baseprograms.yaml
 # setup hostname, first user, initrd (using dracut)
 finalsetup.yaml
 ```
-The work done by each recipe is saved as a `.tar.gz` file. So you would take the last archive, `finalsetup.tar.gz`, to extract on the PineNote.
+The work done by each recipe is saved as a `.tar.gz` file. So you would take the last archive, `finalsetup.tar.gz`, to extract on the PineNote. Currently, the archive's size is about 240MB and extracted into the partition would occupy almost 700MB.
 
 ## Install the rootfs on the PineNote
 Basically, you have to extract the `finalsetup.tar.gz` inside the prepared partition. You need to follow Martyn's and Dorian's guides to get to this point.
