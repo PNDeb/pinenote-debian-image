@@ -1,0 +1,43 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := or .prevtargz "addkernel.tar.gz" }}
+{{- $targz := or .targz "baseprograms.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+    
+  - action: apt
+    recommends: false
+    description: Install base programs
+    packages:
+      - sudo
+      - ca-certificates
+      - man-db
+      - console-setup
+      - console-data
+      - parted
+      - file
+      - usbutils
+      - bash-completion
+      - bzip2
+      - xz-utils
+      - vim
+      - w3m
+      - mc
+      - bluetooth
+      - iw
+      - network-manager
+      - wget
+      - rfkill
+      - wireless-regdb
+      - wireless-tools
+      - wpasupplicant
+      - ssh
+      - alsa-utils
+      - busybox
+
+
+  - action: pack
+    file: {{ $targz }}

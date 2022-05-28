@@ -1,0 +1,17 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $debian_suite := or .debian_suite "bookworm" -}}
+{{- $targz := or .targz "rootminfs.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: debootstrap
+    suite: {{ $debian_suite }}
+    components:
+      - main
+      - contrib
+      - non-free
+    mirror: http://deb.debian.org/debian
+
+  - action: pack
+    file: {{ $targz }}
