@@ -1,5 +1,5 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "addkernel.tar.gz" }}
+{{- $prevtargz := or .prevtargz "rootminfs.tar.gz" }}
 {{- $targz := or .targz "baseprograms.tar.gz" }}
 
 architecture: {{ $architecture }}

@@ -54,11 +54,11 @@ To do that, `./build.sh` would call `debos` on each recipe in the default pipeli
 # calls debootstrap
 rootminfs.yaml
 
-# add kernel, kernel modules, firmware files
-addkernel.yaml
-
 # installs base programs like network-manager, sudo, parted ...
 baseprograms.yaml
+
+# add kernel, kernel modules, firmware files
+addkernel.yaml
 
 # setup hostname, first user, initrd (using dracut)
 finalsetup.yaml
