@@ -31,6 +31,13 @@ actions:
     command: cp ${RECIPEDIR}/overlays/firmware/waveform.bin ${ROOTDIR}/usr/lib/firmware/
 
   - action: run
+    command: mkdir ${ROOTDIR}/usr/lib/firmware/rockchip
+
+      # for the smaeul's kernel tree
+  - action: run
+    command: cp ${RECIPEDIR}/overlays/firmware/waveform.bin ${ROOTDIR}/usr/lib/firmware/rockchip/ebc.wbf
+
+  - action: run
     description: Prepare brcm firmware files
     chroot: true
     script: scripts/setup-brcm-firmware.sh /usr/lib/firmware/
