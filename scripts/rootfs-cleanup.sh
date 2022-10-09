@@ -9,8 +9,9 @@ apt clean
 
 # Remove SSH keys and machine ID so they get generated on first boot
 rm -f /etc/ssh/ssh_host_* \
-      /etc/machine-id \
       /var/lib/dbus/machine-id
+
+truncate -s0 /etc/machine-id
 
 # FIXME: these are automatically installed on first boot, and block
 # the system startup for over 1 minute! Find out why this happens and
