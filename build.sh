@@ -18,12 +18,12 @@ needs_build() {
 	local yes=0 no=1
 	local current=$1
 	local previous=$2
-	local targz="${current%.yaml}.tar.gz" 
+	local targz="${current%.yaml}.tar.gz"
 	if [ ! -f "$targz" ];           then return $yes; fi
 	if [ "$current" -nt "$targz" ]; then return $yes; fi
-	
+
 	if [ ! -z "$previous" ]; then
-		local prev_targz="${previous%.yaml}.tar.gz" 
+		local prev_targz="${previous%.yaml}.tar.gz"
 		if [ ! -f "$prev_targz" ]; then
 			echo Error: Previous tar archive not found! Aborting.
 			exit 31
@@ -39,7 +39,7 @@ needs_build() {
 
 # Calls debos to build recipe $1. Previous recipe in the pipeline is given as
 # parameter $2 to the function.  It also sets the template-vars -t targz and -t
-# prevtargz that are used by the recipe $1. 
+# prevtargz that are used by the recipe $1.
 build() {
 	local tars=" -t targz:${1%.yaml}.tar.gz "
 	if [ ! -z "$2" ]; then
@@ -60,11 +60,12 @@ password=
 # 'bookworm'
 debian_suite=
 recipes_pipeline=recipes-pipeline
+
 # '900MB' - enough to extract the last tar.gz; resize fs at runtime
 image_size=
 
-# arguments to the debos command
-ARGS=
+# ARGS="-m 8G -v --show-boot"
+ARGS="-m 8G -v "
 
 read_options() {
 	while getopts "x:H:p:u:r:s:" opt
@@ -114,7 +115,7 @@ previous_recipe=
 recipes=`grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'`
 for recipe in $recipes; do
 	echo "|-- Procesing $recipe --|"
-	if [ ! -f "$recipe" ]; then 
+	if [ ! -f "$recipe" ]; then
 		echo Recipe not found. Aborting.
 		exit 30
 	fi

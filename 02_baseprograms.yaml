@@ -7,7 +7,7 @@ architecture: {{ $architecture }}
 actions:
   - action: unpack
     file: {{ $prevtargz }}
-    
+
   - action: apt
     recommends: false
     description: Install base programs
@@ -23,7 +23,7 @@ actions:
       - bash-completion
       - bzip2
       - xz-utils
-      - vim
+      - vim-nox
       - w3m
       - mc
       - bluetooth
@@ -41,6 +41,8 @@ actions:
       - zstd
       - firmware-brcm80211
       - bluez-firmware
+      - tree
+      - htop
 
   - action: pack
     file: {{ $targz }}

@@ -11,10 +11,10 @@ actions:
   - action: unpack
     file: {{ $prevtargz }}
 
-  - action: overlay
-    description: Copy the remaining firmware files
-    source: overlays/firmware/
-    destination: /usr/lib/firmware/
+  # - action: overlay
+  #   description: Copy the remaining firmware files
+  #   source: overlays/firmware/
+  #   destination: /usr/lib/firmware/
 
   - action: run
     description: Prepare the fallback for the wifi nvram txt firmware file
@@ -31,7 +31,9 @@ actions:
     description: Install initramfs-tools at the end so it builds the initrd only once
     packages:
       - initramfs-tools
-
+      # we already have sudo in baseprograms.yaml, but maybe you want to build without that
+      - sudo
+      - aptitude
 
   - action: run
     description: Set up default user
@@ -47,6 +49,21 @@ actions:
     description: Cleanup filesystem
     chroot: true
     script: scripts/rootfs-cleanup.sh
+
+  - action: overlay
+    description: Configuration for udev
+    source: overlays/udev/
+    destination: /etc/udev/rules.d
+
+  - action: overlay
+    description: Configuration for systemd
+    source: overlays/systemd/
+    destination: /etc/
+
+  - action: run
+    description: Activate first-boot-script
+    chroot: true
+    command: ln -s /etc/systemd/system/run_on_first_startup.service /etc/systemd/system/multi-user.target.wants/run_on_first_startup.service
 
   - action: pack
     file: {{ $targz }}

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run-eglinfo-on-startup service to keep GPU alive
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/usr/bin/eglinfo
+
+[Install]
+WantedBy=multi-user.target

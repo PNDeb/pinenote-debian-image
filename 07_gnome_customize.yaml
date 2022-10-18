@@ -1,0 +1,63 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := or .prevtargz "06_gnome.tar.gz" }}
+{{- $targz := or .targz "07_gnome_customize.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: apt
+    recommends: false
+    description: Install firefox
+    packages:
+      - firefox-esr
+
+  - action: run
+    description: Install modified mutter debs
+    chroot: true
+    command: dpkg -i /root/mutter/*.deb
+
+  - action: run
+    description: Install modified MESA debs
+    chroot: true
+    command: dpkg -i /root/mesa/*.deb
+
+  - action: overlay
+    description: Configuration for lightdm
+    source: overlays/lightdm/
+    destination: /etc/
+
+  - action: overlay
+    description: Configuration for gdm3, auto-login
+    source: overlays/gdm3_config/
+    destination: /etc/gdm3/
+
+  - action: overlay
+    description: Configuration for GNOME
+    source: overlays/gnome_config/
+    destination: /etc/dconf/db/local.d/
+
+  - action: overlay
+    description: Configuration for GNOME 2
+    source: overlays/dconf_profile_user
+    destination: /etc/dconf/profile/
+
+  - action: run
+    description: dconf update
+    chroot: true
+    command: dconf update
+
+  - action: overlay
+    description: Install pnhelper gnome extension
+    source: overlays/pnhelper@m-weigand.github.com
+    destination: /usr/share/gnome-shell/extensions/pnhelper@m-weigand.github.com/
+
+  # - action: run
+  #   description: Set up system
+  #   chroot: true
+  #   command: systemctl enable run_egl_info.service
+
+  - action: pack
+    file: {{ $targz }}
