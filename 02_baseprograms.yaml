@@ -1,13 +1,13 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "rootminfs.tar.gz" }}
-{{- $targz := or .targz "baseprograms.tar.gz" }}
+{{- $prevtargz := or .prevtargz "01_rootminfs.tar.gz" }}
+{{- $targz := or .targz "02_baseprograms.tar.gz" }}
 
 architecture: {{ $architecture }}
 
 actions:
   - action: unpack
     file: {{ $prevtargz }}
-    
+
   - action: apt
     recommends: false
     description: Install base programs
@@ -23,7 +23,7 @@ actions:
       - bash-completion
       - bzip2
       - xz-utils
-      - vim
+      - vim-nox
       - w3m
       - mc
       - bluetooth
@@ -37,6 +37,8 @@ actions:
       - ssh
       - alsa-utils
       - busybox
+      - tree
+      - htop
 
 
   - action: pack

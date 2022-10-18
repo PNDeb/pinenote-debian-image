@@ -1,0 +1,29 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := or .prevtargz "gnome.tar.gz" }}
+{{- $targz := or .targz "custom_debs.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: overlay
+    description: Configuration for systemd
+    source: overlays/custom_debs/
+    destination: /root/
+
+  # TODO: xpp needs to go into its own yaml file
+  # - action: apt
+  #   recommends: false
+  #   description: Install base programs
+  #   packages:
+  #     - xournalpp
+
+  # - action: run
+  #   description: Installing Xournalpp deb
+  #   chroot: true
+  #   command: dpkg -i /root/DEBS/xpp/*.deb
+
+  - action: pack
+    file: {{ $targz }}

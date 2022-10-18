@@ -1,0 +1,14 @@
+# event4 should be the touch screen
+# ACTION=="add|change", KERNEL=="event2", ENV{LIBINPUT_CALIBRATION_MATRIX}="0 1 0 -1 0 1"
+ACTION=="add|change", ATTRS{name}=="cyttsp5",ENV{LIBINPUT_CALIBRATION_MATRIX}="-1 0 1 0 -1 1"
+ # 90 degree clockwise
+
+	# KERNEL=="event[0-9]*", \
+#ENV{LIBINPUT_CALIBRATION_MATRIX}="1 0 0 0 1 0" # default
+# for Portrait left
+#ENV{LIBINPUT_CALIBRATION_MATRIX}="0 -1 1 1 0 0" # 90 degree clockwise
+#ENV{LIBINPUT_CALIBRATION_MATRIX}="-1 0 1 0 -1 1" # 180 degree clockwise
+# for Portrait right
+#ENV{LIBINPUT_CALIBRATION_MATRIX}="0 1 0 -1 0 1" # 270 degree clockwise
+#ENV{LIBINPUT_CALIBRATION_MATRIX}="-1 0 1 1 0 0" # reflect along y axis
+

@@ -1,0 +1,19 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := or .prevtargz "05_finalsetup.tar.gz" }}
+{{- $targz := or .targz "06_gnome.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: apt
+    recommends: false
+    description: Install gnome and related packages
+    packages:
+      - gnome
+      - lightdm
+
+  - action: pack
+    file: {{ $targz }}

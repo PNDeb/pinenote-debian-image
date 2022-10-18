@@ -1,0 +1,26 @@
+# https://github.com/rhinstaller/initial-setup/blob/master/systemd/initial-setup.service
+[Unit]
+Description=Run on first startup and set up things
+After=livesys.service plymouth-quit-wait.service
+After=systemd-vconsole-setup.service
+# getty-pre.target is a pasive target, we need to request it before we can use it
+Wants=getty-pre.target
+# prevent getty from running on any consoles before we are done
+Before=getty-pre.target
+Before=display-manager.service
+Conflicts=plymouth-quit-wait.service initial-setup-text.service initial-setup-graphical.service
+
+[Service]
+Type=oneshot
+TimeoutSec=0
+# tell systemd to stop logging to the console, to prevent it's messages
+# with interfering with the Initial Setup TUI potentially running there
+ExecStartPre=/bin/kill -SIGRTMIN+21 1
+ExecStartPre=-/bin/plymouth quit
+RemainAfterExit=true
+ExecStart=/root/first_startup.sh
+StandardOutput=syslog+console
+StandardInput=tty
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "baseprograms.tar.gz" }}
-{{- $targz := or .targz "finalsetup.tar.gz" }}
+{{- $prevtargz := or .prevtargz "04_addkernel.tar.gz" }}
+{{- $targz := or .targz "05_finalsetup.tar.gz" }}
 {{- $username := or .username "user" -}}
 {{- $password := or .password "1234" -}}
 {{- $hostname := or .hostname "pinenote" -}}
@@ -10,30 +10,19 @@ architecture: {{ $architecture }}
 actions:
   - action: unpack
     file: {{ $prevtargz }}
-    
+
   - action: apt
     recommends: false
     description: Other packages needed
     packages:
       # we already have sudo in baseprograms.yaml, but maybe you want to build without that
       - sudo
+      - aptitude
 
   - action: run
     description: Set up default user
     chroot: true
     script: scripts/setup-user.sh {{ $username }} {{ $password }}
-
-  - action: apt
-    recommends: false
-    description: Install dracut, u-boot-tools
-    packages:
-      - dracut
-      - u-boot-tools
-
-  - action: overlay
-    description: Configuration for dracut
-    source: overlays/dracut/
-    destination: /etc/
 
   - action: run
     description: Set up system
@@ -44,6 +33,21 @@ actions:
     description: Cleanup filesystem
     chroot: true
     script: scripts/rootfs-cleanup.sh
+
+  - action: overlay
+    description: Configuration for udev
+    source: overlays/udev/
+    destination: /etc/udev/rules.d
+
+  - action: overlay
+    description: Configuration for systemd
+    source: overlays/systemd/
+    destination: /etc/
+
+  - action: run
+    description: Activate first-boot-script
+    chroot: true
+    command: ln -s /etc/systemd/system/run_on_first_startup.service /etc/systemd/system/multi-user.target.wants/run_on_first_startup.service
 
   - action: pack
     file: {{ $targz }}

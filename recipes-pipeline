@@ -1,11 +1,16 @@
 # calls debootstrap
-rootminfs.yaml
+01_rootminfs.yaml
 
 # installs base programs like network-manager, sudo, parted ...
-baseprograms.yaml
+02_baseprograms.yaml
 
 # add kernel, kernel modules, firmware files
-addkernel.yaml
+03_addkernel.yaml
 
 # setup hostname, first user, initrd (using dracut)
-finalsetup.yaml
+04_finalsetup.yaml
+
+05_gnome.yaml
+06_custom_debs.yaml
+
+07_gnome_customize.yaml

@@ -1,0 +1,2 @@
+# ACTION=="add|change", ATTRS{name}=="cyttsp5", ATTR{ID_INPUT_WIDTH_MM}+="210", ATTR{ID_INPUT_HEIGHT_MM}+="157"
+ACTION=="add|change", KERNEL=="event2", ATTR{ID_INPUT_WIDTH_MM}+="210", ATTR{ID_INPUT_HEIGHT_MM}+="157"
