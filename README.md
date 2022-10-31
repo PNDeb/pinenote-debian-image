@@ -1,8 +1,27 @@
 # pinenote-debian-recipes
 
+<<<<<<< HEAD
 Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end results, are a `tar.gz` file can be extracted onto an existing partition on the PineNote and a filesystem image that can be directly flashed using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
 
 Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn\[1\] or Dorian\[2\], to prepare for dual booting alongside Android. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs/image. This project allows creation of such a rootfs for the Debian distribution (`bookworm` by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and firmware, install some basic programs and do some setup. Booting it on the PineNote would get you to the console. No graphical environments are installed.
+=======
+Creates a Debian rootfs for the PineNote eink tablet. It uses
+[debos](https://github.com/go-debos/debos) to build a set of recipes organized
+as a build pipeline. The end result, a `tar.gz` file can be extracted onto an
+existing partition on the PineNote.
+
+Currently, in order to install a Linux distribution on the PineNote, someone
+would follow installation guides like the ones written by Martyn\[1\] or
+Dorian\[2\]. This project addresses the later steps in the guides where someone
+needs to put a rootfs on the prepared Linux partition. You should be familiar
+with the content of those guides, as this project doesn't provide an easy way
+to install Debian on the PineNote, but merely a simple rootfs. This project
+allows creation of such a rootfs for the Debian distribution (`bookworm` by
+default). The existing debos recipes would `debootstrap`, add the provided (by
+you) kernel and components, install some basic programs and do some setup
+including creating the `initrd` using `dracut`. Booting it on the PineNote
+would get you to the console. No graphical environments are installed.
+>>>>>>> 21f1377 (update README)
 
   \[1\]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
 
@@ -14,7 +33,8 @@ Check also, the fork\[3\] maintained by Maximilian Weigand. It's aim is to provi
 
 ## Build
 
-You need to install `debos`, to clone this repo, to provide the kernel components in the right places, and then call `./build.sh` as a normal user.
+You need to install `debos`, to clone this repo, to provide the kernel
+components in the right places, and then call `./build.sh` as a normal user.
 
 For example, to install `debos` on a Debian bullseye (like me):
 ```
@@ -24,7 +44,8 @@ For example, to install `debos` on a Debian bullseye (like me):
 
 ### Feeding the kernel and firmwares to the project
 
-This is the expected content of the `overlays` directory after the kernel and firmwares has been provided:
+This is the expected content of the `overlays` directory after the kernel and
+firmwares has been provided:
 ```
 pinenote-debian-recipes/overlays/
 ├── boot
@@ -39,9 +60,15 @@ pinenote-debian-recipes/overlays/
 └── local-debs
     └── linux-image-5.17.0-rc6-next-20220304-gca1ad0720d8f_5.17.0-rc6-next-20220304-gca1ad0720d8f-8_arm64.deb
 ```
+<<<<<<< HEAD
+=======
+Symbolic links doesn't work(!) so either use hard links or simply copy the
+files in the right place.
+>>>>>>> 21f1377 (update README)
 
 #### The firmware
 
+<<<<<<< HEAD
 You have to provide these files inside `overlays/firmware`:
 - `rockchip/ebc.wbf` is the waveform data that can be taken from the device using `rkdeveloptool`.
 - `brcm/brcmfmac43455-sdio.AW-CM256SM.txt` can be taken from https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/brcm/brcmfmac43455-sdio.AW-CM256SM.txt
@@ -55,14 +82,29 @@ And we take these files by installing packages from the Debian's repo:
 Drop a linux image Debian package into `overlays/local-debs` directory. But, *very important*:
 
 The original U-Boot (v. 2017.09) that came with PineNote Developer Edition (pinenote-1.2) doesn't support gzipped kernel images. So when you are building `deb` kernel packages, insert `KBUILD_IMAGE=arch/arm64/boot/Image` into the `make ... bindeb-pkg` command line. Else, the generated `KBUILD_IMAGE` would point to `Image.gz` variant.
+=======
+- `original-firmware.tar.gz` contains the `firmware/` directory which is found
+  on the PineNote in `/vendor/etc/`.
+- `kernel-modules.tar.gz` contains the `/lib/modules/..` directory (entire
+  hierarchy including starting with `/lib`)
+>>>>>>> 21f1377 (update README)
 
 ### Build the recipes
 As a normal user, just run inside the `pinenote-debian-recipes` directory:
 ```
 ./build.sh
 ```
+<<<<<<< HEAD
 That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the target PineNote partition to `/dev/mmcblk0p17` (see `overlays/default/u-boot`).
 To do that, `./build.sh` would call `debos` on each recipe in the default pipeline -- the file `recipes-pipeline`. Here is its content:
+=======
+That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user
+`user` with password `1234` and `sudo` capabilities. Also, it hardcodes the
+target PineNote partition to `/dev/mmcblk0p17` (TODO: try to make that an
+option instead).
+To do that, `./build.sh` would call `debos` on each recipe in the default
+pipeline -- the file `recipes-pipeline`. Here is its content:
+>>>>>>> 21f1377 (update README)
 ```
 # calls debootstrap
 rootminfs.yaml
@@ -93,7 +135,7 @@ Or, you can use directly the generated filesystem image, `debian.img` to flash w
 
 ### Flash the filesystem image with `rkdeveloptool`
 
-`debian.img` is the resulted filesystem image containing the files from `finalsetup.tar.gz`. You can flash this image on the device. 
+`debian.img` is the resulted filesystem image containing the files from `finalsetup.tar.gz`. You can flash this image on the device.
 Be aware, that this image is configured with a kernel `root=` parameter as provided by `overlays/default/u-boot`. If you want to flash this image to another partition device, you can adjust the `root` parameter inside the image using the helper script `adjust-root-in-image.sh`. See the documentation provided inside the script file.
 
 `debian.img` contains an `ext4` filesystem. You should probably flash it only on the `ext4` marked partitions on the device, unless you change the partition table too.
