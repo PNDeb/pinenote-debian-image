@@ -1,0 +1,27 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := or .prevtargz "07_gnome_customize.tar.gz" }}
+{{- $targz := or .targz "08_greeter.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: overlay
+    description: Greeter
+    source: overlays/greeter/
+    destination: /etc/greeter/
+
+  - action: run
+    description: mkdir  /home/user/.config/autostart
+    chroot: true
+    command: mkdir -p /home/user/.config/autostart
+
+  - action: run
+    description: install greeter
+    chroot: true
+    command: cp /etc/greeter/greeter.desktop /home/user/.config/autostart/greeter.desktop
+
+  - action: pack
+    file: {{ $targz }}

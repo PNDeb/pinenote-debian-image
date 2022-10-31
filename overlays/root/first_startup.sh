@@ -4,7 +4,7 @@
 # +CONFIG_BLK_DEV_DM=m
 # and https://github.com/tchebb/parse-android-dynparts
 #
-test -e /boot/waveform_firmware_recovered && exit
+test -e /extlinux/waveform_firmware_recovered && exit
 
 echo "First boot with the Pinenote!!!"
 echo "Press [ENTER] to continue"
@@ -42,8 +42,8 @@ cp BCM4345C0.hcd brcm/BCM4345C0.hcd
 umount  /mnt
 dmsetup remove /dev/mapper/dynpart-*
 
-cd /boot
+cd /extlinux
 ./gen_uboot_image.sh
 
-touch /boot/waveform_firmware_recovered
+touch /extlinux/waveform_firmware_recovered
 reboot
