@@ -13,6 +13,8 @@ actions:
     description: Install firefox
     packages:
       - firefox-esr
+      - foliate
+      - epiphany-browser
 
   - action: run
     description: Install modified mutter debs
@@ -40,7 +42,7 @@ actions:
     destination: /etc/dconf/db/local.d/
 
   - action: overlay
-    description: Configuration for GNOME 2
+    description: Configuration for GNOME, nr. 2
     source: overlays/dconf_profile_user
     destination: /etc/dconf/profile/
 

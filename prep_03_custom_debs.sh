@@ -25,3 +25,4 @@ rm *.dev*.deb
 rm mesa-opencl-icd*_arm64.deb
 rm mesa_arm64_pinenote.zip
 cd ${pwd}
+
