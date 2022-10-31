@@ -17,9 +17,14 @@ actions:
       - u-boot-tools
 
   - action: overlay
+    description: modprobe.d
+    source: overlays/modprobe.d/
+    destination: /etc/modprobe.d/
+
+  - action: overlay
     description: Copy kernel, dtb, extlinux.conf into /boot
     source: overlays/boot/
-    destination: /boot/
+    destination: /extlinux/
 
   - action: overlay
     description: Copy parse-android-dynparts

@@ -10,6 +10,7 @@ wget https://github.com/m-weigand/pinenote_debian_mutter/releases/download/v2022
 unzip mutter.zip *.deb
 rm *dbgsym*.deb
 rm *dev*.deb
+rm *tests*.deb
 rm mutter.zip
 cd ${pwd}
 

@@ -15,4 +15,4 @@ test -e initrd.img && rm initrd.img
 	--omit-drivers "bluetooth hidp" \
 	dracut-initrd.img ${version}
 
-mkimage -A arm -T ramdisk -C none -n mw1 -d dracut-initrd.img /boot/uInitrd.img
+mkimage -A arm -T ramdisk -C none -n mw1 -d dracut-initrd.img /extlinux/uInitrd.img

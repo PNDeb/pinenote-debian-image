@@ -29,5 +29,5 @@ echo Using dracut to generate the initrd:
 	--omit-drivers "bluetooth hidp" \
 	dracut-initrd.img $(ls /lib/modules/)
 
-mkimage -A arm -T ramdisk -C none -n uInitrd -d /dracut-initrd.img /boot/uInitrd.img
+mkimage -A arm -T ramdisk -C none -n uInitrd -d /dracut-initrd.img /extlinux/uInitrd.img
 
