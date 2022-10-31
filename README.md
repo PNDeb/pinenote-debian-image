@@ -1,8 +1,21 @@
 # pinenote-debian-recipes
 
-Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end result, a `tar.gz` file can be extracted onto an existing partition on the PineNote. 
+Creates a Debian rootfs for the PineNote eink tablet. It uses
+[debos](https://github.com/go-debos/debos) to build a set of recipes organized
+as a build pipeline. The end result, a `tar.gz` file can be extracted onto an
+existing partition on the PineNote.
 
-Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn\[1\] or Dorian\[2\]. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs. This project allows creation of such a rootfs for the Debian distribution (`bookworm` by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and components, install some basic programs and do some setup including creating the `initrd` using `dracut`. Booting it on the PineNote would get you to the console. No graphical environments are installed.
+Currently, in order to install a Linux distribution on the PineNote, someone
+would follow installation guides like the ones written by Martyn\[1\] or
+Dorian\[2\]. This project addresses the later steps in the guides where someone
+needs to put a rootfs on the prepared Linux partition. You should be familiar
+with the content of those guides, as this project doesn't provide an easy way
+to install Debian on the PineNote, but merely a simple rootfs. This project
+allows creation of such a rootfs for the Debian distribution (`bookworm` by
+default). The existing debos recipes would `debootstrap`, add the provided (by
+you) kernel and components, install some basic programs and do some setup
+including creating the `initrd` using `dracut`. Booting it on the PineNote
+would get you to the console. No graphical environments are installed.
 
   \[1\]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
 
@@ -10,7 +23,8 @@ Currently, in order to install a Linux distribution on the PineNote, someone wou
 
 ## Build
 
-You need to install `debos`, to clone this repo, to provide the kernel components in the right places, and then call `./build.sh` as a normal user.
+You need to install `debos`, to clone this repo, to provide the kernel
+components in the right places, and then call `./build.sh` as a normal user.
 
 For example, to install `debos` on a Debian bullseye (like me):
 ```
@@ -19,7 +33,8 @@ For example, to install `debos` on a Debian bullseye (like me):
 
 ### Feeding the kernel and firmwares to the project
 
-This is the expected content of the `overlays` directory after the kernel and firmwares has been provided:
+This is the expected content of the `overlays` directory after the kernel and
+firmwares has been provided:
 ```
 pinenote-debian-recipes/overlays/
 ├── boot
@@ -36,20 +51,27 @@ pinenote-debian-recipes/overlays/
 └── modules
     └── kernel-modules.tar.gz
 ```
-Symbolic links doesn't work(!) so either use hard links or simply copy the files in the right place.
+Symbolic links doesn't work(!) so either use hard links or simply copy the
+files in the right place.
 
 Some details (check also the recipes to see how they are used):
 
-- `original-firmware.tar.gz` contains the `firmware/` directory which is found on the PineNote in `/vendor/etc/`.
-- `kernel-modules.tar.gz` contains the `/lib/modules/..` directory (entire hierarchy including starting with `/lib`)
+- `original-firmware.tar.gz` contains the `firmware/` directory which is found
+  on the PineNote in `/vendor/etc/`.
+- `kernel-modules.tar.gz` contains the `/lib/modules/..` directory (entire
+  hierarchy including starting with `/lib`)
 
 ### Build the recipes
 As a normal user, just run inside the `pinenote-debian-recipes` directory:
 ```
 ./build.sh
 ```
-That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the target PineNote partition to `/dev/mmcblk0p17` (TODO: try to make that an option instead).
-To do that, `./build.sh` would call `debos` on each recipe in the default pipeline -- the file `recipes-pipeline`. Here is its content:
+That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user
+`user` with password `1234` and `sudo` capabilities. Also, it hardcodes the
+target PineNote partition to `/dev/mmcblk0p17` (TODO: try to make that an
+option instead).
+To do that, `./build.sh` would call `debos` on each recipe in the default
+pipeline -- the file `recipes-pipeline`. Here is its content:
 ```
 # calls debootstrap
 rootminfs.yaml
