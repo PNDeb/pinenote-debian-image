@@ -1,8 +1,6 @@
 lastbuildoptions
-overlays/boot/Image
-overlays/boot/rk3566-pinenote.dtb
-overlays/modules/kernel-modules.tar.gz
 overlays/firmware/original-firmware.tar.gz
 overlays/firmware/waveform.bin
 *.tar.gz
 *.swp
+*.deb

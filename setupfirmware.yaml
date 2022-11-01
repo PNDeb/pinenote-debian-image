@@ -9,18 +9,9 @@ actions:
     file: {{ $prevtargz }}
 
   - action: overlay
-    description: Copy kernel, dtb, extlinux.conf into /boot
+    description: Copy helper command /boot
     source: overlays/boot/
     destination: /boot/
-
-      # This method destroys the symbolic link /lib -> /usr/lib.
-      # - action: unpack
-      #   description: Unpack and copy the kernel modules
-      #   file: overlays/modules/kernel-modules.tar.gz
-
-  - action: run
-    description: Unpack and copy the kernel modules
-    command: tar xzf ${RECIPEDIR}/overlays/modules/kernel-modules.tar.gz -C ${ROOTDIR}/usr/
 
   - action: run
     description: Untar and copy original firmware
@@ -33,7 +24,6 @@ actions:
   - action: run
     command: mkdir ${ROOTDIR}/usr/lib/firmware/rockchip
 
-      # for the smaeul's kernel tree
   - action: run
     command: cp ${RECIPEDIR}/overlays/firmware/waveform.bin ${ROOTDIR}/usr/lib/firmware/rockchip/ebc.wbf
 

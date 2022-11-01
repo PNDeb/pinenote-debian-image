@@ -11,29 +11,15 @@ actions:
   - action: unpack
     file: {{ $prevtargz }}
     
-  - action: apt
-    recommends: false
-    description: Other packages needed
-    packages:
-      # we already have sudo in baseprograms.yaml, but maybe you want to build without that
-      - sudo
+  - action: overlay
+    description: Copy default configurations (like u-boot)
+    source: overlays/default/
+    destination: /etc/default/
 
   - action: run
     description: Set up default user
     chroot: true
     script: scripts/setup-user.sh {{ $username }} {{ $password }}
-
-  - action: apt
-    recommends: false
-    description: Install dracut, u-boot-tools
-    packages:
-      - dracut
-      - u-boot-tools
-
-  - action: overlay
-    description: Configuration for dracut
-    source: overlays/dracut/
-    destination: /etc/
 
   - action: run
     description: Set up system

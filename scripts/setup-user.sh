@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Taken from mobian-recipes.
+
 USERNAME=$1
 [ "$USERNAME" ] || exit 1
 PASSWORD=$2

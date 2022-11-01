@@ -37,7 +37,9 @@ actions:
       - ssh
       - alsa-utils
       - busybox
-
+      - initramfs-tools
+      - u-boot-menu
+      - zstd
 
   - action: pack
     file: {{ $targz }}

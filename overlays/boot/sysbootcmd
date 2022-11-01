@@ -1,1 +1,1 @@
-sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux.conf
+sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux/extlinux.conf
