@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "baseprograms.tar.gz" }}
-{{- $targz := or .targz "finalsetup.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
 {{- $username := or .username "user" -}}
 {{- $password := or .password "1234" -}}
 {{- $hostname := or .hostname "pinenote" -}}

@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "baseprograms.tar.gz" }}
-{{- $targz := or .targz "addkernel.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
 
 architecture: {{ $architecture }}
 

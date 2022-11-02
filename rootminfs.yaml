@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $debian_suite := or .debian_suite "bookworm" -}}
-{{- $targz := or .targz "rootminfs.tar.gz" }}
+{{- $targz := .targz }}
 
 architecture: {{ $architecture }}
 

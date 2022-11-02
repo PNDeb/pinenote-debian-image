@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "rootminfs.tar.gz" }}
-{{- $targz := or .targz "baseprograms.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
 
 architecture: {{ $architecture }}
 
