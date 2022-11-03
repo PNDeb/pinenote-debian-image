@@ -10,5 +10,11 @@ setupfirmware.yaml
 # Install local provided deb packages (like the kernel)
 localdebs.yaml
 
-# setup hostname, first user, initrd
+# setup hostname, first user, ...
 finalsetup.yaml
+
+# create a gpt disk image, with one partition
+creatediskimage.yaml
+
+# take from the disk image only our partition
+takeoutpartition.yaml

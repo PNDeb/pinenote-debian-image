@@ -1,0 +1,17 @@
+{{- $architecture := or .architecture "arm64" -}}
+
+architecture: {{ $architecture }}
+
+    # Since we'll get a disk image that also contains the partition table
+    # we are going to extract from it our partition image
+actions:
+  - action: run
+    description: Take out the partition image from the disk image
+    postprocess: true
+    script: ${ARTIFACTDIR}/scripts/takeout-partition-image.sh gpt-disk.img debian.img
+
+    # remote the disk image
+  - action: run
+    postprocess: true
+    command: rm gpt-disk.img
+

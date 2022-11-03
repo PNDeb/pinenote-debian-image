@@ -1,0 +1,27 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := .prevtargz }}
+{{- $imagesize := or .imagesize "900MB" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: image-partition
+    imagename: gpt-disk.img
+    imagesize: {{ $imagesize }}
+    partitiontype: gpt
+    mountpoints:
+      - mountpoint: /
+        partition: tempname
+    partitions:
+      - name: tempname
+        fs: ext4
+        start: 0%
+        end: 100%
+
+  - action: filesystem-deploy
+    description: Deploy filesystem onto image
+    setup-fstab: false
+    setup-kernel-cmdline: false

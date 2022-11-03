@@ -4,3 +4,4 @@ overlays/firmware/waveform.bin
 *.tar.gz
 *.swp
 *.deb
+*.img

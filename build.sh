@@ -48,16 +48,26 @@ build() {
 	$DEBOS_CMD $ARGS $tars "$1" || exit 34
 }
 
+# The default values (see *.yaml) are in each comment above the variable
+# 'pinenote'
 hostname=
+# 'arm64'
 arch=
+# 'user'
 username=
+# '1234'
 password=
+# 'bookworm'
 debian_suite=
 recipes_pipeline=recipes-pipeline
+# '900MB' - enough to extract the last tar.gz; resize fs at runtime
+image_size=
+
+# arguments to the debos command
 ARGS=
 
 read_options() {
-	while getopts "x:H:p:u:r:" opt
+	while getopts "x:H:p:u:r:s:" opt
 	do
 	  case "$opt" in
 	    H ) hostname="$OPTARG" ;;
@@ -65,6 +75,7 @@ read_options() {
 	    p ) password="$OPTARG" ;;
 	    x ) debian_suite="$OPTARG" ;;
 	    r ) recipes_pipeline="$OPTARG" ;;
+	    s ) image_size="$OPTARG" ;;
 	  esac
 	done
 
@@ -72,6 +83,7 @@ read_options() {
 	[ "$username" ] && ARGS="$ARGS -t username:$username"
 	[ "$password" ] && ARGS="$ARGS -t password:$password"
 	[ "$debian_suite" ] && ARGS="$ARGS -t debian_suite:$debian_suite"
+	[ "$image_size" ] && ARGS="$ARGS -t imagesize:$image_size"
 
 	if [ -f lastbuildoptions ]; then
 		last=`tail -n 1 lastbuildoptions`
