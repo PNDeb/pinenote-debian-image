@@ -1,6 +1,6 @@
 # pinenote-debian-recipes
 
-Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end results, are a `tar.gz` file can be extracted onto an existing partition on the PineNote and a partition image that can be directly flashed using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
+Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end results, are a `tar.gz` file can be extracted onto an existing partition on the PineNote and a filesystem image that can be directly flashed using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
 
 Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn\[1\] or Dorian\[2\], to prepare for dual booting alongside Android. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs/image. This project allows creation of such a rootfs for the Debian distribution (`bookworm` by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and firmware, install some basic programs and do some setup. Booting it on the PineNote would get you to the console. No graphical environments are installed.
 
@@ -83,13 +83,13 @@ The work done by each recipe is saved as a `.tar.gz` file, except for the last r
 
 You could use the last archive, `finalsetup.tar.gz`, to extract on the PineNote. Currently, the archive's size is about 240MB and extracted into the partition would occupy almost 700MB.
 
-Or, you can use directly the generated partition image, `debian.img` to flash with `rkdeveloptool`. The image size is 900MB, which is enough to fit the `cache` partition ;).
+Or, you can use directly the generated filesystem image, `debian.img` to flash with `rkdeveloptool`. The image size is 900MB, which is enough to fit the `cache` partition ;).
 
 ## Deployment
 
-### Flash the partition image with `rkdeveloptool`
+### Flash the filesystem image with `rkdeveloptool`
 
-`debian.img` is the resulted partition image containing the files from `finalsetup.tar.gz`. You can flash this image on the device. 
+`debian.img` is the resulted filesystem image containing the files from `finalsetup.tar.gz`. You can flash this image on the device. 
 Be aware, that this image is configured with a kernel `root=` parameter as provided by `overlays/default/u-boot`. If you want to flash this image to another partition device, you can adjust the `root` parameter inside the image using the helper script `adjust-root-in-image.sh`. See the documentation provided inside the script file.
 
 `debian.img` contains an `ext4` filesystem. You should probably flash it only on the `ext4` marked partitions on the device, unless you change the partition table too.
