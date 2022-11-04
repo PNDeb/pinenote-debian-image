@@ -1,8 +1,8 @@
 # pinenote-debian-recipes
 
-Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end result, a `tar.gz` file can be extracted onto an existing partition on the PineNote.
+Creates a Debian rootfs for the PineNote eink tablet. It uses [debos](https://github.com/go-debos/debos) to build a set of recipes organized as a build pipeline. The end results, are a `tar.gz` file can be extracted onto an existing partition on the PineNote and a partition image that can be directly flashed using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
 
-Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn\[1\] or Dorian\[2\]. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs. This project allows creation of such a rootfs for the Debian distribution (`bookworm` by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and firmware, install some basic programs and do some setup. Booting it on the PineNote would get you to the console. No graphical environments are installed.
+Currently, in order to install a Linux distribution on the PineNote, someone would follow installation guides like the ones written by Martyn\[1\] or Dorian\[2\], to prepare for dual booting alongside Android. This project addresses the later steps in the guides where someone needs to put a rootfs on the prepared Linux partition. You should be familiar with the content of those guides, as this project doesn't provide an easy way to install Debian on the PineNote, but merely a simple rootfs/image. This project allows creation of such a rootfs for the Debian distribution (`bookworm` by default). The existing debos recipes would `debootstrap`, add the provided (by you) kernel and firmware, install some basic programs and do some setup. Booting it on the PineNote would get you to the console. No graphical environments are installed.
 
   \[1\]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
 
@@ -18,8 +18,9 @@ You need to install `debos`, to clone this repo, to provide the kernel component
 
 For example, to install `debos` on a Debian bullseye (like me):
 ```
-# apt install debos
+# apt install debos parted
 ```
+`parted` is used by the project just for a check on the generated disk image.
 
 ### Feeding the kernel and firmwares to the project
 
@@ -53,7 +54,7 @@ As a normal user, just run inside the `pinenote-debian-recipes` directory:
 ```
 ./build.sh
 ```
-That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the target PineNote partition to `/dev/mmcblk0p17` (see `overlays/default/u-boot`. TODO: try to make that an option instead).
+That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the target PineNote partition to `/dev/mmcblk0p17` (see `overlays/default/u-boot`).
 To do that, `./build.sh` would call `debos` on each recipe in the default pipeline -- the file `recipes-pipeline`. Here is its content:
 ```
 # calls debootstrap
@@ -70,10 +71,30 @@ localdebs.yaml
 
 # setup hostname, first user, ...
 finalsetup.yaml
-```
-The work done by each recipe is saved as a `.tar.gz` file. So you would take the last archive, `finalsetup.tar.gz`, to extract on the PineNote. Currently, the archive's size is about 240MB and extracted into the partition would occupy almost 700MB.
 
-## Install the rootfs on the PineNote
+# create a gpt disk image, with one partition
+creatediskimage.yaml
+
+# take from the disk image only our partition
+takeoutpartition.yaml
+```
+#### Artefacts
+The work done by each recipe is saved as a `.tar.gz` file, except for the last recipes who generate the image.
+
+You could use the last archive, `finalsetup.tar.gz`, to extract on the PineNote. Currently, the archive's size is about 240MB and extracted into the partition would occupy almost 700MB.
+
+Or, you can use directly the generated partition image, `debian.img` to flash with `rkdeveloptool`. The image size is 900MB, which is enough to fit the `cache` partition ;).
+
+## Deployment
+
+### Flash the partition image with `rkdeveloptool`
+
+`debian.img` is the resulted partition image containing the files from `finalsetup.tar.gz`. You can flash this image on the device. 
+Be aware, that this image is configured with a kernel `root=` parameter as provided by `overlays/default/u-boot`. If you want to flash this image to another partition device, you can adjust the `root` parameter inside the image using the helper script `adjust-root-in-image.sh`. See the documentation provided inside the script file.
+
+`debian.img` contains an `ext4` filesystem. You should probably flash it only on the `ext4` marked partitions on the device, unless you change the partition table too.
+
+### Alternatively, you can install the rootfs on the PineNote
 Basically, you have to extract the `finalsetup.tar.gz` inside the prepared partition. You need to follow Martyn's and Dorian's guides to get to this point.
 
 Here is how I'm installing the rootfs. On my laptop connected to the PineNote booted in Android, I do:
@@ -95,8 +116,28 @@ Interrupt => sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux/ex
 ```
 And that would boot our system on partition 17 (11 in base 16).
 
+## First boot..
+Things you might want to setup after the installation:
+
+### Resize the filesystem to host partition size
+`sudo resize2fs /dev/mmcblk2pXX`
+
+### Generate the ssh server host keys
+These keys are removed from the artefacts as they should be unique per system. Because they are missing the ssh service fails to start. Simple generate them on PineNote with:
+```
+sudo ssh-keygen -A
+sudo systemctl start ssh
+```
+
+Also, change the **default password** before connection to public networks.
+
+### Wifi
+`sudo nmtui-connect`
+
+(fixme: what needs to be set to do that without sudo?)
+
 # License
 
 This software is licensed under the terms of the GNU General Public License, version 3.
 
-Inspiration and some code parts are from [mobian-recipes project](https://gitlab.com/mobian1/mobian-recipes).
+Inspiration and some code parts are from [mobian-recipes project](https://salsa.debian.org/Mobian-team/mobian-recipes).
