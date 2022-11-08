@@ -32,16 +32,23 @@ pinenote-debian-recipes/overlays/
 ├── default
 │   └── u-boot
 ├── firmware
-│   ├── original-firmware.tar.gz
-│   └── waveform.bin
+│   ├── brcm
+│   │   └── brcmfmac43455-sdio.AW-CM256SM.txt
+│   └── rockchip
+│       └── ebc.wbf
 └── local-debs
-    └── linux-image-5.17.0-rc6-next-20220304-g824c1340af29_5.17.0-rc6-next-20220304-g824c1340af29-7_arm64.deb
+    └── linux-image-5.17.0-rc6-next-20220304-gca1ad0720d8f_5.17.0-rc6-next-20220304-gca1ad0720d8f-8_arm64.deb
 ```
-Symbolic links doesn't work(!) so either use hard links or simply copy the files in the right place.
 
-Some details (check also the recipes to see how they are used):
+#### The firmware
 
-- `original-firmware.tar.gz` contains the `firmware/` directory which is found on the PineNote in `/vendor/etc/`.
+You have to provide these files inside `overlays/firmware`:
+- `rockchip/ebc.wbf` is the waveform data that can be taken from the device using `rkdeveloptool`.
+- `brcm/brcmfmac43455-sdio.AW-CM256SM.txt` can be taken from https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/brcm/brcmfmac43455-sdio.AW-CM256SM.txt
+
+And we take these files by installing packages from the Debian's repo:
+- `brcm/brcmfmac43455-sdio.bin` provided by `firmware-brcm80211`.
+- `brcm/BCM4345C0.hcd` provided by `bluez-firmware`.
 
 #### Linux kernel
 
@@ -63,13 +70,10 @@ rootminfs.yaml
 # installs base programs like network-manager, sudo, parted ...
 baseprograms.yaml
 
-# PineNote's firmware files
-setupfirmware.yaml
-
 # Install local provided deb packages (like the kernel)
 localdebs.yaml
 
-# setup hostname, first user, ...
+# setup remaining firmware, initrd, hostname, first user, ...
 finalsetup.yaml
 
 # create a gpt disk image, with one partition
