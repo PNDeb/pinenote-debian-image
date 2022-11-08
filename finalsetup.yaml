@@ -16,6 +16,13 @@ actions:
     source: overlays/default/
     destination: /etc/default/
 
+  - action: apt
+    recommends: false
+    description: Install initramfs-tools at the end so it builds the initrd only once
+    packages:
+      - initramfs-tools
+
+
   - action: run
     description: Set up default user
     chroot: true

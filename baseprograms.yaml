@@ -37,7 +37,6 @@ actions:
       - ssh
       - alsa-utils
       - busybox
-      - initramfs-tools
       - u-boot-menu
       - zstd
 
