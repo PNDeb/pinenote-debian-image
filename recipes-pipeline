@@ -4,13 +4,10 @@ rootminfs.yaml
 # installs base programs like network-manager, sudo, parted ...
 baseprograms.yaml
 
-# PineNote's firmware files
-setupfirmware.yaml
-
 # Install local provided deb packages (like the kernel)
 localdebs.yaml
 
-# setup hostname, first user, ...
+# setup remaining firmware, initrd, hostname, first user, ...
 finalsetup.yaml
 
 # create a gpt disk image, with one partition

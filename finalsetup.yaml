@@ -10,7 +10,17 @@ architecture: {{ $architecture }}
 actions:
   - action: unpack
     file: {{ $prevtargz }}
-    
+
+  - action: overlay
+    description: Copy the remaining firmware files
+    source: overlays/firmware/
+    destination: /usr/lib/firmware/
+
+  - action: run
+    description: Prepare the fallback for the wifi nvram txt firmware file
+    chroot: true
+    command: cp /usr/lib/firmware/brcm/brcmfmac43455-sdio.AW-CM256SM.txt  /usr/lib/firmware/brcm/brcmfmac43455-sdio.txt
+
   - action: overlay
     description: Copy default configurations (like u-boot)
     source: overlays/default/

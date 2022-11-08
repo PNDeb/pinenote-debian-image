@@ -11,6 +11,8 @@ actions:
       - main
       - contrib
       - non-free
+        # Debian is moving non-free-firmware here:
+      - non-free-firmware
     mirror: http://deb.debian.org/debian
 
   - action: pack

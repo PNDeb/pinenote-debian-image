@@ -39,6 +39,8 @@ actions:
       - busybox
       - u-boot-menu
       - zstd
+      - firmware-brcm80211
+      - bluez-firmware
 
   - action: pack
     file: {{ $targz }}
