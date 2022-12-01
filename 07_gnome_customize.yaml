@@ -16,16 +16,6 @@ actions:
       - foliate
       - epiphany-browser
 
-  - action: run
-    description: Install modified mutter debs
-    chroot: true
-    command: dpkg -i /root/mutter/*.deb
-
-  - action: run
-    description: Install modified MESA debs
-    chroot: true
-    command: dpkg -i /root/mesa/*.deb
-
   - action: overlay
     description: Configuration for lightdm
     source: overlays/lightdm/
