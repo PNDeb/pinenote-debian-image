@@ -1,0 +1,7 @@
+[Default Applications]
+application/pdf=koreader.desktop
+text/html=firefox-esr.desktop
+text/plain=gedit.desktop
+image/jpeg=eog.desktop
+image/png=eog.desktop
+text/xml=gedit.desktop

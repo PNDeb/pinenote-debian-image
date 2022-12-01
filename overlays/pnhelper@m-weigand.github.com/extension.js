@@ -21,7 +21,7 @@
 'use strict';
 const St = imports.gi.St;
 // const Gio = imports.gi.Gio;
-const { GLib, Gio, GObject } = imports.gi;
+const { Clutter, GLib, Gio, GObject } = imports.gi;
 const QuickSettings = imports.ui.quickSettings;
 
 // This is the live instance of the Quick Settings menu
@@ -42,6 +42,35 @@ const Orientation = Object.freeze({
 });
 
 const BusUtils = Me.imports.busUtils;
+
+const ebc = Me.imports.ebc;
+
+
+var TriggerRefreshButton = GObject.registerClass(
+	class TriggerRefreshButton extends PanelMenu.Button {
+    _init() {
+        super._init();
+        this.set_track_hover(true);
+        this.set_reactive(true);
+
+        this.add_child(new St.Icon({
+			icon_name: 'view-refresh-symbolic',
+			style_class: 'system-status-icon'
+		}));
+        this.connect('button-press-event', this._trigger_btn.bind(this));
+        this.connect('touch-event', this._trigger_touch.bind(this));
+    }
+
+    _trigger_touch(widget, event) {
+		if (event.type() !== Clutter.EventType.TOUCH_BEGIN){
+			ebc.ebc_trigger_global_refresh();
+		}
+    }
+
+    _trigger_btn(widget, event) {
+		ebc.ebc_trigger_global_refresh();
+    }
+});
 
 
 class Extension {
@@ -191,6 +220,14 @@ class Extension {
     }
 
 	_change_bw_mode(new_mode){
+
+		// change the mode BEFORE setting the waveform so a potential
+		// bw-conversion will be properly handled
+		this._write_to_sysfs_file(
+			'/sys/module/rockchip_ebc/parameters/bw_mode',
+			new_mode
+		);
+
 		if (new_mode == 0){
 			this.bw_but_grayscale.visible = false;
 			this.bw_but_bw_dither.visible = true;
@@ -219,10 +256,7 @@ class Extension {
 			this._set_waveform(1);
 		}
 
-		this._write_to_sysfs_file(
-			'/sys/module/rockchip_ebc/parameters/bw_mode',
-			new_mode
-		);
+
 	}
 
 	_add_bw_buttons() {
@@ -400,8 +434,20 @@ class Extension {
 		);
 	}
 
+	add_refresh_button(){
+		this._trigger_refresh_button = new TriggerRefreshButton();
+		Main.panel.addToStatusArea(
+			"PN Trigger Global Refresh",
+			this._trigger_refresh_button,
+			-1,
+			'center'
+		);
+	}
+
     enable() {
         log(`enabling ${Me.metadata.name}`);
+
+		this.add_refresh_button();
 
 		// ////////////////////////////////////////////////////////////////////
 		// Button 1
@@ -420,7 +466,12 @@ class Extension {
 
         // `Main.panel` is the actual panel you see at the top of the screen,
         // not a class constructor.
-        Main.panel.addToStatusArea(indicatorName, this._indicator);
+        Main.panel.addToStatusArea(
+			indicatorName,
+			this._indicator,
+			-2,
+			'center'
+		);
 
 		let item;
 		item = new PopupMenu.PopupMenuItem(_('Rotate'));

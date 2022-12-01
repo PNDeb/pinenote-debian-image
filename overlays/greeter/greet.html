@@ -1,7 +1,84 @@
-<html>
-
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Pinenote Greetings</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+</head>
 <body>
-	Hi there, greeter
+<header id="title-block-header">
+<h1 class="title">Pinenote Greetings</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#welcome">Welcome</a>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#getting-started">Getting started</a></li>
+<li><a href="#how-do-i">How do I</a></li>
+<li><a href="#what-is-not-working">What is not working?</a></li>
+<li><a href="#ebc-kernel-driver">EBC Kernel Driver</a>
+<ul>
+<li><a href="#waveforms">Waveforms</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="welcome">Welcome</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Lorem Impsum</p>
+<p>If you want to improve this text, merge requests are very very much appreciated! (<a href="https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/greet.html&quot;)[Improve">https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/greet.html")[Improve</a> here]</p>
+<h2 id="getting-started">Getting started</h2>
+<ul>
+<li>User/Password: You are logged in as user "user" with password "1234". sudo is activated. We suggest to set a root password: First, "sudo su - root" and then "passwd"</li></li>
+</ul>
+<h2 id="how-do-i">How do I</h2>
+<ul>
+<li>Read a book/pdf: Koreader is already installed and should be registered for corresponding file types</li>
+</ul>
+<h2 id="what-is-not-working">What is not working?</h2>
+<h2 id="ebc-kernel-driver">EBC Kernel Driver</h2>
+<h3 id="waveforms">Waveforms</h3>
+<ul>
+<li><p>the <strong>default_waveform</strong> parameter controls which waveform is used. Based on information from include/drm/drm_epd_helper.h, the integer values are associated with the following waveforms:</p>
+<pre><code>  0: @DRM_EPD_WF_RESET: Used to initialize the panel, ends with white
+  1: @DRM_EPD_WF_A2: Fast transitions between black and white only
+  2: @DRM_EPD_WF_DU: Transitions 16-level grayscale to monochrome
+  3: @DRM_EPD_WF_DU4: Transitions 16-level grayscale to 4-level grayscale
+  4: @DRM_EPD_WF_GC16: High-quality but flashy 16-level grayscale
+  5: @DRM_EPD_WF_GCC16: Less flashy 16-level grayscale
+  6: @DRM_EPD_WF_GL16: Less flashy 16-level grayscale
+  7: @DRM_EPD_WF_GLR16: Less flashy 16-level grayscale, plus anti-ghosting
+  8: @DRM_EPD_WF_GLD16: Less flashy 16-level grayscale, plus anti-ghosting
+</code></pre></li>
+<li><p>(side note): Based on information from drivers/gpu/drm/drm_epd_helper.c, the Pinenote uses eps lut form 0x19, which associated waveform types with the luts stored in the file as:</p>
+<pre><code>  .versions = {
+      0x19,
+      0x43,
+  },
+  .format = DRM_EPD_LUT_5BIT_PACKED,
+  .modes = {
+      [DRM_EPD_WF_RESET]  = 0,
+      [DRM_EPD_WF_DU]     = 1,
+      [DRM_EPD_WF_DU4]    = 7,
+      [DRM_EPD_WF_GC16]   = 2,
+      [DRM_EPD_WF_GL16]   = 3,
+      [DRM_EPD_WF_GLR16]  = 4,
+      [DRM_EPD_WF_GLD16]  = 5,
+      [DRM_EPD_WF_A2]     = 6,
+      [DRM_EPD_WF_GCC16]  = 4,
+  },
+</code></pre>
+<p>For example, if you want to inspect/modify the A2 waveform, this corresponds to the 7th waveform in the lut file (index 6), but is activated via <strong>default_waveoform</strong> by writing value 1.</p></li>
+</ul>
 </body>
-
 </html>

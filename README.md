@@ -162,6 +162,7 @@ Interrupt => sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux/ex
 ```
 And that would boot our system on partition 17 (11 in base 16).
 
+<<<<<<< HEAD
 ## First boot..
 Things you might want to setup after the installation:
 
@@ -181,6 +182,13 @@ Also, change the **default password** before connection to public networks.
 `sudo nmtui-connect`
 
 (fixme: what needs to be set to do that without sudo?)
+=======
+# Misc
+
+* Ignore any ssh issues when testing the rootfs:
+
+	ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no user@pinenote
+>>>>>>> b82f3d0 (prepare the next iteration of the rootfs)
 
 # License
 
