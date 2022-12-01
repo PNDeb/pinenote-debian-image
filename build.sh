@@ -118,3 +118,5 @@ done
 echo "$ARGS" > lastbuildoptions
 echo "|-- build done. --|"
 
+# we build as root, but modify/manage as user
+chown -R mweigand:mweigand .

@@ -16,7 +16,17 @@ actions:
   - action: run
     description: mkdir  /home/user/.config/autostart
     chroot: true
-    command: mkdir -p /home/user/.config/autostart
+    command: mkdir -p /home/user/.config/autostart /home/user/.config/pinenote
+
+  - action: run
+    description: create /home/user/.config/pinenote/do_not_show_overview
+    chroot: true
+    command: touch /home/user/.config/pinenote/do_not_show_overview
+
+  - action: run
+    description: chown /home/user/.config/autostart to user
+    chroot: true
+    command: chown -R user:user /home/user/.config/
 
   - action: run
     description: install greeter

@@ -2,8 +2,8 @@
 Type=Application
 Name=Albert
 Exec=/bin/bash /etc/greeter/greeter.sh
-Icon=/home/<user_name>/Pictures/albert
-Comment=Albert is an application that searches the file system like dash on ubuntu
+Icon=
+Comment=
 X-GNOME-Autostart-enabled=true
 # start under any desktop environment, unless
 # ~/.config/pinenote/disable-autostart exists

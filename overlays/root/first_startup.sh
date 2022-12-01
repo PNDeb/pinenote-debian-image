@@ -46,4 +46,8 @@ cd /extlinux
 ./gen_uboot_image.sh
 
 touch /extlinux/waveform_firmware_recovered
+
+# quirk: sometimes sshd is not properly configured
+dpkg-reconfigure openssh-server
+
 reboot

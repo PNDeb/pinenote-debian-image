@@ -109,6 +109,12 @@ Interrupt => sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux.co
 ```
 And that would boot our system on partition 17 (11 in base 16).
 
+# Misc
+
+* Ignore any ssh issues when testing the rootfs:
+
+	ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no user@pinenote
+
 # License
 
 This software is licensed under the terms of the GNU General Public License, version 3.

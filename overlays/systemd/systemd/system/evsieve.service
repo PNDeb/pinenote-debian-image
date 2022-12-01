@@ -1,0 +1,8 @@
+[Unit]
+Description=Set up evsieve to merge stylus and button events
+
+[Service]
+ExecStart=/bin/bash /root/setup_evsieve.sh
+
+[Install]
+WantedBy=multi-user.target
