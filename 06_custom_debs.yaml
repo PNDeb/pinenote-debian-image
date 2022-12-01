@@ -44,5 +44,20 @@ actions:
     chroot: true
     command: ln -s /etc/systemd/system/evsieve.service /etc/systemd/system/multi-user.target.wants/evsieve.service
 
+  - action: run
+    description: Install modified mutter debs
+    chroot: true
+    command: dpkg -i /root/mutter/*.deb
+
+  - action: run
+    description: Install modified MESA debs
+    chroot: true
+    command: dpkg -i /root/mesa/*.deb
+
+  - action: run
+    description: Forbid updating modified custom debs
+    chroot: true
+    command: bash /root/pin_custom_debs.sh
+
   - action: pack
     file: {{ $targz }}
