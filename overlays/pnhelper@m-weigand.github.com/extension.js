@@ -20,7 +20,6 @@
  */
 'use strict';
 const St = imports.gi.St;
-// const Gio = imports.gi.Gio;
 const { Clutter, GLib, Gio, GObject } = imports.gi;
 const QuickSettings = imports.ui.quickSettings;
 
@@ -84,7 +83,42 @@ class Extension {
 		this.bw_but_bw = new PopupMenu.PopupMenuItem(_('BW Mode'));
         this.m_bw_slider = new PopupMenu.PopupBaseMenuItem({ activate: true });
 		this.mitem_bw_dither_invert = new PopupMenu.PopupMenuItem(_('BW Invert On'));
+
+
+		this.panel_label = new St.Label({
+			text: "DADA",
+            y_expand: true,
+            y_align: Clutter.ActorAlign.CENTER
+        });
+
+		const home = GLib.getenv("HOME");
+		const file = Gio.file_new_for_path(home + "/.config/pinenote/do_not_show_overview");
+		log("checking file");
+		log(file);
+		if (file.query_exists(null)){
+			log("disabling overview");
+			Main.sessionMode.hasOverview = false;
+		}
     }
+
+	onWaveformChanged(connection, sender, path, iface, signal, params, widget) {
+		// todo: look into .bind to access the label
+		log("Signal received: WaveformChanged");
+		const waveform = ebc.PnProxy.GetDefaultWaveformSync();
+		const bw_mode = ebc.PnProxy.GetBwModeSync();
+		var new_label = '';
+		if (bw_mode == 0){
+			new_label += 'G:';
+		} else if (bw_mode == 1) {
+			new_label += 'BW+D:';
+		} else if (bw_mode == 2) {
+			new_label += 'BW:';
+		}
+
+		new_label += waveform.toString();
+
+		widget.set_text(new_label);
+	}
 
 	_write_to_sysfs_file(filename, value){
 		try {
@@ -223,10 +257,11 @@ class Extension {
 
 		// change the mode BEFORE setting the waveform so a potential
 		// bw-conversion will be properly handled
-		this._write_to_sysfs_file(
-			'/sys/module/rockchip_ebc/parameters/bw_mode',
-			new_mode
-		);
+		// this._write_to_sysfs_file(
+		// 	'/sys/module/rockchip_ebc/parameters/bw_mode',
+		// 	new_mode
+		// );
+		ebc.PnProxy.SetBwModeSync(new_mode);
 
 		if (new_mode == 0){
 			this.bw_but_grayscale.visible = false;
@@ -235,7 +270,8 @@ class Extension {
 			this.m_bw_slider.visible = false;
 			this.mitem_bw_dither_invert.visible = false;
 			// use GC16 waveform
-			this._set_waveform(4);
+			// this._set_waveform(4);
+			ebc.PnProxy.SetDefaultWaveformSync(4);
 		} else if (new_mode == 1){
 			// bw+dither
 			this.bw_but_grayscale.visible = true;
@@ -244,7 +280,8 @@ class Extension {
 			this.m_bw_slider.visible = false;
 			this.mitem_bw_dither_invert.visible = true;
 			// use A2 waveform
-			this._set_waveform(1);
+			ebc.PnProxy.SetDefaultWaveformSync(1);
+			// this._set_waveform(1);
 		} else if (new_mode == 2){
 			// bw
 			this.bw_but_grayscale.visible = true;
@@ -253,9 +290,15 @@ class Extension {
 			this.m_bw_slider.visible = true;
 			this.mitem_bw_dither_invert.visible = true;
 			// use A2 waveform
-			this._set_waveform(1);
+			// this._set_waveform(1);
+			ebc.PnProxy.SetDefaultWaveformSync(1);
 		}
 
+		// trigger a global refresh
+		setTimeout(
+			ebc.ebc_trigger_global_refresh,
+			500
+		);
 
 	}
 
@@ -444,12 +487,29 @@ class Extension {
 		);
 	}
 
+	add_panel_label(){
+		this.panel_label = new St.Label({
+			text: "DADA",
+            y_expand: true,
+            y_align: Clutter.ActorAlign.CENTER,
+        });
+		Main.panel.addToStatusArea(
+			"Waveform Status Label",
+			this.panel_label,
+			-1,
+			'center'
+		);
+	}
+
     enable() {
         log(`enabling ${Me.metadata.name}`);
 
 		this.add_refresh_button();
+		// this.add_panel_label();
 
 		// ////////////////////////////////////////////////////////////////////
+		this._topBox = new St.BoxLayout({ });
+
 		// Button 1
         let indicatorName = `${Me.metadata.name} Indicator`;
 
@@ -462,10 +522,21 @@ class Extension {
             gicon: new Gio.ThemedIcon({name: 'org.gnome.SimpleScan-symbolic'}),
             style_class: 'system-status-icon'
         });
-        this._indicator.add_child(icon);
+        // this._indicator.add_child(icon);
+
+		this._topBox.add(icon);
+
+		// Add the label
+        // this._indicator.add_child(this.panel_label);
+		ebc.ebc_subscribe_to_waveformchanged(this.onWaveformChanged, this.panel_label);
+
+        this._topBox.add_child(this.panel_label);
+        this._indicator.add_child(this._topBox);
+		// this._indicator.label_actor = this.panel_label;
+		// this._indicator.add_actor(this.panel_label);
 
         // `Main.panel` is the actual panel you see at the top of the screen,
-        // not a class constructor.
+        // // not a class constructor.
         Main.panel.addToStatusArea(
 			indicatorName,
 			this._indicator,

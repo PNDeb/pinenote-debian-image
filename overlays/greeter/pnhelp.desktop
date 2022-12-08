@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=PNHelp
+GenericName=Pinenote Help
+Comment=Open up the Pinenote help page
+Exec=firefox-esr /etc/greeter/greet.html
+Icon=/etc/greeter/icon_48-48.png
+Type=Application
+StartupNotify=false

@@ -132,3 +132,10 @@ echo "|-- build done. --|"
 
 # we build as root, but modify/manage as user
 chown -R mweigand:mweigand .
+
+# rename the final tar.gz file to a standardized name
+last_targz_file=$(ls -1 *.tar.gz | tail -1)
+final_targz="pinenote_arm64_debian_bookworm_v2.tar.gz"
+echo "Renaming ${last_targz_file} to ${final_targz}"
+mv "${last_targz_file}" "${final_targz}"
+

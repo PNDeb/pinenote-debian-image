@@ -33,5 +33,15 @@ actions:
     chroot: true
     command: cp /etc/greeter/greeter.desktop /home/user/.config/autostart/greeter.desktop
 
+  - action: run
+    description: chown /home/user/.config/autostart to user
+    chroot: true
+    command: mkdir -p /home/user/.local/share/applications && chown -R user:user /home/user/.config/
+
+  - action: run
+    description: install help application .desktop file
+    chroot: true
+    command: cp /etc/greeter/pnhelp.desktop /home/user/.local/share/applications
+
   - action: pack
     file: {{ $targz }}

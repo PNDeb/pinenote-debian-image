@@ -20,7 +20,10 @@ mkdir -p ${outdir}/rockchip
 
 # 1) Get waveforms
 # md5sum: 62a4817fda54ed39602a51229099ff02
-dd if=/dev/mmcblk0p3 of=${outdir}/rockchip/ebc.wbf  bs=1k count=2048
+dd if=/dev/mmcblk0p3 of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
+ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
+# do not (yet) call this script here as it takes ca. 20 minutes to complete!!!
+# python3 /root/parse_waveforms_and_modify.py
 
 # 2) Get wifi/bluetooth firmware
 dmsetup create --concise "$(/root/parse-android-dynparts /dev/mmcblk0p13)"
