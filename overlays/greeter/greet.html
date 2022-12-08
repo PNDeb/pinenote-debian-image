@@ -24,6 +24,7 @@
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#getting-started">Getting started</a></li>
+<li><a href="#xournalppwriting">Xournalpp/Writing</a></li>
 <li><a href="#how-do-i">How do I</a></li>
 <li><a href="#what-is-not-working">What is not working?</a></li>
 <li><a href="#ebc-kernel-driver">EBC Kernel Driver</a>
@@ -31,22 +32,65 @@
 <li><a href="#waveforms">Waveforms</a></li>
 </ul></li>
 </ul></li>
+<li><a href="#trimming-the-a2-waveform">Trimming the A2 waveform</a></li>
+<li><a href="#topics">Topics</a></li>
 </ul>
 </nav>
 <h1 id="welcome">Welcome</h1>
 <h2 id="introduction">Introduction</h2>
 <p>Lorem Impsum</p>
-<p>If you want to improve this text, merge requests are very very much appreciated! (<a href="https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/greet.html&quot;)[Improve">https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/greet.html")[Improve</a> here]</p>
+<p>If you want to improve this text, merge requests are very very much appreciated! (<a href="https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/pn_handbook.md&quot;)[Improve">https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/pn_handbook.md")[Improve</a> here]</p>
 <h2 id="getting-started">Getting started</h2>
 <ul>
-<li>User/Password: You are logged in as user "user" with password "1234". sudo is activated. We suggest to set a root password: First, "sudo su - root" and then "passwd"</li></li>
+<li><p>User/Password: You are logged in as user "user" with password "1234". sudo is activated. We suggest to set a root password:</p>
+<p>sudo su - root passwd</p></li>
+<li><p>The <strong>Documents/</strong> directory contains one sample .pdf and one .epub file. Try opening them and start reading!</p></li>
+</ul>
+<h2 id="xournalppwriting">Xournalpp/Writing</h2>
+<ul>
+<li><p>At this point, despite disabling anomations, GNOME still shows the spinning animation in the panel when xournalpp is started. This prevents proper and fast drawing of screen regions. For best experience, wait until the loading animation stops before you start drawing/writing.</p></li>
+<li><p>Switch to "BW+Dither" mode when working in Xpp</p></li>
+<li><p>The default configuration uses evsieve to merge events from the pen (for drawing) and the pen buttons. This is a solution to the problem that the pen input and the pen buttons are completely independent systems and therefore register as different inputs in the system.</p>
+<p>The evsieve solution add something like 15 ms lag to the input (according to the evsieve readme). You can disable this approach by running (in a root shell):</p>
+<p>systemctl stop evsieve.service systemctl disable evsieve.service</p>
+<p>Make sure to restart Xpp and to reconfigure the input sources in the settings.</p></li>
+<li><p>By default the touch screen is disabled as an input for Xpp. You need to activate it in the settings in order to scroll using touch gestures.</p></li>
+<li><p>If the pen buttons are configured, holding down the button nearest to the tip should allow you to scroll using the pen.</p></li>
+<li><p>After both pen and touch scrolling a global refresh is triggered</p></li>
 </ul>
 <h2 id="how-do-i">How do I</h2>
 <ul>
-<li>Read a book/pdf: Koreader is already installed and should be registered for corresponding file types</li>
+<li><strong>Read a book (epub)/pdf</strong>: Koreader is already installed and should be registered for corresponding file types</li>
+<li><strong>Take notes</strong>: Xournalpp was slightly modified to provide an improved experience on the Pinenote.</li>
+<li><strong>Use the Pinenote as an external screen?</strong>: TODO, link to weylus project</li>
+<li><strong>Use an external monitor with the Pinenote?</strong>: TODO (won't directly work, need something like vnc and virtual monitor)</li>
 </ul>
 <h2 id="what-is-not-working">What is not working?</h2>
+<ul>
+<li><p>Open Issues</p>
+<ul>
+<li>Gnome extension: There are issues when suspend/screen blanking (i.e., unloading of the extension is broken)</li>
+<li>EBC artifacting</li>
+<li>Cover detection ?</li>
+<li>Resume/suspend</li>
+<li>BT Issues (link to probably-working firmware?)</li>
+</ul></li>
+</ul>
 <h2 id="ebc-kernel-driver">EBC Kernel Driver</h2>
+<pre><code>* Introduction
+* boot-time module parameters
+* runtime-controlled module parameters
+* ioctls
+
+    * trigger global refresh
+    * set offline-screen
+    * [to implement] set standby screen mask &amp; behavior
+* misc:
+
+    * discuss the waveform-switching issues in a general DE environment:
+      recommend to always do a global refresh after switching waveforms,
+      unless you know that your buffer is compatible
+</code></pre>
 <h3 id="waveforms">Waveforms</h3>
 <ul>
 <li><p>the <strong>default_waveform</strong> parameter controls which waveform is used. Based on information from include/drm/drm_epd_helper.h, the integer values are associated with the following waveforms:</p>
@@ -79,6 +123,32 @@
   },
 </code></pre>
 <p>For example, if you want to inspect/modify the A2 waveform, this corresponds to the 7th waveform in the lut file (index 6), but is activated via <strong>default_waveoform</strong> by writing value 1.</p></li>
+</ul>
+<h1 id="trimming-the-a2-waveform">Trimming the A2 waveform</h1>
+<p>You can trim the A2 waveform for improved writing performance, with the downside that black sometimes is displayed in gray tones.</p>
+<p>The supplied script is very slow and unoptimized and therefore not run automatically (run time on pinenote ca. 20 minutes).</p>
+<p>Call these command in a root shell to trim the A2 waveform (note: this will reboot the pinenote once):</p>
+<pre><code>cd /root
+# this command should take ca. 20 minutes !!!
+time python3 parse_waveforms_and_modify.py
+rm /lib/firmware/rockchip/ebc.wbf
+ln -s /lib/firmware/rockchip/ebc_modified.wbf /lib/firmware/rockchip/ebc.wbf
+cd /extlinux
+./gen_uboot_image.sh
+reboot
+</code></pre>
+<h1 id="topics">Topics</h1>
+<ul>
+<li><p>EBC Driver and control</p></li>
+<li><p>DBUS service</p>
+<ul>
+<li>contrl ebc driver</li>
+<li>[to implement] handle pen pairing/unpairing</li>
+</ul></li>
+<li><p>The GNOME extension</p></li>
+<li><p>Pen</p></li>
+<li><p>Blocked packages &amp; updates</p></li>
+<li><p>Resources</p></li>
 </ul>
 </body>
 </html>

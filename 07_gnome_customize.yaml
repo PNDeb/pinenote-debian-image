@@ -16,6 +16,7 @@ actions:
       - foliate
       - epiphany-browser
       - libllvm14
+      - syncthing
 
   - action: run
     description: Install modified mutter debs
@@ -71,6 +72,21 @@ actions:
   #   description: Set up system
   #   chroot: true
   #   command: systemctl enable run_egl_info.service
+  #
+  - action: overlay
+    description: Install sample files
+    source: overlays/sample_files
+    destination: /home/user/Documents/
+
+  - action: overlay
+    description: Install environment file
+    source: overlays/environment.d
+    destination: /etc/environment.d
+
+#   - action: run
+#     description: Enable wayland support for firefox
+#     chroot: true
+#     command: echo "MOZ_ENABLE_WAYLAND=1" >> /etc/environment
 
   - action: pack
     file: {{ $targz }}

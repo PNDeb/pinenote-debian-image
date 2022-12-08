@@ -7,7 +7,7 @@ echo "Found pen buttons at ${dev_buttons}"
 
 echo "Setting up sieve:"
 
-/root/bin/evsieve \
+/usr/bin/evsieve \
 	--input ${dev_stylus} grab \
 	--input ${dev_buttons} grab \
 	--output

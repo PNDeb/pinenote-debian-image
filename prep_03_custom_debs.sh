@@ -36,10 +36,18 @@ cd ${pwd}
 
 # evsieve
 cd overlays/custom_debs/
+rm evsieve*.deb
 wget https://github.com/m-weigand/evsieve_pn/releases/download/v1.3.1-arm64/evsieve_1.3.1_arm64.deb
 cd "${pwd}"
 
 # xournalpp
 cd overlays/custom_debs/
-# todo
+rm xournalpp*.deb
+wget https://github.com/m-weigand/xournalpp_pn/releases/download/v20221201/xournalpp-1.1.2+dev--unknown-unknown.deb
+cd "${pwd}"
+
+# pinenote dbus service
+cd overlays/custom_debs
+rm pinenote_dbus_service*.deb
+wget https://github.com/m-weigand/pinenote_dbus_service/releases/download/v20221207/pinenote_dbus_service_0.1.0_arm64.deb
 cd "${pwd}"

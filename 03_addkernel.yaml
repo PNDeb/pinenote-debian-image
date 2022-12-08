@@ -15,6 +15,7 @@ actions:
       - dracut
       - dracut-core
       - u-boot-tools
+      - python3-numpy # required for the python script that trims the A2 waveform
 
   - action: overlay
     description: modprobe.d

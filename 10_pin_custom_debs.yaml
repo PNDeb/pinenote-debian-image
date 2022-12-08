@@ -1,0 +1,17 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := or .prevtargz "08_greeter.tar.gz" }}
+{{- $targz := or .targz "10_pin_custom_debs.tar.gz" }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: run
+    description: Forbid updating modified custom debs
+    chroot: true
+    command: bash /root/custom_debs/pin_custom_debs.sh
+
+  - action: pack
+    file: {{ $targz }}
