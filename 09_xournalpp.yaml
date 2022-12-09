@@ -17,7 +17,7 @@ actions:
   - action: run
     description: Install our custom Xournalpp deb
     chroot: true
-    command: dpkg -i /root/custom_debs/xournalpp-1.1.2+dev-Debian-bookworm-unknown.deb
+    command: dpkg -i /root/custom_debs/xournalpp*.deb
 
   - action: overlay
     description: Install xpp scripts to /home/user/bin/

@@ -6,7 +6,7 @@ cd overlays/custom_debs/
 test -d mutter && rm -r mutter
 mkdir mutter && cd mutter
 
-wget https://github.com/m-weigand/pinenote_debian_mutter/releases/download/v20221124_v1/mutter.zip
+wget https://github.com/m-weigand/pinenote_debian_mutter/releases/download/v20221209/mutter.zip
 unzip mutter.zip *.deb
 rm *dbgsym*.deb
 rm *dev*.deb
