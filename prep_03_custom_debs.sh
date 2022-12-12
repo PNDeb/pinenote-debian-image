@@ -43,7 +43,8 @@ cd "${pwd}"
 # xournalpp
 cd overlays/custom_debs/
 rm xournalpp*.deb
-wget https://github.com/m-weigand/xournalpp_pn/releases/download/v20221201/xournalpp-1.1.2+dev--unknown-unknown.deb
+# wget https://github.com/m-weigand/xournalpp_pn/releases/download/v20221201/xournalpp-1.1.2+dev--unknown-unknown.deb
+wget https://github.com/m-weigand/xournalpp_pn/releases/download/v20221210/xournalpp-1.1.2+dev-Debian-bookworm-unknown.deb
 cd "${pwd}"
 
 # pinenote dbus service
