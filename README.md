@@ -61,11 +61,18 @@ Some details (check also the recipes to see how they are used):
 - `kernel-modules.tar.gz` contains the `/lib/modules/..` directory (entire
   hierarchy including starting with `/lib`)
 
+### Build preparations
+
+Run `prep_00_get_kernel_files.sh` and `prep_03_custom_debs.sh` first,
+to prepare the external packages to use in the later build steps.
+
 ### Build the recipes
-As a normal user, just run inside the `pinenote-debian-recipes` directory:
+Run inside the `pinenote-debian-recipes` directory:
 ```
 ./build.sh
 ```
+(depending on your system configuration, you might need to run this command with superuser rights)
+
 That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user
 `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the
 target PineNote partition to `/dev/mmcblk0p17` (TODO: try to make that an
@@ -88,9 +95,11 @@ finalsetup.yaml
 The work done by each recipe is saved as a `.tar.gz` file. So you would take the last archive, `finalsetup.tar.gz`, to extract on the PineNote. Currently, the archive's size is about 240MB and extracted into the partition would occupy almost 700MB.
 
 ## Install the rootfs on the PineNote
-Basically, you have to extract the `finalsetup.tar.gz` inside the prepared partition. You need to follow Martyn's and Dorian's guides to get to this point.
+Take the `*.tag.gz` file after the latest step and extract it to the prepared partition.
+You need to follow Martyn's and Dorian's guides to get to this point.
 
-Here is how I'm installing the rootfs. On my laptop connected to the PineNote booted in Android, I do:
+For example, let `finalsetup.tar.gz` be the resulting archive.
+Then, to install the rootfs using my laptop connected to the PineNote booted in Android, I do:
 ```
 $ adb push finalsetup.tar.gz /sdcard/Download
 $ adb shell
@@ -98,7 +107,7 @@ $ su
 # mkdir /sdcard/target
 # mount /dev/block/mmcblk0p17 /sdcard/target
 # cd /sdcard/Download
-# tar xzf finalsetup.tar.gz -C /sdcard/target
+# busybox tar xzf finalsetup.tar.gz -C /sdcard/target
 # umount /sdcard/target
 # exit
 $ exit
@@ -108,6 +117,16 @@ Then I insert the UART dongle (and start `minicom -D /dev/ttyUSB0 -b 1500000` on
 Interrupt => sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux.conf
 ```
 And that would boot our system on partition 17 (11 in base 16).
+
+Alternatively, use the following set of commands:
+
+```
+load mmc 0:11 ${kernel_addr_r} /extlinux/Image
+load mmc 0:11 ${fdt_addr_r} /extlinux/rk3566-pinenote-v1.2.dtb
+load mmc 0:11 ${ramdisk_addr_r} /extlinux/uInitrd.img
+setenv bootargs ignore_loglevel root=/dev/mmcblk0p17 rw rootwait earlycon console=tty0 console=ttyS2,1500000n8 fw_devlink=off init=/sbin/init
+booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+```
 
 # Misc
 
