@@ -89,15 +89,25 @@ The original U-Boot (v. 2017.09) that came with PineNote Developer Edition (pine
   hierarchy including starting with `/lib`)
 >>>>>>> 21f1377 (update README)
 
+### Build preparations
+
+Run `prep_00_get_kernel_files.sh` and `prep_03_custom_debs.sh` first,
+to prepare the external packages to use in the later build steps.
+
 ### Build the recipes
-As a normal user, just run inside the `pinenote-debian-recipes` directory:
+Run inside the `pinenote-debian-recipes` directory:
 ```
 ./build.sh
 ```
 <<<<<<< HEAD
+<<<<<<< HEAD
 That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the target PineNote partition to `/dev/mmcblk0p17` (see `overlays/default/u-boot`).
 To do that, `./build.sh` would call `debos` on each recipe in the default pipeline -- the file `recipes-pipeline`. Here is its content:
 =======
+=======
+(depending on your system configuration, you might need to run this command with superuser rights)
+
+>>>>>>> 119fd69 (Update the readme slightly)
 That would build a Debian `bookworm` rootfs, with a hostname `pinenote`, a user
 `user` with password `1234` and `sudo` capabilities. Also, it hardcodes the
 target PineNote partition to `/dev/mmcblk0p17` (TODO: try to make that an
@@ -118,6 +128,7 @@ localdebs.yaml
 # setup remaining firmware, initrd, hostname, first user, ...
 finalsetup.yaml
 
+<<<<<<< HEAD
 # create a gpt disk image, with one partition
 creatediskimage.yaml
 
@@ -142,8 +153,14 @@ Be aware, that this image is configured with a kernel `root=` parameter as provi
 
 ### Alternatively, you can install the rootfs on the PineNote
 Basically, you have to extract the `finalsetup.tar.gz` inside the prepared partition. You need to follow Martyn's and Dorian's guides to get to this point.
+=======
+## Install the rootfs on the PineNote
+Take the `*.tag.gz` file after the latest step and extract it to the prepared partition.
+You need to follow Martyn's and Dorian's guides to get to this point.
+>>>>>>> 119fd69 (Update the readme slightly)
 
-Here is how I'm installing the rootfs. On my laptop connected to the PineNote booted in Android, I do:
+For example, let `finalsetup.tar.gz` be the resulting archive.
+Then, to install the rootfs using my laptop connected to the PineNote booted in Android, I do:
 ```
 $ adb push finalsetup.tar.gz /sdcard/Download
 $ adb shell
@@ -162,6 +179,7 @@ Interrupt => sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux/ex
 ```
 And that would boot our system on partition 17 (11 in base 16).
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 ## First boot..
 Things you might want to setup after the installation:
@@ -183,6 +201,18 @@ Also, change the **default password** before connection to public networks.
 
 (fixme: what needs to be set to do that without sudo?)
 =======
+=======
+Alternatively, use the following set of commands:
+
+```
+load mmc 0:11 ${kernel_addr_r} /extlinux/Image
+load mmc 0:11 ${fdt_addr_r} /extlinux/rk3566-pinenote-v1.2.dtb
+load mmc 0:11 ${ramdisk_addr_r} /extlinux/uInitrd.img
+setenv bootargs ignore_loglevel root=/dev/mmcblk0p17 rw rootwait earlycon console=tty0 console=ttyS2,1500000n8 fw_devlink=off init=/sbin/init
+booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+```
+
+>>>>>>> 119fd69 (Update the readme slightly)
 # Misc
 
 * Ignore any ssh issues when testing the rootfs:
