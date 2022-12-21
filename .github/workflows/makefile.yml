@@ -1,0 +1,30 @@
+name: Makefile CI
+
+on:
+  push:
+    branches: [ "mw_image" ]
+  pull_request:
+    branches: [ "mw_image" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt -y update && sudo apt install debos syncthing
+
+    - name: Prep step
+      run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh
+
+    - name: Build
+      run: sudo ./build.sh
+
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with: 
+        name: artifacts
+        path: pinenote_arm64_debian_bookworm_v2.tar.gz
