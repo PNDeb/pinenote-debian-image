@@ -16,7 +16,6 @@ actions:
       - foliate
       - epiphany-browser
       - libllvm14
-      - syncthing
 
   - action: run
     description: Install modified mutter debs
