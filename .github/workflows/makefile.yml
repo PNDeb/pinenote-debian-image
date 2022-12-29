@@ -1,10 +1,11 @@
 name: Makefile CI
 
 on:
-  push:
-    branches: [ "mw_image" ]
-  pull_request:
-    branches: [ "mw_image" ]
+  workflow_dispatch:
+  # push:
+  #  branches: [ "mw_image" ]
+  # pull_request:
+  #  branches: [ "mw_image" ]
 
 jobs:
   build:
