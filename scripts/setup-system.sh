@@ -11,11 +11,10 @@ echo $1 > /etc/hostname
 # apt install -Y aptitude
 # aptitude search dracut-core
 
-# Note MW: Should not be required
-# echo Setup /etc/fstab
-# cat >>/etc/fstab << EOF
-# /dev/mmcblk0p17 /     ext4 defaults 0 0
-# EOF
+echo Setup /etc/fstab
+cat >>/etc/fstab << EOF
+/dev/mmcblk0p17 /     ext4 defaults 0 0
+EOF
 
 echo Using dracut to generate the initrd:
 
