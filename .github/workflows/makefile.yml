@@ -1,4 +1,4 @@
-name: Makefile CI
+name: Build Debian image using github actions
 
 on:
   workflow_dispatch:
@@ -26,6 +26,6 @@ jobs:
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
-      with: 
+      with:
         name: artifacts
         path: pinenote_arm64_debian_bookworm_v2.tar.gz
