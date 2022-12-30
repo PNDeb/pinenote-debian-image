@@ -13,6 +13,7 @@ echo $1 > /etc/hostname
 
 update-initramfs -c -k all
 u-boot-update
+# Note MW: Should not be required
 # echo Setup /etc/fstab
 # cat >>/etc/fstab << EOF
 # /dev/mmcblk0p17 /     ext4 defaults 0 0
