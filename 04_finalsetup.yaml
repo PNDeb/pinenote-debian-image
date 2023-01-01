@@ -11,10 +11,10 @@ actions:
   - action: unpack
     file: {{ $prevtargz }}
 
-  # - action: overlay
-  #   description: Copy the remaining firmware files
-  #   source: overlays/firmware/
-  #   destination: /usr/lib/firmware/
+  - action: overlay
+    description: Copy the remaining firmware files
+    source: overlays/firmware/
+    destination: /usr/lib/firmware/
 
   - action: run
     description: Prepare the fallback for the wifi nvram txt firmware file
