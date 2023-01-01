@@ -134,8 +134,9 @@ echo "|-- build done. --|"
 chown -R mweigand:mweigand .
 
 # rename the final tar.gz file to a standardized name
+final_targz="pinenote_arm64_debian_bookworm.tar.gz"
+test -e "${final_targz}" && rm "${final_targz}"
+
 last_targz_file=$(ls -1 *.tar.gz | tail -1)
-final_targz="pinenote_arm64_debian_bookworm_v2.tar.gz"
 echo "Renaming ${last_targz_file} to ${final_targz}"
 mv "${last_targz_file}" "${final_targz}"
-
