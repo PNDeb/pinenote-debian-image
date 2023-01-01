@@ -8,10 +8,14 @@ actions:
   - action: run
     description: Take out the partition image from the disk image
     postprocess: true
-    script: ${ARTIFACTDIR}/scripts/takeout-partition-image.sh gpt-disk.img debian.img
+      # script: ${ARTIFACTDIR}/scripts/takeout-partition-image.sh gpt-disk.img debian.img
+    script: scripts/takeout-partition-image.sh gpt-disk.img debian.img
 
     # remote the disk image
   - action: run
     postprocess: true
     command: rm gpt-disk.img
 
+  - action: run
+    postprocess: true
+    command: zstd debian.img

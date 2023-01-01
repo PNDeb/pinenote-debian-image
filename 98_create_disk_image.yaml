@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $prevtargz := .prevtargz }}
-{{- $imagesize := or .imagesize "900MB" }}
+{{- $imagesize := or .imagesize "6000MB" }}
 
 architecture: {{ $architecture }}
 
