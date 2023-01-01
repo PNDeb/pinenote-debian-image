@@ -7,19 +7,10 @@
 # # Install local provided deb packages (like the kernel)
 # localdebs.yaml
 
-# # setup remaining firmware, initrd, hostname, first user, ...
-# finalsetup.yaml
-
-# # create a gpt disk image, with one partition
-# creatediskimage.yaml
-
-# # take from the disk image only our partition
-# takeoutpartition.yaml
-# =======
 # add kernel, kernel modules, firmware files
 03_addkernel.yaml
 
-# setup hostname, first user, initrd (using dracut)
+# # setup hostname, first user, initrd (using dracut)
 04_finalsetup.yaml
 
 05_gnome.yaml
@@ -32,3 +23,11 @@
 09_xournalpp.yaml
 
 10_pin_custom_debs.yaml
+
+# # create a gpt disk image, with one partition
+# creatediskimage.yaml
+
+# # take from the disk image only our partition
+# takeoutpartition.yaml
+98_create_disk_image.yaml
+99_extract_partition_image.yaml
