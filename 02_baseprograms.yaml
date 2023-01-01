@@ -8,6 +8,11 @@ actions:
   - action: unpack
     file: {{ $prevtargz }}
 
+  - action: run
+    description: apt fix install
+    chroot: true
+    command: apt -y --fix-broken install
+
   - action: apt
     recommends: false
     description: Install base programs
