@@ -8,3 +8,6 @@ overlays/firmware/waveform.bin
 *.swp
 *.deb
 *.img
+
+debian.img
+debian.img.zst

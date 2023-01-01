@@ -1,4 +1,4 @@
 #!/bin/bash
 
-scp pinenote_arm64_debian_bookworm_v2.tar.gz root@pinenote:/p17/
+scp pinenote_arm64_debian_bookworm.tar.gz root@pinenote:/p17/
 
