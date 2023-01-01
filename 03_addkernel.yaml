@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "02_baseprograms.tar.gz" }}
-{{- $targz := or .targz "04_addkernel.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
 
 architecture: {{ $architecture }}
 
@@ -12,8 +12,8 @@ actions:
     recommends: false
     description: Install dracut, u-boot-tools
     packages:
-      - dracut
-      - dracut-core
+      # - dracut
+      # - dracut-core
       - u-boot-tools
       - python3-numpy # required for the python script that trims the A2 waveform
 
@@ -23,28 +23,64 @@ actions:
     destination: /etc/modprobe.d/
 
   - action: overlay
-    description: Copy kernel, dtb, extlinux.conf into /boot
-    source: overlays/boot/
-    destination: /extlinux/
+    description: Copy kernel files to /root/kernel
+    source: overlays/kernel/
+    destination: /root/kernel/
 
   - action: overlay
-    description: Copy parse-android-dynparts
+    description: Copy default configurations (like u-boot)
+    source: overlays/default/
+    destination: /etc/default/
+
+  - action: run
+    description: Install all kernel-related .deb packages
+    chroot: true
+    command: dpkg -i /root/kernel/*.deb
+
+  - action: apt
+    recommends: false
+    description: Install base programs
+    packages:
+      - initramfs-tools
+
+  - action: run
+    description: Generate initrd
+    chroot: true
+    command: update-initramfs -c -k all
+
+  - action: run
+    description: Update exlinux.conf for uboot
+    chroot: true
+    command: u-boot-update
+
+  - action: run
+    description: Clean up kernel-deb files
+    chroot: true
+    command: rm /root/kernel/*.deb
+
+  # - action: overlay
+  #   description: Copy kernel, dtb, extlinux.conf into /boot
+  #   source: overlays/boot/
+  #   destination: /extlinux/
+
+  - action: overlay
+    description: Copy parse-android-dynparts (for legacy/debug purposes)
     source: overlays/root/
     destination: /root/
 
-  - action: overlay
-    description: Configuration for dracut
-    source: overlays/dracut/
-    destination: /etc/
+  # - action: overlay
+  #   description: Configuration for dracut
+  #   source: overlays/dracut/
+  #   destination: /etc/
 
       # This method destroys the symbolic link /lib -> /usr/lib.
       # - action: unpack
       #   description: Unpack and copy the kernel modules
       #   file: overlays/modules/kernel-modules.tar.gz
 
-  - action: run
-    description: Unpack and copy the kernel modules
-    command: tar xf ${RECIPEDIR}/overlays/modules/kernel-modules.tar.gz -C ${ROOTDIR}/usr/
+  # - action: run
+  #   description: Unpack and copy the kernel modules
+  #   command: tar xf ${RECIPEDIR}/overlays/modules/kernel-modules.tar.gz -C ${ROOTDIR}/usr/
 
   # - action: run
   #   description: Untar and copy original firmware
@@ -65,6 +101,11 @@ actions:
   #   description: Prepare brcm firmware files
   #   chroot: true
   #   script: scripts/setup-brcm-firmware.sh /usr/lib/firmware/
+  - action: run
+    description: Prepare u-boot emergency kernel files in /boot/emergency
+    chroot: true
+    script: scripts/kernel_prepare_emergency_files.sh
+
 
   - action: pack
     file: {{ $targz }}
