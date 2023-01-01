@@ -27,5 +27,9 @@ jobs:
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: artifacts
-        path: pinenote_arm64_debian_bookworm_v2.tar.gz
+        path: pinenote_arm64_debian_bookworm.tar.gz
+
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        path: debian.img.zst
