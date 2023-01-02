@@ -27,9 +27,11 @@ jobs:
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
+        name: rootfs archive
         path: pinenote_arm64_debian_bookworm.tar.gz
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
+        name: disc image
         path: debian.img.zst
