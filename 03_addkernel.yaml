@@ -16,6 +16,7 @@ actions:
       # - dracut-core
       - u-boot-tools
       - python3-numpy # required for the python script that trims the A2 waveform
+      - mesa-utils # contains eglinfo, which is used to keep the gpu alive on boot
 
   - action: overlay
     description: modprobe.d
@@ -52,6 +53,12 @@ actions:
     description: Update exlinux.conf for uboot
     chroot: true
     command: u-boot-update
+
+  # fix for the stock-uboot?
+  - action: run
+    description: Create symlink from /boot/extlinux/extlinux.conf to /boot/extlinux.conf
+    chroot: true
+    command: ln -s /boot/extlinux/extlinux.conf /boot/extlinux.conf
 
   - action: run
     description: Clean up kernel-deb files
