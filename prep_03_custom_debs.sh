@@ -18,7 +18,7 @@ cd overlays/custom_debs/
 test -d mesa && rm -r mesa
 mkdir mesa && cd mesa
 
-wget https://github.com/m-weigand/pinenote_debian_mesa/releases/download/v20221125_v1/mesa_arm64_pinenote.zip
+wget https://github.com/m-weigand/pinenote_debian_mesa/releases/download/v22.3.2-1_v1/mesa_arm64_pinenote.zip
 
 unzip mesa_arm64_pinenote.zip *.deb
 rm *dbgsym*.deb
