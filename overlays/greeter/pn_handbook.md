@@ -5,7 +5,7 @@
 Lorem Impsum
 
 If you want to improve this text, merge requests are very very much appreciated!
-(https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/pn_handbook.md")[Improve here]
+(https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md")[Improve here]
 
 ## Getting started
 
@@ -33,7 +33,7 @@ Example to switch /home to /dev/mmcblk0p19:
 
 ## Xournalpp/Writing
 
-* At this point, despite disabling anomations, GNOME still shows the spinning
+* At this point, despite disabling animations, GNOME still shows the spinning
   animation in the panel when xournalpp is started. This prevents proper and
   fast drawing of screen regions. For best experience, wait until the loading
   animation stops before you start drawing/writing.
@@ -60,17 +60,20 @@ Example to switch /home to /dev/mmcblk0p19:
 
 ## How do I
 
-* **Read a book (epub)/pdf**: Koreader is already installed and should be registered for corresponding file types
-* **Take notes**: Xournalpp was slightly modified to provide an improved experience on the Pinenote.
+* **Read a book (epub)/pdf**: Koreader is already installed and should be
+  registered for corresponding file types
+* **Take notes**: Xournalpp was slightly modified to provide an improved
+  experience on the Pinenote.
 * **Use the Pinenote as an external screen?**: TODO, link to weylus project
-* **Use an external monitor with the Pinenote?**: TODO (won't directly work, need something like vnc and virtual monitor)
-
+* **Use an external monitor with the Pinenote?**: TODO (won't directly work,
+  need something like vnc and virtual monitor)
 
 ## What is not working?
 
 * Open Issues
 
-	* Gnome extension: There are issues when suspend/screen blanking (i.e., unloading of the extension is broken)
+	* Gnome extension: There are issues when suspend/screen blanking (i.e.,
+	  unloading of the extension is broken)
 	* EBC artifacting
 	* Cover detection ?
 	* Resume/suspend
@@ -78,6 +81,7 @@ Example to switch /home to /dev/mmcblk0p19:
 
 
 ## EBC Kernel Driver
+
 	* Introduction
 	* boot-time module parameters
 	* runtime-controlled module parameters
@@ -155,8 +159,6 @@ reboot the pinenote once):
 
 
 # Topics
-
-* EBC Driver and control
 
 * DBUS service
 
