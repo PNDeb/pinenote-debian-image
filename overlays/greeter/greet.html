@@ -6,12 +6,153 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <title>Pinenote Greetings</title>
   <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     span.underline{text-decoration: underline;}
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
 </head>
 <body>
@@ -24,6 +165,8 @@
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#getting-started">Getting started</a></li>
+<li><a href="#using-another-partition-for-home">Using another partition
+for /home</a></li>
 <li><a href="#xournalppwriting">Xournalpp/Writing</a></li>
 <li><a href="#how-do-i">How do I</a></li>
 <li><a href="#what-is-not-working">What is not working?</a></li>
@@ -32,44 +175,80 @@
 <li><a href="#waveforms">Waveforms</a></li>
 </ul></li>
 </ul></li>
-<li><a href="#trimming-the-a2-waveform">Trimming the A2 waveform</a></li>
+<li><a href="#trimming-the-a2-waveform">Trimming the A2
+waveform</a></li>
 <li><a href="#topics">Topics</a></li>
 </ul>
 </nav>
 <h1 id="welcome">Welcome</h1>
 <h2 id="introduction">Introduction</h2>
 <p>Lorem Impsum</p>
-<p>If you want to improve this text, merge requests are very very much appreciated! (<a href="https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/pn_handbook.md&quot;)[Improve">https://github.com/m-weigand/pinenote-debian-recipes/blob/mw_image/overlays/greeter/pn_handbook.md")[Improve</a> here]</p>
+<p>If you want to improve this text, merge requests are very very much
+appreciated! (<a
+href="https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md&quot;">https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md"</a>)[Improve
+here]</p>
 <h2 id="getting-started">Getting started</h2>
 <ul>
-<li><p>User/Password: You are logged in as user "user" with password "1234". sudo is activated. We suggest to set a root password:</p>
+<li><p>User/Password: You are logged in as user "user" with password
+"1234". sudo is activated. We suggest to set a root password:</p>
 <p>sudo su - root passwd</p></li>
-<li><p>The <strong>Documents/</strong> directory contains one sample .pdf and one .epub file. Try opening them and start reading!</p></li>
+<li><p>The <strong>Documents/</strong> directory contains one sample
+.pdf and one .epub file. Try opening them and start reading!</p></li>
 </ul>
+<h2 id="using-another-partition-for-home">Using another partition for
+/home</h2>
+<p>By default /home is located on the root partition. However, a bash
+script is provided in
+<code>/root/switch_home_to_other_partition.sh</code> which can be used
+to change the partition that is used for /home. The script can also
+transfer data from the current /home to the new partition. Call as
+root.</p>
+<p>Example to switch /home to /dev/mmcblk0p19:</p>
+<pre><code>cd /root
+switch_home_to_other_partition.sh /dev/mmcblk0p19</code></pre>
 <h2 id="xournalppwriting">Xournalpp/Writing</h2>
 <ul>
-<li><p>At this point, despite disabling anomations, GNOME still shows the spinning animation in the panel when xournalpp is started. This prevents proper and fast drawing of screen regions. For best experience, wait until the loading animation stops before you start drawing/writing.</p></li>
+<li><p>At this point, despite disabling animations, GNOME still shows
+the spinning animation in the panel when xournalpp is started. This
+prevents proper and fast drawing of screen regions. For best experience,
+wait until the loading animation stops before you start
+drawing/writing.</p></li>
 <li><p>Switch to "BW+Dither" mode when working in Xpp</p></li>
-<li><p>The default configuration uses evsieve to merge events from the pen (for drawing) and the pen buttons. This is a solution to the problem that the pen input and the pen buttons are completely independent systems and therefore register as different inputs in the system.</p>
-<p>The evsieve solution add something like 15 ms lag to the input (according to the evsieve readme). You can disable this approach by running (in a root shell):</p>
+<li><p>The default configuration uses evsieve to merge events from the
+pen (for drawing) and the pen buttons. This is a solution to the problem
+that the pen input and the pen buttons are completely independent
+systems and therefore register as different inputs in the system.</p>
+<p>The evsieve solution add something like 15 ms lag to the input
+(according to the evsieve readme). You can disable this approach by
+running (in a root shell):</p>
 <p>systemctl stop evsieve.service systemctl disable evsieve.service</p>
-<p>Make sure to restart Xpp and to reconfigure the input sources in the settings.</p></li>
-<li><p>By default the touch screen is disabled as an input for Xpp. You need to activate it in the settings in order to scroll using touch gestures.</p></li>
-<li><p>If the pen buttons are configured, holding down the button nearest to the tip should allow you to scroll using the pen.</p></li>
-<li><p>After both pen and touch scrolling a global refresh is triggered</p></li>
+<p>Make sure to restart Xpp and to reconfigure the input sources in the
+settings.</p></li>
+<li><p>By default the touch screen is disabled as an input for Xpp. You
+need to activate it in the settings in order to scroll using touch
+gestures.</p></li>
+<li><p>If the pen buttons are configured, holding down the button
+nearest to the tip should allow you to scroll using the pen.</p></li>
+<li><p>After both pen and touch scrolling a global refresh is
+triggered</p></li>
 </ul>
 <h2 id="how-do-i">How do I</h2>
 <ul>
-<li><strong>Read a book (epub)/pdf</strong>: Koreader is already installed and should be registered for corresponding file types</li>
-<li><strong>Take notes</strong>: Xournalpp was slightly modified to provide an improved experience on the Pinenote.</li>
-<li><strong>Use the Pinenote as an external screen?</strong>: TODO, link to weylus project</li>
-<li><strong>Use an external monitor with the Pinenote?</strong>: TODO (won't directly work, need something like vnc and virtual monitor)</li>
+<li><strong>Read a book (epub)/pdf</strong>: Koreader is already
+installed and should be registered for corresponding file types</li>
+<li><strong>Take notes</strong>: Xournalpp was slightly modified to
+provide an improved experience on the Pinenote.</li>
+<li><strong>Use the Pinenote as an external screen?</strong>: TODO, link
+to weylus project</li>
+<li><strong>Use an external monitor with the Pinenote?</strong>: TODO
+(won't directly work, need something like vnc and virtual monitor)</li>
 </ul>
 <h2 id="what-is-not-working">What is not working?</h2>
 <ul>
 <li><p>Open Issues</p>
 <ul>
-<li>Gnome extension: There are issues when suspend/screen blanking (i.e., unloading of the extension is broken)</li>
+<li>Gnome extension: There are issues when suspend/screen blanking
+(i.e., unloading of the extension is broken)</li>
 <li>EBC artifacting</li>
 <li>Cover detection ?</li>
 <li>Resume/suspend</li>
@@ -89,11 +268,13 @@
 
     * discuss the waveform-switching issues in a general DE environment:
       recommend to always do a global refresh after switching waveforms,
-      unless you know that your buffer is compatible
-</code></pre>
+      unless you know that your buffer is compatible</code></pre>
 <h3 id="waveforms">Waveforms</h3>
 <ul>
-<li><p>the <strong>default_waveform</strong> parameter controls which waveform is used. Based on information from include/drm/drm_epd_helper.h, the integer values are associated with the following waveforms:</p>
+<li><p>the <strong>default_waveform</strong> parameter controls which
+waveform is used. Based on information from
+include/drm/drm_epd_helper.h, the integer values are associated with the
+following waveforms:</p>
 <pre><code>  0: @DRM_EPD_WF_RESET: Used to initialize the panel, ends with white
   1: @DRM_EPD_WF_A2: Fast transitions between black and white only
   2: @DRM_EPD_WF_DU: Transitions 16-level grayscale to monochrome
@@ -102,9 +283,10 @@
   5: @DRM_EPD_WF_GCC16: Less flashy 16-level grayscale
   6: @DRM_EPD_WF_GL16: Less flashy 16-level grayscale
   7: @DRM_EPD_WF_GLR16: Less flashy 16-level grayscale, plus anti-ghosting
-  8: @DRM_EPD_WF_GLD16: Less flashy 16-level grayscale, plus anti-ghosting
-</code></pre></li>
-<li><p>(side note): Based on information from drivers/gpu/drm/drm_epd_helper.c, the Pinenote uses eps lut form 0x19, which associated waveform types with the luts stored in the file as:</p>
+  8: @DRM_EPD_WF_GLD16: Less flashy 16-level grayscale, plus anti-ghosting</code></pre></li>
+<li><p>(side note): Based on information from
+drivers/gpu/drm/drm_epd_helper.c, the Pinenote uses eps lut form 0x19,
+which associated waveform types with the luts stored in the file as:</p>
 <pre><code>  .versions = {
       0x19,
       0x43,
@@ -120,14 +302,19 @@
       [DRM_EPD_WF_GLD16]  = 5,
       [DRM_EPD_WF_A2]     = 6,
       [DRM_EPD_WF_GCC16]  = 4,
-  },
-</code></pre>
-<p>For example, if you want to inspect/modify the A2 waveform, this corresponds to the 7th waveform in the lut file (index 6), but is activated via <strong>default_waveoform</strong> by writing value 1.</p></li>
+  },</code></pre>
+<p>For example, if you want to inspect/modify the A2 waveform, this
+corresponds to the 7th waveform in the lut file (index 6), but is
+activated via <strong>default_waveoform</strong> by writing value
+1.</p></li>
 </ul>
 <h1 id="trimming-the-a2-waveform">Trimming the A2 waveform</h1>
-<p>You can trim the A2 waveform for improved writing performance, with the downside that black sometimes is displayed in gray tones.</p>
-<p>The supplied script is very slow and unoptimized and therefore not run automatically (run time on pinenote ca. 20 minutes).</p>
-<p>Call these command in a root shell to trim the A2 waveform (note: this will reboot the pinenote once):</p>
+<p>You can trim the A2 waveform for improved writing performance, with
+the downside that black sometimes is displayed in gray tones.</p>
+<p>The supplied script is very slow and unoptimized and therefore not
+run automatically (run time on pinenote ca. 20 minutes).</p>
+<p>Call these command in a root shell to trim the A2 waveform (note:
+this will reboot the pinenote once):</p>
 <pre><code>cd /root
 # this command should take ca. 20 minutes !!!
 time python3 parse_waveforms_and_modify.py
@@ -135,11 +322,9 @@ rm /lib/firmware/rockchip/ebc.wbf
 ln -s /lib/firmware/rockchip/ebc_modified.wbf /lib/firmware/rockchip/ebc.wbf
 cd /extlinux
 ./gen_uboot_image.sh
-reboot
-</code></pre>
+reboot</code></pre>
 <h1 id="topics">Topics</h1>
 <ul>
-<li><p>EBC Driver and control</p></li>
 <li><p>DBUS service</p>
 <ul>
 <li>contrl ebc driver</li>
