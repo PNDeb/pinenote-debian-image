@@ -48,6 +48,7 @@ actions:
       - bluez-firmware
       - tree
       - htop
+      - rsync
 
   - action: pack
     file: {{ $targz }}

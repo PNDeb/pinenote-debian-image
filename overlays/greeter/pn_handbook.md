@@ -18,6 +18,19 @@ If you want to improve this text, merge requests are very very much appreciated!
 * The **Documents/** directory contains one sample .pdf and one .epub file. Try
   opening them and start reading!
 
+## Using another partition for /home
+
+By default /home is located on the root partition. However, a bash script is
+provided in `/root/switch_home_to_other_partition.sh` which can be used to
+change the partition that is used for /home. The script can also transfer data
+from the current /home to the new partition. Call as root.
+
+Example to switch /home to /dev/mmcblk0p19:
+
+	cd /root
+	switch_home_to_other_partition.sh /dev/mmcblk0p19
+
+
 ## Xournalpp/Writing
 
 * At this point, despite disabling anomations, GNOME still shows the spinning
