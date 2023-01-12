@@ -65,5 +65,10 @@ actions:
     chroot: true
     command: ln -s /etc/systemd/system/run_on_first_startup.service /etc/systemd/system/multi-user.target.wants/run_on_first_startup.service
 
+  - action: run
+    description: Activate reload cyttsp5 script
+    chroot: true
+    command: ln -s /etc/systemd/system/reload_cyttsp5.service /etc/systemd/system/multi-user.target.wants/reload_cyttsp5.service
+
   - action: pack
     file: {{ $targz }}
