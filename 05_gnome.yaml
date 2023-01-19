@@ -13,6 +13,7 @@ actions:
     description: Install gnome and related packages
     packages:
       - gnome
+      - gnome-shell-extension-prefs
       - lightdm
 
   - action: pack
