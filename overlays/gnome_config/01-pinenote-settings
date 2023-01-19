@@ -65,3 +65,7 @@ search-view='list-view'
 
 [org/gnome/settings-daemon/peripherals/touchscreen]
 orientation-lock=true
+
+[settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-timeout=1800
