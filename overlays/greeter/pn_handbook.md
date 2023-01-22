@@ -95,6 +95,57 @@ Example to switch /home to /dev/mmcblk0p19:
 		* discuss the waveform-switching issues in a general DE environment:
 		  recommend to always do a global refresh after switching waveforms,
 		  unless you know that your buffer is compatible
+### Usage
+
+All module parameters are controlled using the sysfs parameters in
+/sys/module/rockchip_ebc/parameters
+
+The module parameters can also be set on module load time, for example using
+the modprobe configuration file:
+
+	root@pinenote:~# cat /etc/modprobe.d/rockchip_ebc.conf
+	options rockchip_ebc direct_mode=0 auto_refresh=1 split_area_limit=0 panel_reflection=1
+
+By default they need to be writen to as root, but this can be easily changed
+via udev rules.
+
+### Black and White mode
+
+Activate with
+
+	echo 1 > /sys/module/rockchip_ebc/parameters/bw_mode
+
+the threshold value can be set using:
+
+	echo 7 > /sys/module/rockchip_ebc/parameters/bw_threshold
+
+7 is the default value, meaning that all pixel values lower than 7 will be cast
+to 0 (black) and all values larger than, or equal to, 7 will be cast to 15
+(white).
+
+### Auto Refresh
+
+Enabling automatic global (full screen) refreshes:
+
+	echo 1 > /sys/module/rockchip_ebc/parameters/auto_refresh
+
+Global refreshes are triggered based on the area drawing using partial
+refreshes, in units of total screen area.
+
+	echo 2 > /sys/module/rockchip_ebc/parameters/refresh_threshold
+
+therefore will trigger a globlal refresh whenever 2 screen areas where drawn.
+
+The threshold should be set according to the application used. For example,
+evince and xournalpp really like to redraw the screen very often, so a value of
+20 suffices.
+Other require lower numbers.
+
+The waveform to use for global refreshes can be set via
+
+	echo 4 > /sys/module/rockchip_ebc/parameters/refresh_waveform
+
+A value of 4 is the default.
 
 ### Waveforms
 
