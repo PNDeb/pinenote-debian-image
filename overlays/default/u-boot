@@ -7,8 +7,8 @@
 #U_BOOT_ENTRIES="all"
 #U_BOOT_MENU_LABEL="Debian GNU/Linux"
 U_BOOT_PARAMETERS="ignore_loglevel rw rootwait earlycon console=tty0 console=ttyS2,1500000n8 fw_devlink=off"
-U_BOOT_ROOT="root=/dev/mmcblk0p6"
-U_BOOT_TIMEOUT="30"
+U_BOOT_ROOT="root=/dev/mmcblk0p8"
+U_BOOT_TIMEOUT="15"
 # Needed because the U-Boot (2017.9) that came with the device doesn't recognize the PineNote as such:
 U_BOOT_FDT="rockchip/rk3566-pinenote-v1.2.dtb"
 #U_BOOT_FDT_DIR="/usr/lib/linux-image-"

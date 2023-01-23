@@ -172,6 +172,9 @@ for /home</a></li>
 <li><a href="#what-is-not-working">What is not working?</a></li>
 <li><a href="#ebc-kernel-driver">EBC Kernel Driver</a>
 <ul>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#black-and-white-mode">Black and White mode</a></li>
+<li><a href="#auto-refresh">Auto Refresh</a></li>
 <li><a href="#waveforms">Waveforms</a></li>
 </ul></li>
 </ul></li>
@@ -269,6 +272,37 @@ to weylus project</li>
     * discuss the waveform-switching issues in a general DE environment:
       recommend to always do a global refresh after switching waveforms,
       unless you know that your buffer is compatible</code></pre>
+<h3 id="usage">Usage</h3>
+<p>All module parameters are controlled using the sysfs parameters in
+/sys/module/rockchip_ebc/parameters</p>
+<p>The module parameters can also be set on module load time, for
+example using the modprobe configuration file:</p>
+<pre><code>root@pinenote:~# cat /etc/modprobe.d/rockchip_ebc.conf
+options rockchip_ebc direct_mode=0 auto_refresh=1 split_area_limit=0 panel_reflection=1</code></pre>
+<p>By default they need to be writen to as root, but this can be easily
+changed via udev rules.</p>
+<h3 id="black-and-white-mode">Black and White mode</h3>
+<p>Activate with</p>
+<pre><code>echo 1 &gt; /sys/module/rockchip_ebc/parameters/bw_mode</code></pre>
+<p>the threshold value can be set using:</p>
+<pre><code>echo 7 &gt; /sys/module/rockchip_ebc/parameters/bw_threshold</code></pre>
+<p>7 is the default value, meaning that all pixel values lower than 7
+will be cast to 0 (black) and all values larger than, or equal to, 7
+will be cast to 15 (white).</p>
+<h3 id="auto-refresh">Auto Refresh</h3>
+<p>Enabling automatic global (full screen) refreshes:</p>
+<pre><code>echo 1 &gt; /sys/module/rockchip_ebc/parameters/auto_refresh</code></pre>
+<p>Global refreshes are triggered based on the area drawing using
+partial refreshes, in units of total screen area.</p>
+<pre><code>echo 2 &gt; /sys/module/rockchip_ebc/parameters/refresh_threshold</code></pre>
+<p>therefore will trigger a globlal refresh whenever 2 screen areas
+where drawn.</p>
+<p>The threshold should be set according to the application used. For
+example, evince and xournalpp really like to redraw the screen very
+often, so a value of 20 suffices. Other require lower numbers.</p>
+<p>The waveform to use for global refreshes can be set via</p>
+<pre><code>echo 4 &gt; /sys/module/rockchip_ebc/parameters/refresh_waveform</code></pre>
+<p>A value of 4 is the default.</p>
 <h3 id="waveforms">Waveforms</h3>
 <ul>
 <li><p>the <strong>default_waveform</strong> parameter controls which

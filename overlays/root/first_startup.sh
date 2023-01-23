@@ -48,11 +48,11 @@ ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
 # umount  /mnt
 # dmsetup remove /dev/mapper/dynpart-*
 
-# by default we assume / on /dev/mmcblk0p17, but we check when running this
+# by default we assume / on /dev/mmcblk0p8, but we check when running this
 # script and make sure other root partitions are properly taken care of in the
 # extlinux.conf file on new reboot
 new_root=`mount | grep "on / type" | cut -d " " -f 1 | cut -c 6-`
-sed -i "s/mmcblk0p6/${new_root}/" /etc/default/u-boot
+sed -i "s/mmcblk0p8/${new_root}/" /etc/default/u-boot
 # Now that we have the firmware, regenerate the initrd for the kernel
 update-initramfs -c -k all
 u-boot-update

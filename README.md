@@ -91,22 +91,22 @@ sysboot ${devtype} ${devnum}:11 any ${scriptaddr} /boot/extlinux/extlinux.conf
 
 ### Installation on other partitions
 
-Example for first boot from the u-boot prompt for partition 19
-(/dev/mmcblk0p19):
+Example for first boot from the u-boot prompt for partition 8
+(/dev/mmcblk0p8):
 
-	load mmc 0:13 ${kernel_addr_r} /boot/emergency/image
-	load mmc 0:13 ${fdt_addr_r} /boot/emergency/rk3566-pinenote-v1.2.dtb
-	load mmc 0:13 ${ramdisk_addr_r} /boot/emergency/initrd_ub
-	setenv bootargs ignore_loglevel root=/dev/mmcblk0p19 rw rootwait earlycon console=tty0 console=ttyS2,1500000n8 fw_devlink=off init=/sbin/init
+	load mmc 0:8 ${kernel_addr_r} /boot/emergency/image
+	load mmc 0:8 ${fdt_addr_r} /boot/emergency/rk3566-pinenote-v1.2.dtb
+	load mmc 0:8 ${ramdisk_addr_r} /boot/emergency/initrd_ub
+	setenv bootargs ignore_loglevel root=/dev/mmcblk0p6 rw rootwait earlycon console=tty0 console=ttyS2,1500000n8 fw_devlink=off init=/sbin/init
 	booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
 
 ## Installation of disc image
 
 Download the image file (here: debian.img.zst) and extract it, then copy it
-using dd to the desired partition (here: /dev/mmcblk0p17)::
+using dd to the desired partition (here: /dev/mmcblk0p8)::
 
 	zunstd debian.img.zst
-	dd if=debian.img of=/dev/mmcblk0p17 bs=4MB status=progress
+	dd if=debian.img of=/dev/mmcblk0p8 bs=4MB status=progress
 
 `debian.img` contains an `ext4` filesystem. You should probably flash it only
 on the `ext4` marked partitions on the device, unless you change the partition
@@ -188,7 +188,7 @@ point to `Image.gz` variant.
 Pre-built kernel images/.deb files can be found here:
 https://github.com/m-weigand/linux/releases
 
-Take a look at the gihtub action and Docker files in the `description` branch
+Take a look at the github action and Docker files in the `description` branch
 of  https://github.com/m-weigand/linux for more information on kernel
 compilation and preparation.
 
