@@ -52,6 +52,8 @@ enabled-extensions=['pnhelper@m-weigand.github.com']
 
 favorite-apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'firefox-esr.desktop', 'com.github.johnfactotum.Foliate.desktop', 'com.github.xournalpp.xournalpp.desktop', 'libreoffice-writer.desktop']
 
+[desktop/lockdown]
+disable-lock-screen=true
 
 [org/gnome/mutter]
 auto-maximize=true
