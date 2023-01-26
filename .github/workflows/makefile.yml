@@ -41,7 +41,7 @@ jobs:
     # if: contains(github.ref, "main")
     runs-on: ubuntu-latest
     needs:
-      - build_image
+      - build_images
     steps:
       - name: Clone workflow repository
         uses: actions/checkout@v3
