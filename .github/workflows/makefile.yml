@@ -49,9 +49,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           path: artifacts/
+      - name: Check files
+        run: ls artifacts/*
       - name: Make release
         uses: softprops/action-gh-release@v0.1.15
         with:
           draft: true
           files: |
-            artifacts/*
+            artifacts/disc_image/debian.img.zst
+            artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
