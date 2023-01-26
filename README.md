@@ -206,3 +206,6 @@ version 3.
 
 Inspiration and some code parts are from [mobian-recipes project](https://salsa.debian.org/Mobian-team/mobian-recipes).
 
+# TEST: Video
+
+https://github.com/m-weigand/pinenote-debian-recipes/raw/dev/videos/20221210_xpp_faster_faster_faster_small.mp4
