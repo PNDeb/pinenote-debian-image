@@ -1,0 +1,19 @@
+# comments start with the # character
+# also see prepare_gpt_table_rkd.py for parsing output from parted to generate
+# a partition table line
+# each partition is defined by [size]@[start sector]([name]:[optional flags])
+# sector size is 512 bytes
+# optional flags are:
+#   - bootable -> sets the legacy_boot flag, the first partition with this flag
+#     will be searched for the extlinux.conf file
+#   - grow -> partition will be grown to the end (?, untested)
+# note: the identifier rk3566mmc is of no relevance for rkdeveloptool
+# unique guids can be supplied via uuid lines
+#     uuid:rootfs=00000000-0000-0000-0000-00000000
+# as far as I understand, not type guids can be specified
+# more information:
+# https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool
+# https://github.com/rockchip-linux/rkdeveloptool/blob/46bb4c073624226c3f05b37b9ecc50bbcf543f5a/main.cpp#L340
+# https://github.com/rockchip-linux/rkdeveloptool/blob/master/parameter_gpt.txt
+
+mtdparts=rk3566mmc:0x2000@0x4000(uboot),0x2000@0x6000(trust),0x1000@0x8000(waveform),0x800@0x9000(uboot_env),0x8000@0x9800(logo),0x2000@0x11800(dtbo),0x14000@0x13800(boot),0x1400000@0x27800(os1:bootable),0x1400000@0x1427800(os2),-@0x2827800(data:grow)
