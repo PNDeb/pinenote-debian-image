@@ -27,13 +27,13 @@ jobs:
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: rootfs archive
+        name: rootfs_archive
         path: pinenote_arm64_debian_bookworm.tar.gz
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: disc image
+        name: disc_image
         path: debian.img.zst
 
   do_release:
@@ -54,5 +54,4 @@ jobs:
         with:
           draft: true
           files: |
-            artifacts/debian.img.zst
-            artifacts/pinenote_arm64_debian_bookworm.tar.gz
+            artofacts/*
