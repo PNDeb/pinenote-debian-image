@@ -78,6 +78,11 @@ actions:
     source: overlays/sample_files
     destination: /home/user/Documents/
 
+  - action: run
+    description: Fix permissions
+    chroot: true
+    command: chown -R user:user /home/user/Documents
+
   - action: overlay
     description: Install environment file
     source: overlays/environment.d
