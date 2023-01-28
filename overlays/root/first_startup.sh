@@ -66,6 +66,50 @@ dpkg-reconfigure openssh-server
 echo "Growing root fs to the edge of the partition"
 resize2fs /dev/"${new_root}"
 
+# check if partition 10 should be used as /home
+mnt_point="/tmp_pn_mount_p10"
+# only proceed if the mount point does not exist
+if [ ! -e "${mnt_point}" ];
+then
+	target_partition="/dev/mmcblk0p10"
+	if [ -e "${target_partition}" ];
+	then
+		mkdir "${mnt_point}"
+		mount "${target_partition}" "${mnt_point}"
+		# check that the partition is mounted and contains an ext4 fs
+		check_mount=`mount | grep "${target_partition}" | grep ext4 | grep "${mnt_point}" | wc -l`
+		if [ "${check_mount}" -eq 1 ]
+		then
+			echo "Found a valid ext4 fs on ${target_partition}"
+			# Do we want this partition as /home ?
+			if [ -e "${mnt_point}/pn_use_as_home" ]; then
+				echo "Using ${target_partition} as /home"
+				fstab_line="${target_partition} /home              ext4   defaults"
+				echo "Adding line to /etc/fstab"
+				echo "    ${fstab_line}"
+				echo "${fstab_line}" >> /etc/fstab
+				echo "Changes will take effect after reboot"
+			fi
+			grow_part=0
+			if [ -e "${mnt_point}/pn_grow_fs" ]; then
+				grow_part=1
+				echo "Growing partition to full size"
+			fi
+
+
+		fi
+
+		umount "${mnt_point}"
+		if [ ${grow_part} -eq 1 ]; then
+			echo "Executing resize2fs"
+			e2fsck -fy "${target_partition}"
+			resize2fs "${target_partition}"
+		fi
+
+		test -d "${mnt_point}" && rm -r "${mnt_point}"
+	fi
+fi
+
 # we do not want to repeat running this script, see check at the beginning of
 # the file
 touch "${lockfile}"

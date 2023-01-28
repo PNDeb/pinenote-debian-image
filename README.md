@@ -122,6 +122,28 @@ partitions on first boot, and therefore it should not be necessary to rebuild
 the image just to install to another partition. See above for information on
 how to boot other partitions using the u-boot prompt.
 
+## Using another partition for /home
+
+For now this only applies to partition 10 (/dev/mmcblk0p10) corresponding to
+the data partition of the standard partition layout.
+
+The standard partition layout contains a data partition that can be used to
+mount user data (/home).
+
+If you are completely reflashing your PineNote, then a small partition file
+(data_part_dummy.bin) is provided that contains a valid ext4 file system with
+the corresponding files (see below). On first boot the first_boot script will
+check for those files and will change the fstab accordingly, as well as grow
+the file system to the full size.
+
+If you already got your home data on the partition, just make sure to create
+the (empty) file pn_use_as_home on partition 10.
+
+* Files to place on the partition:
+	* pn_use_as_home: If this file on a partition, then mount it as /home
+	* pn_grow_fs: if this file exists, grow the filesystem to the maximum size
+	  using resize2fs
+
 ## First boot..
 
 Things you might want to setup after the installation:

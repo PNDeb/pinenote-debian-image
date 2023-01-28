@@ -1,5 +1,52 @@
 # Partition tables for flashing using rkdeveloptool
 
+## The standard1 partition table will partition the PineNote disc as follows:
+
+	root@pinenote:~# parted /dev/mmcblk0
+	GNU Parted 3.5
+	Using /dev/mmcblk0
+	Welcome to GNU Parted! Type 'help' to view a list of commands.
+	(parted) print
+	Model: MMC Biwin (sd/mmc)
+	Disk /dev/mmcblk0: 124GB
+	Sector size (logical/physical): 512B/512B
+	Partition Table: gpt
+	Disk Flags:
+
+	Number  Start   End     Size    File system  Name       Flags
+	 1      8389kB  12.6MB  4194kB               uboot
+	 2      12.6MB  16.8MB  4194kB               trust
+	 3      16.8MB  18.9MB  2097kB               waveform
+	 4      18.9MB  19.9MB  1049kB               uboot_env
+	 5      19.9MB  36.7MB  16.8MB               logo
+	 6      36.7MB  40.9MB  4194kB               dtbo
+	 7      40.9MB  82.8MB  41.9MB               boot
+	 8      82.8MB  10.8GB  10.7GB  ext4         os1        legacy_boot
+	 9      10.8GB  21.6GB  10.7GB               os2
+	10      21.6GB  124GB   102GB                data
+
+	(parted) u
+	Unit?  [compact]? s
+	(parted) print
+	Model: MMC Biwin (sd/mmc)
+	Disk /dev/mmcblk0: 241827840s
+	Sector size (logical/physical): 512B/512B
+	Partition Table: gpt
+	Disk Flags:
+
+	Number  Start      End         Size        File system  Name       Flags
+	 1      16384s     24575s      8192s                    uboot
+	 2      24576s     32767s      8192s                    trust
+	 3      32768s     36863s      4096s                    waveform
+	 4      36864s     38911s      2048s                    uboot_env
+	 5      38912s     71679s      32768s                   logo
+	 6      71680s     79871s      8192s                    dtbo
+	 7      79872s     161791s     81920s                   boot
+	 8      161792s    21133311s   20971520s   ext4         os1        legacy_boot
+	 9      21133312s  42104831s   20971520s                os2
+	10      42104832s  241827806s  199722975s               data
+
+
 ## Workflow for repartitioning and flashing
 
 * Make sure to:
@@ -38,3 +85,6 @@
 
 	  # write debian image to bootable partition
 	  rkdeveloptool write-partition os1 debian.img
+
+	  # (optional) write data partition dummy so this partition is used as /home
+	  rkdeveloptool write-partition data data_part_dummy.bin
