@@ -36,7 +36,7 @@ jobs:
   #       name: disc_image
   #       path: debian.img.zst
 
-  create data_partition_dummy:
+  create_data_partition_dummy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
