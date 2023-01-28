@@ -66,6 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build_images
+      - create_data_partition_dummy
     steps:
       - name: Clone workflow repository
         uses: actions/checkout@v3
