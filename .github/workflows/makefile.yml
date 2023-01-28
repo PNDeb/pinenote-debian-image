@@ -48,10 +48,10 @@ jobs:
           pwd
           ls /dev/loop*
           mkdir tmp
-          mount -v -o loop data_part_dummy.bin tmp
-          touch tmp/pn_use_as_home
-          touch tmp/pn_grow_fs
-          umount tmp
+          sudo mount -v -o loop data_part_dummy.bin tmp
+          sudo touch tmp/pn_use_as_home
+          sudo touch tmp/pn_grow_fs
+          sudo umount tmp
           rm -r tmp
 
       - name: Artifacts
