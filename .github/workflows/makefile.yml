@@ -45,6 +45,8 @@ jobs:
         run: |
           fallocate -l 1MB data_part_dummy.bin
           mkfs.ext4 data_part_dummy.bin
+          pwd
+          ls /dev/loop*
           mkdir tmp
           mount data_part_dummy.bin tmp
           touch tmp/pn_use_as_home
