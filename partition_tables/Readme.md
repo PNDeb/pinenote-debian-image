@@ -74,7 +74,7 @@
 	  # write new GPT partition table
 	  rkdeveloptool write-partition-table partition_table_standard1.txt
 
-	  # write new u-boot
+	  # (optional) write new u-boot (if you compiled yourself)
 	  rkdeveloptool write 64 idblock.bin
 	  rkdeveloptool write-partition uboot uboot.img
 
@@ -87,4 +87,11 @@
 	  rkdeveloptool write-partition os1 debian.img
 
 	  # (optional) write data partition dummy so this partition is used as /home
+	  # Note: This image is too small to hold an ext4 journal, I'm not sure just
+	  # calling resize2fs on it activates the journal. Consider this a bug in the
+	  # first_boot script
 	  rkdeveloptool write-partition data data_part_dummy.bin
+
+	  # just to make sure, turn the PineNote off by holding the power button for more than 10 seconds
+	  # then turn in on again and wait (takes a little bit for the first-boot script to extract the
+	  # waveforms and to reboot before linux can access the epd panel
