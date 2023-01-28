@@ -48,7 +48,7 @@ jobs:
           pwd
           ls /dev/loop*
           mkdir tmp
-          mount data_part_dummy.bin tmp
+          mount -v -o loop data_part_dummy.bin tmp
           touch tmp/pn_use_as_home
           touch tmp/pn_grow_fs
           umount tmp
