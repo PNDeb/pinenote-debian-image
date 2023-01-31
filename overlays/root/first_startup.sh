@@ -101,14 +101,28 @@ then
 				echo "Growing partition to full size"
 			fi
 
+			recreate_part=0
+			if [ -e "${mnt_point}/pn_recreate_fs" ]; then
+				recreate_part=1
+				echo "Recreating ext4 fs"
+			fi
+
 
 		fi
 
 		umount "${mnt_point}"
+
 		if [ ${grow_part} -eq 1 ]; then
 			echo "Executing resize2fs"
 			e2fsck -fy "${target_partition}"
 			resize2fs "${target_partition}"
+		fi
+
+		if [ ${recreate_part} -eq 1]; then
+			mkfs.ext4 "${target_partition}"
+			mount "${target_partition}" "${mnt_point}"
+			touch "${mnt_point}/pn_use_as_home"
+			umount "${mnt_point}"
 		fi
 
 		# remount again after growing so we can transfer the files, if
@@ -119,6 +133,7 @@ then
 		if [ ${transfer_user_files} -eq 1 ]; then
 			mount "${target_partition}" "${mnt_point}"
 			rsync -avh /home/ "${mnt_point}"/
+			rm "${mnt_point}/pn_transfer_files"
 			umount "${mnt_point}"
 		fi
 		test -d "${mnt_point}" && rm -r "${mnt_point}"
