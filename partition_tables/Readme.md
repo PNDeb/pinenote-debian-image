@@ -56,6 +56,12 @@
 	* You need to have a u-boot that can access data beyond 32 mb on the disc and that automatically detects extlinux.conf files on the partitions.
 	  * See https://github.com/DorianRudolph/pinenotes#fix-uboot for fixing the 32mb problem (there is a link to a backup binary that you could use)
 	  * Enabling the "search-for-exlinux.conf-file"-functionality in uboot can be accomplished by modifying the environment of the modified uboot partition (e.g., the backup provided by DorianRudolp). Use the file pinenote-uboot-envtool.py from  https://gist.github.com/charasyn/206b2537534b6679b0961be64cf9c35f, but instead of using the u-boot-patch provided by charasyn, just replace the *bootcmd* command of the environment with `bootcmd=run distro_bootcmd;` This modified image can be flashed using `rkdeveloptool write-partition uboot modifie_uboot.img
+	* For writing the partition table, you need the `rk356x_spl_loader_v1.12.112.bin` file. To produce it, use the following commands:
+    	* `git clone https://github.com/rockchip-linux/rkbin`
+    	* `cd rkbin`
+    	* `git checkout b6354b9`
+    	* `tools/boot_merger RKBOOT/RK3566MINIALL.ini`
+
 
 * Flashing commands:
 
@@ -70,6 +76,10 @@
 	  rkdeveloptool read-partition uboot part_uboot.img
 	  rkdeveloptool read-partition logo part_logo.img
 	  rkdeveloptool read-partition recovery part_recovery.img
+
+	  # enable `write-partition-table` commands
+	  rkdeveloptool reboot-maskrom
+	  rkdeveloptool boot rk356x_spl_loader_v1.12.112.bin
 
 	  # write new GPT partition table
 	  rkdeveloptool write-partition-table partition_table_standard1.txt
