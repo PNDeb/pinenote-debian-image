@@ -49,7 +49,7 @@ visual-bell=false
 
 [org/gnome/shell]
 enabled-extensions=['pnhelper@m-weigand.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']
-favorite-apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'firefox-esr.desktop', 'com.github.johnfactotum.Foliate.desktop', 'com.github.xournalpp.xournalpp.desktop', 'libreoffice-writer.desktop', 'koreader.desktop']
+favorite-apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'firefox-esr.desktop', 'com.github.johnfactotum.Foliate.desktop', 'com.github.xournalpp.xournalpp.desktop', 'koreader.desktop']
 
 [shell/extensions/user-theme]
 name='PNEink'
