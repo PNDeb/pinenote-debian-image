@@ -90,6 +90,11 @@ then
 				echo "${fstab_line}" >> /etc/fstab
 				echo "Changes will take effect after reboot"
 			fi
+			transfer_user_files=0
+			if [ -e "${mnt_point}/pn_transfer_files" ]; then
+				transfer_user_files=1
+			fi
+
 			grow_part=0
 			if [ -e "${mnt_point}/pn_grow_fs" ]; then
 				grow_part=1
@@ -106,6 +111,16 @@ then
 			resize2fs "${target_partition}"
 		fi
 
+		# remount again after growing so we can transfer the files, if
+		# requested
+		# assume two things:
+		#  1) the mount succeeds (we already did it once if we reach this code)
+		#  2) there is enough disc space in the new partition
+		if [ ${transfer_user_files} -eq 1 ]; then
+			mount "${target_partition}" "${mnt_point}"
+			rsync -avh /home/ "${mnt_point}"/
+			umount "${mnt_point}"
+		fi
 		test -d "${mnt_point}" && rm -r "${mnt_point}"
 	fi
 fi
