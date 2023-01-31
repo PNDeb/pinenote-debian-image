@@ -51,10 +51,10 @@ visual-bell=false
 enabled-extensions=['pnhelper@m-weigand.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']
 favorite-apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'firefox-esr.desktop', 'com.github.johnfactotum.Foliate.desktop', 'com.github.xournalpp.xournalpp.desktop', 'libreoffice-writer.desktop']
 
-[shell/extensions/user-theme]
+[org/gnome/shell/extensions/user-theme]
 name='PNEink'
 
-[desktop/lockdown]
+[org/gnome/desktop/lockdown]
 disable-lock-screen=true
 
 [org/gnome/mutter]
@@ -70,8 +70,7 @@ search-view='list-view'
 [org/gnome/settings-daemon/peripherals/touchscreen]
 orientation-lock=true
 
-[settings-daemon/plugins/power]
+[org/gnome/settings-daemon/plugins/power]
 sleep-inactive-ac-type='nothing'
 sleep-inactive-battery-timeout=1800
-
 
