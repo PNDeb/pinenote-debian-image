@@ -352,10 +352,10 @@ this will reboot the pinenote once):</p>
 <pre><code>cd /root
 # this command should take ca. 20 minutes !!!
 time python3 parse_waveforms_and_modify.py
-rm /lib/firmware/rockchip/ebc.wbf
+# save the original waveforms for later use
+mv /lib/firmware/rockchip/ebc.wbf /lib/firmware/rockchip/ebc_orig.wbf
 ln -s /lib/firmware/rockchip/ebc_modified.wbf /lib/firmware/rockchip/ebc.wbf
-cd /extlinux
-./gen_uboot_image.sh
+update-initramfs -u -k all
 reboot</code></pre>
 <h1 id="topics">Topics</h1>
 <ul>
