@@ -88,6 +88,11 @@ actions:
     source: overlays/environment.d
     destination: /etc/environment.d
 
+  - action: overlay
+    description: Install PNEink Gnome theme
+    source: overlays/gnome_theme
+    destination: /usr/share/themes
+
 #   - action: run
 #     description: Enable wayland support for firefox
 #     chroot: true

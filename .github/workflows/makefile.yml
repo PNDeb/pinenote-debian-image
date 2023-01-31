@@ -19,7 +19,7 @@ jobs:
       run: sudo apt -y update && sudo apt install debos syncthing
 
     - name: Prep step
-      run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh && ./prep_04_firmware_kernel_archive.sh
+      run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh && ./prep_04_firmware_kernel_archive.sh && ./prep_05_get_external_files.sh
 
     - name: Build
       run: sudo ./build.sh
