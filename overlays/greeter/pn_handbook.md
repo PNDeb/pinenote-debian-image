@@ -1,8 +1,13 @@
-# Welcome
+# PineNote Debian Bookworm
 
 ## Introduction
 
-Lorem Impsum
+Hi there, nice of you to install this Debian image on your PineNote!
+
+Before you begin, please bear in mind that the PineNote, and this image, is aimed a experienced users and developers,
+and many things need manual tweaking or do not just work yet.
+However, many things also use, and you can take control of quite a lot of things.
+If you have not done this yet, we strongly recommend to at least skim this document before proceeding to use your PineNote.
 
 If you want to improve this text, merge requests are very very much appreciated!
 (https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md")[Improve here]
@@ -17,6 +22,14 @@ If you want to improve this text, merge requests are very very much appreciated!
 
 * The **Documents/** directory contains one sample .pdf and one .epub file. Try
   opening them and start reading!
+  
+* The status bar at the top contains the refresh button and the PineNote-Helper Gnome extension, which helps you to control some aspects of the eink display. Both of these items will become important for an effective use of the PineNote in a Gnome environment.
+
+## Updates
+
+Apart from a number of tweaks aimed at producing an improved user experience on the PineNote, and a few patched packages, you are running a Debian Bookworm operating system which can be maintained as very other system. Use apt or aptititude to manage you packages.
+
+The modified packages that were installed were also pinned, meaning they will not be overwritten by updates. At some point other packages will also not be automatically updated because they depend on newer versions of the pinned packages, which will need manual intervention at some point. Currently there is no easy way to update the modified packages and solutions are discussed in this issue: https://github.com/m-weigand/pinenote-debian-recipes/issues/38
 
 ## Using another partition for /home
 
@@ -30,34 +43,6 @@ Example to switch /home to /dev/mmcblk0p19:
 	cd /root
 	switch_home_to_other_partition.sh /dev/mmcblk0p19
 
-
-## Xournalpp/Writing
-
-* At this point, despite disabling animations, GNOME still shows the spinning
-  animation in the panel when xournalpp is started. This prevents proper and
-  fast drawing of screen regions. For best experience, wait until the loading
-  animation stops before you start drawing/writing.
-* Switch to "BW+Dither" mode when working in Xpp
-* The default configuration uses evsieve to merge events from the pen (for
-  drawing) and the pen buttons. This is a solution to the problem that the pen
-  input and the pen buttons are completely independent systems and therefore
-  register as different inputs in the system.
-
-  The evsieve solution add something like 15 ms lag to the input (according to
-  the evsieve readme). You can disable this approach by running (in a root
-  shell):
-
-	systemctl stop evsieve.service
-	systemctl disable evsieve.service
-
-  Make sure to restart Xpp and to reconfigure the input sources in the
-  settings.
-* By default the touch screen is disabled as an input for Xpp. You need to
-  activate it in the settings in order to scroll using touch gestures.
-* If the pen buttons are configured, holding down the button nearest to the tip
-  should allow you to scroll using the pen.
-* After both pen and touch scrolling a global refresh is triggered
-
 ## How do I
 
 * **Read a book (epub)/pdf**: Koreader is already installed and should be
@@ -67,24 +52,14 @@ Example to switch /home to /dev/mmcblk0p19:
 * **Use the Pinenote as an external screen?**: TODO, link to weylus project
 * **Use an external monitor with the Pinenote?**: TODO (won't directly work,
   need something like vnc and virtual monitor)
+  
+## Documentation for apps/systems
 
-## What is not working?
+### EBC Kernel Driver
 
-* Open Issues
+The EBC subsystem controls the eink (or epd) display and is one of components which require
+most tweaking for each user. 
 
-	* Gnome extension: There are issues when suspend/screen blanking (i.e.,
-	  unloading of the extension is broken)
-	* EBC artifacting
-	* Cover detection ?
-	* Resume/suspend
-	* BT Issues (link to probably-working firmware?)
-
-
-## EBC Kernel Driver
-
-	* Introduction
-	* boot-time module parameters
-	* runtime-controlled module parameters
 	* ioctls
 
 		* trigger global refresh
@@ -106,8 +81,16 @@ the modprobe configuration file:
 	root@pinenote:~# cat /etc/modprobe.d/rockchip_ebc.conf
 	options rockchip_ebc direct_mode=0 auto_refresh=1 split_area_limit=0 panel_reflection=1
 
-By default they need to be writen to as root, but this can be easily changed
+By default the parameters in /sys/module/rockchip_ebc/parameters need to be writen to as root, but this can be easily changed
 via udev rules.
+
+Overview of sysfs-parameters:
+
+* TODO
+
+In addition, two custom ioctls are currently implemented for the ebc driver:
+
+* TODO
 
 ### Black and White mode
 
@@ -188,7 +171,7 @@ A value of 4 is the default.
   to the 7th waveform in the lut file (index 6), but is activated via
   **default_waveoform** by writing value 1.
 
-# Trimming the A2 waveform
+### Trimming the A2 waveform
 
 You can trim the A2 waveform for improved writing performance, with the
 downside that black sometimes is displayed in gray tones.
@@ -207,7 +190,44 @@ reboot the pinenote once):
    	ln -s /lib/firmware/rockchip/ebc_modified.wbf /lib/firmware/rockchip/ebc.wbf
 	update-initramfs -u -k all
 	reboot
+	
+### Xournalpp/Writing
 
+* At this point, despite disabling animations, GNOME still shows the spinning
+  animation in the panel when xournalpp is started. This prevents proper and
+  fast drawing of screen regions. For best experience, wait until the loading
+  animation stops before you start drawing/writing.
+* Switch to "BW+Dither" mode when working in Xpp
+* The default configuration uses evsieve to merge events from the pen (for
+  drawing) and the pen buttons. This is a solution to the problem that the pen
+  input and the pen buttons are completely independent systems and therefore
+  register as different inputs in the system.
+
+  The evsieve solution add something like 15 ms lag to the input (according to
+  the evsieve readme). You can disable this approach by running (in a root
+  shell):
+
+	systemctl stop evsieve.service
+	systemctl disable evsieve.service
+
+  Make sure to restart Xpp and to reconfigure the input sources in the
+  settings.
+* By default the touch screen is disabled as an input for Xpp. You need to
+  activate it in the settings in order to scroll using touch gestures.
+* If the pen buttons are configured, holding down the button nearest to the tip
+  should allow you to scroll using the pen.
+* After both pen and touch scrolling a global refresh is triggered
+
+## What is not working?
+
+* Open Issues
+
+	* Gnome extension: There are issues when suspend/screen blanking (i.e.,
+	  unloading of the extension is broken)
+	* EBC artifacting
+	* Cover detection ?
+	* Resume/suspend
+	* BT Issues (link to probably-working firmware?)
 
 # Topics
 
