@@ -118,7 +118,7 @@ then
 			resize2fs "${target_partition}"
 		fi
 
-		if [ ${recreate_part} -eq 1]; then
+		if [ ${recreate_part} -eq 1 ]; then
 			mkfs.ext4 "${target_partition}"
 			mount "${target_partition}" "${mnt_point}"
 			# we want to keep this, but none of the other control files
