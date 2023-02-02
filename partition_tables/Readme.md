@@ -62,6 +62,11 @@
     	* `git checkout b6354b9`
     	* `tools/boot_merger RKBOOT/RK3566MINIALL.ini`
 
+* Preparation:
+	* Download the artifacts **disc_image** and (optionally) **data_part_dummy**
+	* unzip the artifacts (and unzstd the disc image):
+	
+		unzip disc_image.zip && unzstd debian.img.zst
 
 * Flashing commands:
 
