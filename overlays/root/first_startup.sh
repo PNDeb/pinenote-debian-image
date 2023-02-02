@@ -121,6 +121,7 @@ then
 		if [ ${recreate_part} -eq 1]; then
 			mkfs.ext4 "${target_partition}"
 			mount "${target_partition}" "${mnt_point}"
+			# we want to keep this, but none of the other control files
 			touch "${mnt_point}/pn_use_as_home"
 			umount "${mnt_point}"
 		fi
@@ -133,7 +134,7 @@ then
 		if [ ${transfer_user_files} -eq 1 ]; then
 			mount "${target_partition}" "${mnt_point}"
 			rsync -avh /home/ "${mnt_point}"/
-			rm "${mnt_point}/pn_transfer_files"
+			test -e "${mnt_point}/pn_transfer_files" && rm "${mnt_point}/pn_transfer_files"
 			umount "${mnt_point}"
 		fi
 		test -d "${mnt_point}" && rm -r "${mnt_point}"

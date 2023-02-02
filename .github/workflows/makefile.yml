@@ -50,7 +50,7 @@ jobs:
           mkdir tmp
           sudo mount -v -o loop data_part_dummy.bin tmp
           sudo touch tmp/pn_use_as_home
-          sudo touch tmp/pn_grow_fs
+          sudo touch tmp/pn_recreate_fs
           sudo touch tmp/pn_transfer_files
           sudo umount tmp
           rm -r tmp
