@@ -89,9 +89,12 @@
 	  # write new GPT partition table
 	  rkdeveloptool write-partition-table partition_table_standard1.txt
 
-	  # (optional) write new u-boot (if you compiled yourself)
+	  # (optional) write new u-boot
+	  # idblock.bin is only required if you compiled u-boot yourself (the rockchip u-boot)
 	  rkdeveloptool write 64 idblock.bin
 	  rkdeveloptool write-partition uboot uboot.img
+	  # for a self-compiled u-boot, trust.img should probably also be flashed,
+	  # but for now we can use the stock partition
 
 	  # write partitions that were moved
 	  rkdeveloptool write-partition boot part_boot.img
