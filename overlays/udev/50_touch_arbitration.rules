@@ -1,0 +1,7 @@
+ACTION=="remove", GOTO="libinput_device_group_end"
+KERNEL!="event[0-9]*", GOTO="libinput_device_group_end"
+
+ATTRS{phys}=="?*", ATTRS{name}=="cyttsp5", ENV{LIBINPUT_DEVICE_GROUP}="pinenotetouch"
+ATTRS{phys}=="?*", ATTRS{name}=="w9013 2D1F:0095 Stylus", ENV{LIBINPUT_DEVICE_GROUP}="pinenotetouch"
+
+LABEL="libinput_device_group_end"
