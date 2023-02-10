@@ -45,8 +45,6 @@ jobs:
         run: |
           fallocate -l 5MB data_part_dummy.bin
           mkfs.ext4 data_part_dummy.bin
-          pwd
-          ls /dev/loop*
           mkdir tmp
           sudo mount -v -o loop data_part_dummy.bin tmp
           sudo touch tmp/pn_use_as_home
@@ -60,6 +58,25 @@ jobs:
         with:
           name: data_part_dummy
           path: data_part_dummy.bin
+
+  create_empty_uboot_env_partition:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
+      - name: Install dosfstools
+        run: sudo apt -y install dosfstools
+      - name: Create u-boot environment partition
+        run: |
+          fallocate -l 4MB data_part_uboot_env.bin
+          mkfs.vfat data_part_uboot_env.bin
+          rm -r tmp
+
+      - name: Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: data_part_uboot_env
+          path: data_part_uboot_env.bin
 
   do_release:
     # if: startsWith(github.ref, 'refs/tags/')
@@ -85,3 +102,4 @@ jobs:
             artifacts/disc_image/debian.img.zst
             artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
             artifacts/data_part_dummy/data_part_dummy.bin
+            artifacts/data_part_uboot_env/data_part_uboot_env.bin
