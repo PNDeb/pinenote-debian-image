@@ -170,7 +170,7 @@
       <attribute name="deviceSource" type="int" value="0"/>
     </data>
     <data name="Wayland Touch">
-      <attribute name="deviceClass" type="int" value="0"/>
+      <attribute name="deviceClass" type="int" value="4"/>
       <attribute name="deviceSource" type="int" value="5"/>
     </data>
     <data name="cyttsp5">
