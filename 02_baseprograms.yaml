@@ -50,6 +50,7 @@ actions:
       - htop
       - rsync
       - locales
+      - unzip
 
   - action: pack
     file: {{ $targz }}
