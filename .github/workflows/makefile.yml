@@ -70,7 +70,6 @@ jobs:
         run: |
           fallocate -l 4MB data_part_uboot_env.bin
           mkfs.vfat data_part_uboot_env.bin
-          rm -r tmp
 
       - name: Artifacts
         uses: actions/upload-artifact@v3
