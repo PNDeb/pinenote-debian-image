@@ -49,6 +49,7 @@ actions:
       - tree
       - htop
       - rsync
+      - locales
 
   - action: pack
     file: {{ $targz }}

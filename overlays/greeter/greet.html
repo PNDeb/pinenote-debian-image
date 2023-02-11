@@ -161,31 +161,41 @@
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#welcome">Welcome</a>
+<li><a href="#pinenote-debian-bookworm">PineNote Debian Bookworm</a>
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#getting-started">Getting started</a></li>
+<li><a href="#updates">Updates</a></li>
 <li><a href="#using-another-partition-for-home">Using another partition
 for /home</a></li>
-<li><a href="#xournalppwriting">Xournalpp/Writing</a></li>
 <li><a href="#how-do-i">How do I</a></li>
-<li><a href="#what-is-not-working">What is not working?</a></li>
-<li><a href="#ebc-kernel-driver">EBC Kernel Driver</a>
+<li><a href="#documentation-for-appssystems">Documentation for
+apps/systems</a>
 <ul>
+<li><a href="#ebc-kernel-driver">EBC Kernel Driver</a></li>
 <li><a href="#usage">Usage</a></li>
 <li><a href="#black-and-white-mode">Black and White mode</a></li>
 <li><a href="#auto-refresh">Auto Refresh</a></li>
 <li><a href="#waveforms">Waveforms</a></li>
-</ul></li>
-</ul></li>
 <li><a href="#trimming-the-a2-waveform">Trimming the A2
 waveform</a></li>
+<li><a href="#xournalppwriting">Xournalpp/Writing</a></li>
+</ul></li>
+<li><a href="#what-is-not-working">What is not working?</a></li>
+</ul></li>
 <li><a href="#topics">Topics</a></li>
 </ul>
 </nav>
-<h1 id="welcome">Welcome</h1>
+<h1 id="pinenote-debian-bookworm">PineNote Debian Bookworm</h1>
 <h2 id="introduction">Introduction</h2>
-<p>Lorem Impsum</p>
+<p>Hi there, nice of you to install this Debian image on your
+PineNote!</p>
+<p>Before you begin, please bear in mind that the PineNote, and this
+image, is aimed a experienced users and developers, and many things need
+manual tweaking or do not just work yet. However, many things also use,
+and you can take control of quite a lot of things. If you have not done
+this yet, we strongly recommend to at least skim this document before
+proceeding to use your PineNote.</p>
 <p>If you want to improve this text, merge requests are very very much
 appreciated! (<a
 href="https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md&quot;">https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md"</a>)[Improve
@@ -197,7 +207,25 @@ here]</p>
 <p>sudo su - root passwd</p></li>
 <li><p>The <strong>Documents/</strong> directory contains one sample
 .pdf and one .epub file. Try opening them and start reading!</p></li>
+<li><p>You may want to reconfigure your locales:</p>
+<p>sudo dpkg-reconfigure locales</p></li>
+<li><p>The status bar at the top contains the refresh button and the
+PineNote-Helper Gnome extension, which helps you to control some aspects
+of the eink display. Both of these items will become important for an
+effective use of the PineNote in a Gnome environment.</p></li>
 </ul>
+<h2 id="updates">Updates</h2>
+<p>Apart from a number of tweaks aimed at producing an improved user
+experience on the PineNote, and a few patched packages, you are running
+a Debian Bookworm operating system which can be maintained as very other
+system. Use apt or aptititude to manage you packages.</p>
+<p>The modified packages that were installed were also pinned, meaning
+they will not be overwritten by updates. At some point other packages
+will also not be automatically updated because they depend on newer
+versions of the pinned packages, which will need manual intervention at
+some point. Currently there is no easy way to update the modified
+packages and solutions are discussed in this issue: <a
+href="https://github.com/m-weigand/pinenote-debian-recipes/issues/38">https://github.com/m-weigand/pinenote-debian-recipes/issues/38</a></p>
 <h2 id="using-another-partition-for-home">Using another partition for
 /home</h2>
 <p>By default /home is located on the root partition. However, a bash
@@ -209,32 +237,6 @@ root.</p>
 <p>Example to switch /home to /dev/mmcblk0p19:</p>
 <pre><code>cd /root
 switch_home_to_other_partition.sh /dev/mmcblk0p19</code></pre>
-<h2 id="xournalppwriting">Xournalpp/Writing</h2>
-<ul>
-<li><p>At this point, despite disabling animations, GNOME still shows
-the spinning animation in the panel when xournalpp is started. This
-prevents proper and fast drawing of screen regions. For best experience,
-wait until the loading animation stops before you start
-drawing/writing.</p></li>
-<li><p>Switch to "BW+Dither" mode when working in Xpp</p></li>
-<li><p>The default configuration uses evsieve to merge events from the
-pen (for drawing) and the pen buttons. This is a solution to the problem
-that the pen input and the pen buttons are completely independent
-systems and therefore register as different inputs in the system.</p>
-<p>The evsieve solution add something like 15 ms lag to the input
-(according to the evsieve readme). You can disable this approach by
-running (in a root shell):</p>
-<p>systemctl stop evsieve.service systemctl disable evsieve.service</p>
-<p>Make sure to restart Xpp and to reconfigure the input sources in the
-settings.</p></li>
-<li><p>By default the touch screen is disabled as an input for Xpp. You
-need to activate it in the settings in order to scroll using touch
-gestures.</p></li>
-<li><p>If the pen buttons are configured, holding down the button
-nearest to the tip should allow you to scroll using the pen.</p></li>
-<li><p>After both pen and touch scrolling a global refresh is
-triggered</p></li>
-</ul>
 <h2 id="how-do-i">How do I</h2>
 <ul>
 <li><strong>Read a book (epub)/pdf</strong>: Koreader is already
@@ -246,23 +248,12 @@ to weylus project</li>
 <li><strong>Use an external monitor with the Pinenote?</strong>: TODO
 (won't directly work, need something like vnc and virtual monitor)</li>
 </ul>
-<h2 id="what-is-not-working">What is not working?</h2>
-<ul>
-<li><p>Open Issues</p>
-<ul>
-<li>Gnome extension: There are issues when suspend/screen blanking
-(i.e., unloading of the extension is broken)</li>
-<li>EBC artifacting</li>
-<li>Cover detection ?</li>
-<li>Resume/suspend</li>
-<li>BT Issues (link to probably-working firmware?)</li>
-</ul></li>
-</ul>
-<h2 id="ebc-kernel-driver">EBC Kernel Driver</h2>
-<pre><code>* Introduction
-* boot-time module parameters
-* runtime-controlled module parameters
-* ioctls
+<h2 id="documentation-for-appssystems">Documentation for
+apps/systems</h2>
+<h3 id="ebc-kernel-driver">EBC Kernel Driver</h3>
+<p>The EBC subsystem controls the eink (or epd) display and is one of
+components which require most tweaking for each user.</p>
+<pre><code>* ioctls
 
     * trigger global refresh
     * set offline-screen
@@ -279,8 +270,18 @@ to weylus project</li>
 example using the modprobe configuration file:</p>
 <pre><code>root@pinenote:~# cat /etc/modprobe.d/rockchip_ebc.conf
 options rockchip_ebc direct_mode=0 auto_refresh=1 split_area_limit=0 panel_reflection=1</code></pre>
-<p>By default they need to be writen to as root, but this can be easily
-changed via udev rules.</p>
+<p>By default the parameters in /sys/module/rockchip_ebc/parameters need
+to be writen to as root, but this can be easily changed via udev
+rules.</p>
+<p>Overview of sysfs-parameters:</p>
+<ul>
+<li>TODO</li>
+</ul>
+<p>In addition, two custom ioctls are currently implemented for the ebc
+driver:</p>
+<ul>
+<li>TODO</li>
+</ul>
 <h3 id="black-and-white-mode">Black and White mode</h3>
 <p>Activate with</p>
 <pre><code>echo 1 &gt; /sys/module/rockchip_ebc/parameters/bw_mode</code></pre>
@@ -342,7 +343,7 @@ corresponds to the 7th waveform in the lut file (index 6), but is
 activated via <strong>default_waveoform</strong> by writing value
 1.</p></li>
 </ul>
-<h1 id="trimming-the-a2-waveform">Trimming the A2 waveform</h1>
+<h3 id="trimming-the-a2-waveform">Trimming the A2 waveform</h3>
 <p>You can trim the A2 waveform for improved writing performance, with
 the downside that black sometimes is displayed in gray tones.</p>
 <p>The supplied script is very slow and unoptimized and therefore not
@@ -357,6 +358,44 @@ mv /lib/firmware/rockchip/ebc.wbf /lib/firmware/rockchip/ebc_orig.wbf
 ln -s /lib/firmware/rockchip/ebc_modified.wbf /lib/firmware/rockchip/ebc.wbf
 update-initramfs -u -k all
 reboot</code></pre>
+<h3 id="xournalppwriting">Xournalpp/Writing</h3>
+<ul>
+<li><p>At this point, despite disabling animations, GNOME still shows
+the spinning animation in the panel when xournalpp is started. This
+prevents proper and fast drawing of screen regions. For best experience,
+wait until the loading animation stops before you start
+drawing/writing.</p></li>
+<li><p>Switch to "BW+Dither" mode when working in Xpp</p></li>
+<li><p>The default configuration uses evsieve to merge events from the
+pen (for drawing) and the pen buttons. This is a solution to the problem
+that the pen input and the pen buttons are completely independent
+systems and therefore register as different inputs in the system.</p>
+<p>The evsieve solution add something like 15 ms lag to the input
+(according to the evsieve readme). You can disable this approach by
+running (in a root shell):</p>
+<p>systemctl stop evsieve.service systemctl disable evsieve.service</p>
+<p>Make sure to restart Xpp and to reconfigure the input sources in the
+settings.</p></li>
+<li><p>By default the touch screen is disabled as an input for Xpp. You
+need to activate it in the settings in order to scroll using touch
+gestures.</p></li>
+<li><p>If the pen buttons are configured, holding down the button
+nearest to the tip should allow you to scroll using the pen.</p></li>
+<li><p>After both pen and touch scrolling a global refresh is
+triggered</p></li>
+</ul>
+<h2 id="what-is-not-working">What is not working?</h2>
+<ul>
+<li><p>Open Issues</p>
+<ul>
+<li>Gnome extension: There are issues when suspend/screen blanking
+(i.e., unloading of the extension is broken)</li>
+<li>EBC artifacting</li>
+<li>Cover detection ?</li>
+<li>Resume/suspend</li>
+<li>BT Issues (link to probably-working firmware?)</li>
+</ul></li>
+</ul>
 <h1 id="topics">Topics</h1>
 <ul>
 <li><p>DBUS service</p>

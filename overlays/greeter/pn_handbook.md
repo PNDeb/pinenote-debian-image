@@ -4,10 +4,13 @@
 
 Hi there, nice of you to install this Debian image on your PineNote!
 
-Before you begin, please bear in mind that the PineNote, and this image, is aimed a experienced users and developers,
-and many things need manual tweaking or do not just work yet.
-However, many things also use, and you can take control of quite a lot of things.
-If you have not done this yet, we strongly recommend to at least skim this document before proceeding to use your PineNote.
+Before you begin, please bear in mind that the PineNote, and this image, is
+aimed a experienced users and developers, and many things need manual tweaking
+or do not just work yet.
+However, many things also use, and you can take control of quite a lot of
+things.
+If you have not done this yet, we strongly recommend to at least skim this
+document before proceeding to use your PineNote.
 
 If you want to improve this text, merge requests are very very much appreciated!
 (https://github.com/m-weigand/pinenote-debian-recipes/blob/dev/overlays/greeter/pn_handbook.md")[Improve here]
@@ -22,8 +25,15 @@ If you want to improve this text, merge requests are very very much appreciated!
 
 * The **Documents/** directory contains one sample .pdf and one .epub file. Try
   opening them and start reading!
-  
-* The status bar at the top contains the refresh button and the PineNote-Helper Gnome extension, which helps you to control some aspects of the eink display. Both of these items will become important for an effective use of the PineNote in a Gnome environment.
+
+* You may want to reconfigure your locales:
+
+	sudo dpkg-reconfigure locales
+
+* The status bar at the top contains the refresh button and the PineNote-Helper
+  Gnome extension, which helps you to control some aspects of the eink display.
+  Both of these items will become important for an effective use of the
+  PineNote in a Gnome environment.
 
 ## Updates
 
@@ -52,13 +62,13 @@ Example to switch /home to /dev/mmcblk0p19:
 * **Use the Pinenote as an external screen?**: TODO, link to weylus project
 * **Use an external monitor with the Pinenote?**: TODO (won't directly work,
   need something like vnc and virtual monitor)
-  
+
 ## Documentation for apps/systems
 
 ### EBC Kernel Driver
 
 The EBC subsystem controls the eink (or epd) display and is one of components which require
-most tweaking for each user. 
+most tweaking for each user.
 
 	* ioctls
 
@@ -190,7 +200,7 @@ reboot the pinenote once):
    	ln -s /lib/firmware/rockchip/ebc_modified.wbf /lib/firmware/rockchip/ebc.wbf
 	update-initramfs -u -k all
 	reboot
-	
+
 ### Xournalpp/Writing
 
 * At this point, despite disabling animations, GNOME still shows the spinning
