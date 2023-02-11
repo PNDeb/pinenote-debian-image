@@ -25,6 +25,11 @@ actions:
     source: overlays/etc/
     destination: /etc/
 
+  - action: overlay
+    description: Install wip tools to generate u-boot logos (and partition image)
+    source: custom_logos_uboot/
+    destination: /root/custom_logos_uboot/
+
   # - action: run
   #   description: Add u-boot environment partition to fstab
   #   chroot: true
