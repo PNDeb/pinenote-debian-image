@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 # hold/pin custom-installed packages
 set -eux -o pipefail
 
