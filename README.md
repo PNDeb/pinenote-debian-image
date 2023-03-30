@@ -53,6 +53,36 @@ prep_04_firmware_kernel_archive.sh).
 Defaul hostname is `pinenote`, the configured (with auto-login via gdm3) user
 is called `user` with password `1234` and `sudo` capabilities.
 
+## Installation of disc image
+
+### Installation via rkdeveloptool
+
+See (partition_tables/Readme.md)[partition_tables/Readme.md] for more
+information.
+
+### Installation from an already running linux system
+
+Download the image file (here: debian.img.zst) and extract it, then copy it
+using dd to the desired partition (here: /dev/mmcblk0p8)::
+
+	zunstd debian.img.zst
+	dd if=debian.img of=/dev/mmcblk0p8 bs=4MB status=progress
+
+`debian.img` contains an `ext4` filesystem. You should probably flash it only
+on the `ext4` marked partitions on the device, unless you change the partition
+table too.
+
+If you want to flash this image to another partition device, you can adjust the
+`root` parameter inside the image using the helper script
+`adjust-root-in-image.sh` before building the image. See the documentation
+provided inside the script file.
+
+However, the installation will automatically fix any issues with other root
+partitions on first boot, and therefore it should not be necessary to rebuild
+the image just to install to another partition. See above for information on
+how to boot other partitions using the u-boot prompt.
+
+
 ## Installation of rootfs
 
 The rootfs is a tar.gz file containing the compressed contents of the Debian
@@ -100,28 +130,6 @@ Example for first boot from the u-boot prompt for partition 8
 	setenv bootargs ignore_loglevel root=/dev/mmcblk0p6 rw rootwait earlycon console=tty0 console=ttyS2,1500000n8 fw_devlink=off init=/sbin/init
 	booti ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
 
-## Installation of disc image
-
-Download the image file (here: debian.img.zst) and extract it, then copy it
-using dd to the desired partition (here: /dev/mmcblk0p8)::
-
-	zunstd debian.img.zst
-	dd if=debian.img of=/dev/mmcblk0p8 bs=4MB status=progress
-
-`debian.img` contains an `ext4` filesystem. You should probably flash it only
-on the `ext4` marked partitions on the device, unless you change the partition
-table too.
-
-If you want to flash this image to another partition device, you can adjust the
-`root` parameter inside the image using the helper script
-`adjust-root-in-image.sh` before building the image. See the documentation
-provided inside the script file.
-
-However, the installation will automatically fix any issues with other root
-partitions on first boot, and therefore it should not be necessary to rebuild
-the image just to install to another partition. See above for information on
-how to boot other partitions using the u-boot prompt.
-
 ## Using another partition for /home
 
 For now this only applies to partition 10 (/dev/mmcblk0p10) corresponding to
@@ -149,6 +157,40 @@ the (empty) file pn_use_as_home on partition 10.
 Things you might want to setup after the installation:
 
 Change the **default password** before connection to public networks.
+
+### PineNote-specific Debian repository
+
+At this point no stable update procedures for patched packages is implemented.
+However, a package repository is being tested to provide updates to those
+patches packages.
+
+WARNING: At this point, do use at your own risk and make sure to always double
+check any apt output before proceeding with updates.
+
+The repository and the associated gpg key must be added manually:
+
+	* Create the file **/etc/apt/preferences.d/98_pinenote.mweigand.net** to
+	  make sure any package in the PineNote-specific repository will get
+	  higher priority than any stock Debian package:
+
+		Package: *
+		Pin: origin "pinenote.mweigand.net"
+		Pin-Priority: 1100
+
+	* Download the public gpg key of the repository (note: this key is very
+	  short-lived, with a life time of 1-2 months):
+
+		wget -o /etc/apt/keyrings/pinenote_repo_key_1.gpg URL
+
+	  sha256 checksum of the key file:
+
+		aa4a97b05dc4fff130c6de034c7c9d22901469e57432acf8db781ecf03a5c82b  pinenote_repo_key_1.gpg
+
+	* Add the repository **AT THE TOP** of the sources list file **/etc/apt/sources.list**:
+
+		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_1.gpg] http://pinenote.mweigand.net/repository/ pinenote main
+
+	* apt update && apt upgrade
 
 ### Wifi
 
