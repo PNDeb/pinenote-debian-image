@@ -57,7 +57,7 @@ is called `user` with password `1234` and `sudo` capabilities.
 
 ### Installation via rkdeveloptool
 
-See (partition_tables/Readme.md)[partition_tables/Readme.md] for more
+See [partition_tables/Readme.md](partition_tables/Readme.md) for more
 information.
 
 ### Installation from an already running linux system
