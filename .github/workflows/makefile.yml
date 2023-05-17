@@ -104,6 +104,28 @@ jobs:
             u-boot-pinenote/trust.img
             u-boot-pinenote/idblock.bin
 
+  generate_spl_boot_file:
+    runs-on: ubuntu-latest
+    name: Geneate rk356x_spl_loader_v1.12.112.bin
+    steps:
+      - name: Prepare environment
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install build-essential crossbuild-essential-arm64 device-tree-compiler python3-pyelftools
+      - name: Checkout rkbin
+        run: |
+          test -d rkbin && rm -rf rkbin
+          git clone --shallow-since="2022-01-02T00:00:00Z" https://github.com/rockchip-linux/rkbin
+          cd rkbin
+          git checkout b6354b9
+          tools/boot_merger RKBOOT/RK3566MINIALL.ini
+      - name: Upload files
+        uses: actions/upload-artifact@v3
+        with:
+          name: uboot files
+          path: |
+            rkbin/rk356x_spl_loader_v1.12.112.bin
+
   do_release:
     # if: startsWith(github.ref, 'refs/tags/')
     # if: contains(github.ref, "main")
