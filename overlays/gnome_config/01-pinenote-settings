@@ -43,7 +43,7 @@ idle-delay=uint32 0
 
 [org/gnome/desktop/wm/preferences]
 action-double-click-titlebar='menu'
-button-layout='icon:minimize,maximize,close'
+button-layout='close,maximize:appmenu'
 theme='HighContrast'
 visual-bell=false
 
