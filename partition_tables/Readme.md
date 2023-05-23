@@ -48,7 +48,7 @@
 
 
 ## Workflow for repartitioning and flashing
-
+* See troubleshooting sections below for solutions to common problems*
 * Make sure to:
 	* Read the main [Readme file](../README.md)
 	* Have a working installation of [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool)
@@ -71,7 +71,7 @@
 	* Download the artifacts **disc_image** and (optionally) **data_part_dummy**
 	* unzip the artifacts (and unzstd the disc image):
 	
-		unzip disc_image.zip && unzstd debian.img.zst
+			unzip disc_image.zip && unzstd debian.img.zst
 
 * Flashing commands:
 
@@ -118,3 +118,17 @@
 	  # just to make sure, turn the PineNote off by holding the power button for more than 10 seconds
 	  # then turn in on again and wait (takes a little bit for the first-boot script to extract the
 	  # waveforms and to reboot before linux can access the epd panel
+
+## Troubleshooting
+
+* Hanging during **write-partition** commands: Check your usb cable. Quite a lot of cables were reported to lead to all kinds of failures.
+* Device booting directly into *Loader* mode instead of *Maskrom*: It has been reported that sometimes the PineNote boots directly into the *Loader* mode when the magnetic-pen-method is used. While this is probably some kind of bug, it can be easily fixed using the **reboot-maskrom** command contained in rkdeveloptool:
+
+		$ rkdeveloptool list
+		DevNo=1	Vid=0x2207,Pid=0x350a,LocationID=102	Loader
+		$ rkdeveloptool reboot-maskrom
+		Reset Device OK.
+		$ rkdeveloptool list
+		DevNo=1	Vid=0x2207,Pid=0x350a,LocationID=102	Maskrom
+
+Note that the initial *Loader* mode **could** also be functional, just try writing/reading the partitions before going trough the effort to boot the rk356x_spl_loader_v1.12.112.bin
