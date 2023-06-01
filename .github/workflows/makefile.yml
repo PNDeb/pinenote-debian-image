@@ -35,11 +35,14 @@ jobs:
         name: rootfs_archive_partition_${{matrix.partition}}
         path: pinenote_arm64_debian_bookworm.tar.gz
 
+    - name: Rename debian.img.zst
+      run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
+
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: disc_image_partition_${{matrix.partition}}
-        path: debian.img.zst
+        path: debian_partition_${{matrix.partition}}.img.zst
 
   create_data_partition_dummy:
     runs-on: ubuntu-latest
@@ -152,8 +155,8 @@ jobs:
         with:
           draft: true
           files: |
-            artifacts/disc_image_partition_8/debian.img.zst
-            artifacts/disc_image_partition_9/debian.img.zst
+            artifacts/disc_image_partition_8/debian_partition_8.img.zst
+            artifacts/disc_image_partition_9/debian_partition_9.img.zst
             artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
             artifacts/data_part_dummy/data_part_dummy.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
