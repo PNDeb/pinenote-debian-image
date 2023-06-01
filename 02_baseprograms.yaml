@@ -51,6 +51,8 @@ actions:
       - rsync
       - locales
       - unzip
+      - screen
+      - evtest
 
   - action: pack
     file: {{ $targz }}
