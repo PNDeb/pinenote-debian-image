@@ -152,8 +152,8 @@ jobs:
         with:
           draft: true
           files: |
-            artifacts/disc_image__mmcblk0p8/debian.img.zst
-            artifacts/disc_image__mmcblk0p9/debian.img.zst
+            artifacts/disc_image_partition_8/debian.img.zst
+            artifacts/disc_image_partition_9/debian.img.zst
             artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
             artifacts/data_part_dummy/data_part_dummy.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
