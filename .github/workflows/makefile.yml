@@ -9,9 +9,11 @@ on:
 
 jobs:
   build_images:
-
+    strategy:
+      matrix:
+        # generate images for the following partition numbers
+        partition: [8, 9]
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
 
@@ -21,19 +23,22 @@ jobs:
     - name: Prep step
       run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh && ./prep_04_firmware_kernel_archive.sh && ./prep_05_get_external_files.sh
 
+    - name: Set root partition number
+      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p8"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' u-boot
+
     - name: Build
       run: sudo ./build.sh
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: rootfs_archive
+        name: rootfs_archive_partition_${{matrix.partition}}
         path: pinenote_arm64_debian_bookworm.tar.gz
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: disc_image
+        name: disc_image_partition_${{matrix.partition}}
         path: debian.img.zst
 
   create_data_partition_dummy:
@@ -47,16 +52,16 @@ jobs:
           mkfs.ext4 data_part_dummy.bin
           mkdir tmp
           sudo mount -v -o loop data_part_dummy.bin tmp
-          sudo touch tmp/pn_use_as_home
-          sudo touch tmp/pn_recreate_fs
-          sudo touch tmp/pn_transfer_files
+          sudo touch tmp/pn_use_as_home_mmcblk0p8
+          sudo touch tmp/pn_recreate_fs_mmcblk0p8
+          sudo touch tmp/pn_transfer_files_mmcblk0p8
           sudo umount tmp
           rm -r tmp
 
       - name: Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: data_part_dummy
+          name: data_part_dummy_partition_8
           path: data_part_dummy.bin
 
   create_empty_uboot_env_partition:
@@ -147,7 +152,8 @@ jobs:
         with:
           draft: true
           files: |
-            artifacts/disc_image/debian.img.zst
+            artifacts/disc_image__mmcblk0p8/debian.img.zst
+            artifacts/disc_image__mmcblk0p9/debian.img.zst
             artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
             artifacts/data_part_dummy/data_part_dummy.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
