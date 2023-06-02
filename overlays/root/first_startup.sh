@@ -29,7 +29,7 @@ ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
 # extlinux.conf file on new reboot
 new_root=`mount | grep "on / type" | cut -d " " -f 1 | cut -c 6-`
 # sed -i "s/mmcblk0p8/${new_root}/" /etc/default/u-boot
-sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p8\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /dev/default/u-boot
+ sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p[0-9].\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /etc/default/u-boot
 
 # Now that we have the firmware, regenerate the initrd for the kernel
 update-initramfs -c -k all
