@@ -60,8 +60,8 @@ actions:
 
   - action: overlay
     description: Install pnhelper gnome extension
-    source: overlays/pnhelper@m-weigand.github.com
-    destination: /usr/share/gnome-shell/extensions/pnhelper@m-weigand.github.com/
+    chroot: true
+    command: dpkg -i /root/custom_debs/pinenote-gnome-extension*.deb
 
   - action: overlay
     description: Default applications for GNOME

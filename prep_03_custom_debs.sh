@@ -63,3 +63,8 @@ cd overlays/custom_debs
 test -e firmware-brcm80211_20230310-1~exp3+salsaci_all.deb && rm firmware-brcm80211_20230310-1~exp3+salsaci_all.deb
 wget https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4221052/artifacts/raw/debian/output/firmware-brcm80211_20230310-1~exp3+salsaci_all.deb?inline=false -O firmware-brcm80211_20230310-1~exp3+salsaci_all.deb
 cd "${pwd}"
+
+cd overlays/custom_debs
+rm pinenote-gnome-extension*.deb
+wget https://github.com/PNDeb/pinenote-gnome-extension/releases/download/v1.0/pinenote-gnome-extension_1.0_all.deb
+cd "${pwd}"
