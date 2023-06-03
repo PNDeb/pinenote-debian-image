@@ -1,11 +1,10 @@
 name: Build Debian image using github actions
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
-  # push:
-  #  branches: [ "mw_image" ]
-  # pull_request:
-  #  branches: [ "mw_image" ]
 
 jobs:
   build_images:
