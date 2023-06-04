@@ -58,10 +58,10 @@ actions:
     chroot: true
     command: dconf update
 
-  - action: overlay
+  - action: run
     description: Install pnhelper gnome extension
     chroot: true
-    command: dpkg -i /root/custom_debs/pinenote-gnome-extension*.deb
+    command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
 
   - action: overlay
     description: Default applications for GNOME
