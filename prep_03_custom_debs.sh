@@ -68,3 +68,13 @@ cd overlays/custom_debs
 rm pinenote-gnome-extension*.deb
 wget https://github.com/PNDeb/pinenote-gnome-extension/releases/download/v1.0/pinenote-gnome-extension_1.0_all.deb
 cd "${pwd}"
+
+# libinput
+cd overlays/custom_debs
+rm libinput*.deb
+
+wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-bin_1.23.0-1_arm64.deb
+wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-dev_1.23.0-1_arm64.deb
+wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-tools_1.23.0-1_arm64.deb
+wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput10_1.23.0-1_arm64.deb
+cd "${pwd}"

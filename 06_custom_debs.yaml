@@ -39,6 +39,11 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/evsieve_1.3.1_arm64.deb
 
+  - action: run
+    description: Install libinput 1.23
+    chroot: true
+    command: dpkg -i /root/custom_debs/libinput*.deb
+
   - action: apt
     description: install evsieve setup requirements
     packages:
