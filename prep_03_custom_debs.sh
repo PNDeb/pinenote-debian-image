@@ -75,9 +75,9 @@ cd overlays/custom_debs
 rm libinput*.deb
 
 wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-bin_1.23.0-1_arm64.deb
-# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-dev_1.23.0-1_arm64.deb
-wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-tools_1.23.0-1_arm64.deb
 wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput10_1.23.0-1_arm64.deb
+# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-dev_1.23.0-1_arm64.deb
+# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-tools_1.23.0-1_arm64.deb
 cd "${pwd}"
 
 # tweaks
