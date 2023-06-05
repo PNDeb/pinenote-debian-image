@@ -39,15 +39,16 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/evsieve_1.3.1_arm64.deb
 
-  - action: run
-    description: Install libinput 1.23
-    chroot: true
-    command: dpkg -i /root/custom_debs/libinput*.deb
-
+  # install libinput-tools BEFORE upgrading to 1.23
   - action: apt
     description: install evsieve setup requirements
     packages:
       - libinput-tools
+
+  - action: run
+    description: Install libinput 1.23
+    chroot: true
+    command: dpkg -i /root/custom_debs/libinput*.deb
 
   - action: run
     description: Activate first-boot-script
