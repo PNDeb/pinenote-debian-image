@@ -78,3 +78,16 @@ wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libi
 wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-tools_1.23.0-1_arm64.deb
 wget https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput10_1.23.0-1_arm64.deb
 cd "${pwd}"
+
+# tweaks
+cd overlays/custom_debs
+rm pn-tweak*.deb
+wget https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230605/pn-tweak-libinput-touch-arbitration_1.0_all.deb
+
+rm pn-suspend-on-cover*.deb
+wget https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230605/pn-suspend-on-cover_1.1_all.deb
+
+rm pn-default-gnome-config*.deb
+wget https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230605/pn-default-gnome-config_1.0_all.deb
+cd "${pwd}"
+
