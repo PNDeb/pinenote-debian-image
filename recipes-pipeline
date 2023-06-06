@@ -24,6 +24,8 @@
 
 10_pin_custom_debs.yaml
 
+90_adduser.yaml
+
 # # create a gpt disk image, with one partition
 # creatediskimage.yaml
 

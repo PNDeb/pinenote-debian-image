@@ -26,11 +26,6 @@ actions:
       - aptitude
 
   - action: run
-    description: Set up default user
-    chroot: true
-    script: scripts/setup-user.sh {{ $username }} {{ $password }}
-
-  - action: run
     description: Set up system
     chroot: true
     script: scripts/setup-system.sh {{ $hostname }}

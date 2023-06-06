@@ -90,5 +90,15 @@ wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230605/pn
 
 rm pn-default-gnome-config*.deb
 wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230605/pn-default-gnome-config_1.0_all.deb
+
+rm pn-default-xpp-config*.deb
+wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230606/pn-defaut-xpp-config_1.0_all.deb
+
+rm pn-default-documents*.deb
+wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230606/pn-default-documents_1.0_all.deb
+
+rm pn-handbook*.deb
+wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/v20230606_2/pn-handbook_1.0_all.deb
+
 cd "${pwd}"
 

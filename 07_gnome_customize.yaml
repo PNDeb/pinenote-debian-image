@@ -68,20 +68,10 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
 
-  # - action: run
-  #   description: Set up system
-  #   chroot: true
-  #   command: systemctl enable run_egl_info.service
-  #
-  - action: overlay
-    description: Install sample files
-    source: overlays/sample_files
-    destination: /home/user/Documents/
-
   - action: run
-    description: Fix permissions
+    description: Install sample documents
     chroot: true
-    command: chown -R user:user /home/user/Documents
+    command: dpkg -i /root/custom_debs/pn-default-documents*.deb
 
   - action: overlay
     description: Install environment file

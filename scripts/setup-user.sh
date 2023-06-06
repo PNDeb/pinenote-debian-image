@@ -7,7 +7,7 @@ USERNAME=$1
 PASSWORD=$2
 [ "$PASSWORD" ] || exit 1
 
-adduser --gecos $USERNAME --disabled-password --shell /bin/bash $USERNAME
+adduser --comment $USERNAME --disabled-password --shell /bin/bash $USERNAME
 adduser $USERNAME sudo
 
 # Needed for hardware access rights
