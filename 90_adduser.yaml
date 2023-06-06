@@ -3,6 +3,8 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $prevtargz := or .prevtargz "10_pin_custom_debs.tar.gz" }}
 {{- $targz := or .targz "90_adduser.tar.gz" }}
+{{- $username := or .username "user" -}}
+{{- $password := or .password "1234" -}}
 
 architecture: {{ $architecture }}
 
