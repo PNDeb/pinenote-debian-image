@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "08_greeter.tar.gz" }}
-{{- $targz := or .targz "09_xournalpp.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz}}
 
 architecture: {{ $architecture }}
 

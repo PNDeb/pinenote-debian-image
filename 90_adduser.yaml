@@ -1,11 +1,12 @@
-# we want to add the default user as late as possible so we have enough time to
-# populate /etc/skel
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "10_pin_custom_debs.tar.gz" }}
-{{- $targz := or .targz "90_adduser.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
 {{- $username := or .username "user" -}}
 {{- $password := or .password "1234" -}}
 
+# we want to add the default user as late as possible so we have enough time to
+#
+# populate /etc/skel
 architecture: {{ $architecture }}
 
 actions:
