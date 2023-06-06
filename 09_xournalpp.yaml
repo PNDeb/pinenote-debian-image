@@ -22,7 +22,7 @@ actions:
   - action: run
     description: Install Xournalpp default configuration
     chroot: true
-    command: dpkg -i /root/custom_debs/pn-default-xpp-config*.deb
+    command: dpkg -i /root/custom_debs/pn-defaut-xpp-config_*.deb
 
   - action: pack
     file: {{ $targz }}
