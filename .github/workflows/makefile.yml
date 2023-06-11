@@ -44,26 +44,30 @@ jobs:
         path: debian_partition_${{matrix.partition}}.img.zst
 
   create_data_partition_dummy:
+    strategy:
+      matrix:
+        # generate images for the following partition numbers
+        partition: [8, 9, ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Create dummy partition
         run: |
-          fallocate -l 5MB data_part_dummy.bin
+          fallocate -l 40MB data_part_dummy.bin
           mkfs.ext4 data_part_dummy.bin
           mkdir tmp
           sudo mount -v -o loop data_part_dummy.bin tmp
-          sudo touch tmp/pn_use_as_home_mmcblk0p8
-          sudo touch tmp/pn_recreate_fs_mmcblk0p8
-          sudo touch tmp/pn_transfer_files_mmcblk0p8
+          sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
+          sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
+          sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
           sudo umount tmp
           rm -r tmp
 
       - name: Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: data_part_dummy_partition_8
+          name: data_part_dummy_partition_${{matrix.partition}}
           path: data_part_dummy.bin
 
   create_empty_uboot_env_partition:
@@ -105,7 +109,7 @@ jobs:
       - name: Upload files
         uses: actions/upload-artifact@v3
         with:
-          name: uboot files
+          name: uboot-files
           path: |
             u-boot-pinenote/uboot.img
             u-boot-pinenote/trust.img
@@ -140,6 +144,8 @@ jobs:
     needs:
       - build_images
       - create_data_partition_dummy
+      - compile_uboot
+      - generate_spl_boot_file
     steps:
       - name: Clone workflow repository
         uses: actions/checkout@v3
@@ -152,8 +158,13 @@ jobs:
         with:
           draft: true
           files: |
+            artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
+            artifacts/uboot-files/uboot.img
+            artifacts/uboot-files/trust.img
+            artifacts/uboot-files/idblock.bin
+            artifacts/data_part_uboot_env/data_part_uboot_env.bin
             artifacts/disc_image_partition_8/debian_partition_8.img.zst
             artifacts/disc_image_partition_9/debian_partition_9.img.zst
             artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
-            artifacts/data_part_dummy/data_part_dummy.bin
-            artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy.bin
+            artifacts/data_part_dummy_partition_9/data_part_dummy.bin
