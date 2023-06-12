@@ -14,7 +14,7 @@ actions:
     destination: /root/custom_debs/
 
   - action: run
-    description: Install evsieve
+    description: Install firmware-brcm80211*.deb
     chroot: true
     command: dpkg -i /root/custom_debs/firmware-brcm80211_*.deb
 
@@ -50,10 +50,10 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/libinput*.deb
 
-  - action: run
-    description: Activate first-boot-script
-    chroot: true
-    command: ln -s /etc/systemd/system/evsieve.service /etc/systemd/system/multi-user.target.wants/evsieve.service
+      # - action: run
+      # description: Activate evsieve service
+      # chroot: true
+      # command: ln -s /etc/systemd/system/evsieve.service /etc/systemd/system/multi-user.target.wants/evsieve.service
 
   - action: run
     description: Install pinenote-tweaks
