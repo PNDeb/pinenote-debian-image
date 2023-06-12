@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: rootfs_archive_partition_${{matrix.partition}}
-        path: pinenote_arm64_debian_bookworm.tar.gz
+        path: pinenote_arm64_debian_bookworm_partition_${{matrix.partition}}.tar.gz
 
     - name: Rename debian.img.zst
       run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
@@ -54,8 +54,8 @@ jobs:
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Create dummy partition
         run: |
-          fallocate -l 40MB data_part_dummy.bin
-          mkfs.ext4 data_part_dummy.bin
+          fallocate -l 40MB data_part_dummy_p${{matrix.partition}}.bin
+          mkfs.ext4 data_part_dummy_p${{matrix.partition}}.bin
           mkdir tmp
           sudo mount -v -o loop data_part_dummy.bin tmp
           sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: data_part_dummy_partition_${{matrix.partition}}
-          path: data_part_dummy_${{matrix.partition}}.bin
+          path: data_part_dummy_p${{matrix.partition}}.bin
 
   create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
@@ -165,7 +165,7 @@ jobs:
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
             artifacts/disc_image_partition_8/debian_partition_8.img.zst
             artifacts/disc_image_partition_9/debian_partition_9.img.zst
-            artifacts/data_part_dummy_partition_8/data_part_dummy_${{matrix.partition}}.bin
-            artifacts/data_part_dummy_partition_9/data_part_dummy_${{matrix.partition}}.bin
-
-          # artifacts/rootfs_archive/pinenote_arm64_debian_bookworm.tar.gz
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
+            artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
+            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_8.tar.gz
+            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_9.tar.gz
