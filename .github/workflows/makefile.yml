@@ -57,7 +57,7 @@ jobs:
           fallocate -l 40MB data_part_dummy_p${{matrix.partition}}.bin
           mkfs.ext4 data_part_dummy_p${{matrix.partition}}.bin
           mkdir tmp
-          sudo mount -v -o loop data_part_dummy.bin tmp
+          sudo mount -v -o loop data_part_dummy_p${{matrix.partition}}.bin tmp
           sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
           sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
           sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
