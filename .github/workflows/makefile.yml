@@ -28,6 +28,9 @@ jobs:
     - name: Build
       run: sudo ./build.sh
 
+    - name: Rename rootfs tar.gz
+      run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_${{matrix.partition}.tar.gz
+
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
