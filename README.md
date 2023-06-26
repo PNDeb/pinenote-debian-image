@@ -160,6 +160,10 @@ Change the **default password** before connection to public networks.
 
 ### PineNote-specific Debian repository
 
+**builds after 26. June 2023 should include the repository configuration by default! **
+
+Download the gpg key here: [pinenote_repo_key_2.gpg](overlays/keyrings/pinenote_repo_key_2.gpg)
+
 At this point no stable update procedures for patched packages is implemented.
 However, a package repository is being tested to provide updates to those
 patches packages.
@@ -178,17 +182,17 @@ The repository and the associated gpg key must be added manually:
 		Pin-Priority: 1100
 
 	* Download the public gpg key of the repository (note: this key is very
-	  short-lived, with a life time of 1-2 months):
+	  short-lived, with a life time of 1-6 months):
 
-		wget -o /etc/apt/keyrings/pinenote_repo_key_1.gpg URL
+		wget -o /etc/apt/keyrings/pinenote_repo_key_2.gpg https://github.com/PNDeb/pinenote-debian-image/raw/dev/overlays/keyrings/pinenote_repo_key_2.gpg
 
 	  sha256 checksum of the key file:
 
-		aa4a97b05dc4fff130c6de034c7c9d22901469e57432acf8db781ecf03a5c82b  pinenote_repo_key_1.gpg
+		f0493a4c400af773d472e3b8b5d2f6d687e131b2cd2a87e421fcf5c10bbb1943  pinenote_repo_key_2.gpg
 
 	* Add the repository **AT THE TOP** of the sources list file **/etc/apt/sources.list**:
 
-		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_1.gpg] http://pinenote.mweigand.net/repository/ pinenote main
+		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_2.gpg] http://pinenote.mweigand.net/repository/ bookworm main
 
 	* apt update && apt upgrade
 
