@@ -160,7 +160,7 @@ Change the **default password** before connection to public networks.
 
 ### PineNote-specific Debian repository
 
-**builds after 26. June 2023 should include the repository configuration by default! **
+** builds after 26. June 2023 should include the repository configuration by default! **
 
 Download the gpg key here: [pinenote_repo_key_2.gpg](overlays/keyrings/pinenote_repo_key_2.gpg)
 
@@ -194,6 +194,11 @@ The repository and the associated gpg key must be added manually:
 
 		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_2.gpg] http://pinenote.mweigand.net/repository/ bookworm main
 
+	* (optional) maybe check that certain packages have not been put on hold, i.e.:
+ 
+		apt-mark showhold
+ 		apt-mark unhold mutter* libmutter-11-0 gir1.2-mutter-11
+   
 	* apt update && apt upgrade
 
 ### Wifi
