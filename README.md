@@ -184,7 +184,7 @@ The repository and the associated gpg key must be added manually:
 	* Download the public gpg key of the repository (note: this key is very
 	  short-lived, with a life time of 1-6 months):
 
-		wget -o /etc/apt/keyrings/pinenote_repo_key_2.gpg https://github.com/PNDeb/pinenote-debian-image/raw/dev/overlays/keyrings/pinenote_repo_key_2.gpg
+		wget -O /etc/apt/keyrings/pinenote_repo_key_2.gpg https://github.com/PNDeb/pinenote-debian-image/raw/dev/overlays/keyrings/pinenote_repo_key_2.gpg
 
 	  sha256 checksum of the key file:
 
