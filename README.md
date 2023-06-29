@@ -173,7 +173,7 @@ check any apt output before proceeding with updates.
 
 The repository and the associated gpg key must be added manually:
 
-	* Create the file **/etc/apt/preferences.d/98_pinenote.mweigand.net** to
+	* Create the file **/etc/apt/preferences.d/98_pinenote.mweigand.net.pref** to
 	  make sure any package in the PineNote-specific repository will get
 	  higher priority than any stock Debian package:
 
