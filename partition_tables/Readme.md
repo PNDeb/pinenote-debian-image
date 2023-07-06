@@ -11,7 +11,7 @@ This approach, if successfull, allows you to flash a new operating system to the
 	* Read the main [Readme file](../README.md)
 	* Have a working installation of Pine64's fork of
 	  [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
-	  Note as of 6. July 2023, this fork is in Debian unstable.
+	  Note as of 6. July 2023, this fork is in Debian unstable (check for version number beginning with 1.32+pine64).
 	* Have a full backup of the PineNote
 	* Be ready to recover from any errors (i.e., have the UART-board ready or
 	  tools to open up the PineNote)
