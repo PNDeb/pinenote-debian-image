@@ -1,4 +1,4 @@
-# Flashing the PineNote using rkdeveloptool 
+# Flashing the PineNote using rkdeveloptool
 
 This approach, if successfull, allows you to flash a new operating system to the PineNote without the need for the UART adapter. A working usb-c cable and the pen (i.e., a magnet) should suffice.
 
@@ -9,7 +9,9 @@ This approach, if successfull, allows you to flash a new operating system to the
 * Refer to the next section for information on the standard partition layout that is promoted here
 * Make sure to:
 	* Read the main [Readme file](../README.md)
-	* Have a working installation of [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool)
+	* Have a working installation of Pine64's fork of
+	  [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
+	  Note as of 6. July 2023, this fork is in Debian unstable.
 	* Have a full backup of the PineNote
 	* Be ready to recover from any errors (i.e., have the UART-board ready or
 	  tools to open up the PineNote)
@@ -42,7 +44,7 @@ This approach, if successfull, allows you to flash a new operating system to the
            * **data_part_dummy_p8.img**
            * or **data_part_dummy_p9.img**
 	* unzip the artifacts (and unzstd the disc image), for example:
-	
+
 			unzip debian_partition_8.zip && unzstd debian_partition_8.img.zst
 
 * Flashing commands:
