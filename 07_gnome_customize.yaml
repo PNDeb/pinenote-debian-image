@@ -18,15 +18,15 @@ actions:
       - libllvm14
       - syncthing
 
-  - action: run
-    description: Install modified mutter debs
-    chroot: true
-    command: dpkg -i /root/custom_debs/mutter/*.deb
+  # - action: run
+  #   description: Install modified mutter debs
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/mutter/*.deb
 
-  - action: run
-    description: Install modified MESA debs
-    chroot: true
-    command: dpkg -i /root/custom_debs/mesa/*.deb
+  # - action: run
+  #   description: Install modified MESA debs
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/mesa/*.deb
 
   - action: run
     description: Fix mesa rockchip_ebc
