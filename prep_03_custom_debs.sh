@@ -59,7 +59,8 @@ cd "${pwd}"
 # https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4221052/artifacts/browse/debian/output/
 cd overlays/custom_debs
 test -e firmware-brcm80211_20230310-1~exp3+salsaci_all.deb && rm firmware-brcm80211_20230310-1~exp3+salsaci_all.deb
-wget -nv https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4221052/artifacts/raw/debian/output/firmware-brcm80211_20230310-1~exp3+salsaci_all.deb?inline=false -O firmware-brcm80211_20230310-1~exp3+salsaci_all.deb
+# wget -nv https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4221052/artifacts/raw/debian/output/firmware-brcm80211_20230310-1~exp3+salsaci_all.deb?inline=false -O firmware-brcm80211_20230310-1~exp3+salsaci_all.deb
+wget -nv https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4328031/artifacts/raw/debian/output/firmware-brcm80211_20230404-1+salsaci_all.deb?inline=false -O firmware-brcm80211_20230404-1+salsaci_all.deb
 cd "${pwd}"
 
 cd overlays/custom_debs
