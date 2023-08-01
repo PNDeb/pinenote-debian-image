@@ -70,35 +70,35 @@ wget -nv https://github.com/PNDeb/pinenote-gnome-extension/releases/download/v1.
 cd "${pwd}"
 
 # libinput
-cd overlays/custom_debs
-rm libinput*.deb
+# cd overlays/custom_debs
+# rm libinput*.deb
 
-wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-bin_1.23.0-1_arm64.deb
-wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput10_1.23.0-1_arm64.deb
-# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-dev_1.23.0-1_arm64.deb
-wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-tools_1.23.0-1_arm64.deb
-cd "${pwd}"
+# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-bin_1.23.0-1_arm64.deb
+# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput10_1.23.0-1_arm64.deb
+# # wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-dev_1.23.0-1_arm64.deb
+# wget -nv https://github.com/PNDeb/libinput_backport/releases/download/v20230605/libinput-tools_1.23.0-1_arm64.deb
+# cd "${pwd}"
 
 # tweaks
-tweaks_version="v20230612"
-cd overlays/custom_debs
-rm pn-tweak*.deb
-wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-tweak-libinput-touch-arbitration_1.0_all.deb
+# tweaks_version="v20230612"
+# cd overlays/custom_debs
+# rm pn-tweak*.deb
+# wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-tweak-libinput-touch-arbitration_1.0_all.deb
 
-rm pn-suspend-on-cover*.deb
-wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-suspend-on-cover_1.1_all.deb
+# rm pn-suspend-on-cover*.deb
+# wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-suspend-on-cover_1.1_all.deb
 
-rm pn-default-gnome-config*.deb
-wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-default-gnome-config_1.0_all.deb
+# rm pn-default-gnome-config*.deb
+# wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-default-gnome-config_1.0_all.deb
 
-rm pn-defaut-xpp-config*.deb
-wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-defaut-xpp-config_1.0_all.deb
+# rm pn-defaut-xpp-config*.deb
+# wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-defaut-xpp-config_1.0_all.deb
 
-rm pn-default-documents*.deb
-wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-default-documents_1.0_all.deb
+# rm pn-default-documents*.deb
+# wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-default-documents_1.0_all.deb
 
-rm pn-handbook*.deb
-wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-handbook_1.0_all.deb
+# rm pn-handbook*.deb
+# wget -nv https://github.com/PNDeb/pinenote-tweaks/releases/download/${tweaks_version}/pn-handbook_1.0_all.deb
 
-cd "${pwd}"
+# cd "${pwd}"
 
