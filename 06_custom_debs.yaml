@@ -45,30 +45,40 @@ actions:
     packages:
       - libinput-tools
 
-  - action: run
-    description: Install libinput 1.23
-    chroot: true
-    command: dpkg -i /root/custom_debs/libinput*.deb
+  # - action: run
+  #   description: Install libinput 1.23
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/libinput*.deb
 
       # - action: run
       # description: Activate evsieve service
       # chroot: true
       # command: ln -s /etc/systemd/system/evsieve.service /etc/systemd/system/multi-user.target.wants/evsieve.service
 
-  - action: run
-    description: Install pinenote-tweaks
-    chroot: true
-    command: dpkg -i /root/custom_debs/pn-tweak*.deb
+  - action: apt
+    description: Install pinenote-tweak packages
+    packages:
+      - pn-default-documents
+      - pn-default-gnome-config
+      - pn-defaut-xpp-config
+      - pn-handbook
+      - pn-suspend-on-cover
+      - pn-tweak-libinput-touch-arbitration
 
-  - action: run
-    description: Install pinenote-suspend-on-cover-close
-    chroot: true
-    command: dpkg -i /root/custom_debs/pn-suspend-on-cover*.deb
+  # - action: run
+  #   description: Install pinenote-tweaks
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/pn-tweak*.deb
 
-  - action: run
-    description: Install pinenote-default-gnome-config
-    chroot: true
-    command: dpkg -i /root/custom_debs/pn-default-gnome-config*.deb
+  # - action: run
+  #   description: Install pinenote-suspend-on-cover-close
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/pn-suspend-on-cover*.deb
+
+  # - action: run
+  #   description: Install pinenote-default-gnome-config
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/pn-default-gnome-config*.deb
 
   - action: pack
     file: {{ $targz }}
