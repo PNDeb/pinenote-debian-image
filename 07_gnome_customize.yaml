@@ -68,11 +68,6 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
 
-  - action: run
-    description: Install sample documents
-    chroot: true
-    command: dpkg -i /root/custom_debs/pn-default-documents*.deb
-
   - action: overlay
     description: Install environment file
     source: overlays/environment.d
