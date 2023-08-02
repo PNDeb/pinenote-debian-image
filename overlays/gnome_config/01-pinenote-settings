@@ -26,8 +26,8 @@ enable-animations=false
 font-antialiasing='grayscale'
 font-hinting='slight'
 font-name='Noto Sans 11'
-gtk-theme='Breeze'
-icon-theme='breeze'
+gtk-theme='hicolor'
+icon-theme='hicolor'
 show-battery-percentage=true
 toolbar-style='text'
 toolkit-accessibility=true
@@ -43,13 +43,13 @@ idle-delay=uint32 0
 
 [org/gnome/desktop/wm/preferences]
 action-double-click-titlebar='menu'
-button-layout='icon:minimize,maximize,close'
+button-layout='close,maximize:appmenu'
 theme='HighContrast'
 visual-bell=false
 
 [org/gnome/shell]
 enabled-extensions=['pnhelper@m-weigand.github.com', 'user-theme@gnome-shell-extensions.gcampax.github.com']
-favorite-apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'firefox-esr.desktop', 'com.github.johnfactotum.Foliate.desktop', 'com.github.xournalpp.xournalpp.desktop', 'koreader.desktop']
+favorite-apps=['org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'firefox-esr.desktop', 'com.github.johnfactotum.Foliate.desktop', 'com.github.xournalpp.xournalpp.desktop', 'pnhelp.desktop']
 
 [org/gnome/shell/extensions/user-theme]
 name='PNEink'

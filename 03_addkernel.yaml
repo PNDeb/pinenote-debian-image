@@ -50,6 +50,21 @@ actions:
     source: overlays/default/
     destination: /etc/default/
 
+  - action: overlay
+    description: Install off-/suspend-screen data
+    source: overlays/off_and_suspend_screen/
+    destination: /etc/off_and_suspend_screen/
+
+  - action: run
+    description: Create rockchip firmware directory
+    chroot: true
+    command: mkdir /lib/firmware/rockchip/
+
+  - action: run
+    description: Copy offscreen image
+    chroot: true
+    command: cp /etc/off_and_suspend_screen/pine64.bin /lib/firmware/rockchip/rockchip_ebc_default_screen.bin
+
   - action: run
     description: Install all kernel-related .deb packages
     chroot: true

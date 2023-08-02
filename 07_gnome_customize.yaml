@@ -18,25 +18,25 @@ actions:
       - libllvm14
       - syncthing
 
-  - action: run
-    description: Install modified mutter debs
-    chroot: true
-    command: dpkg -i /root/custom_debs/mutter/*.deb
+  # - action: run
+  #   description: Install modified mutter debs
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/mutter/*.deb
 
-  - action: run
-    description: Install modified MESA debs
-    chroot: true
-    command: dpkg -i /root/custom_debs/mesa/*.deb
+  # - action: run
+  #   description: Install modified MESA debs
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/mesa/*.deb
 
   - action: run
     description: Fix mesa rockchip_ebc
     chroot: true
     command: ln -s /usr/lib/aarch64-linux-gnu/dri/rockchip_ebc_dri.so /usr/lib/aarch64-linux-gnu/dri/rockchip-ebc_dri.so
 
-  - action: overlay
-    description: Configuration for lightdm
-    source: overlays/lightdm/
-    destination: /etc/
+  # - action: overlay
+  #   description: Configuration for lightdm
+  #   source: overlays/lightdm/
+  #   destination: /etc/
 
   - action: overlay
     description: Configuration for gdm3, auto-login
@@ -59,29 +59,14 @@ actions:
     command: dconf update
 
   - action: overlay
-    description: Install pnhelper gnome extension
-    source: overlays/pnhelper@m-weigand.github.com
-    destination: /usr/share/gnome-shell/extensions/pnhelper@m-weigand.github.com/
-
-  - action: overlay
     description: Default applications for GNOME
     source: overlays/gnome_default_applications
     destination: /usr/share/gnome/applications/
 
-  # - action: run
-  #   description: Set up system
-  #   chroot: true
-  #   command: systemctl enable run_egl_info.service
-  #
-  - action: overlay
-    description: Install sample files
-    source: overlays/sample_files
-    destination: /home/user/Documents/
-
   - action: run
-    description: Fix permissions
+    description: Install pnhelper gnome extension
     chroot: true
-    command: chown -R user:user /home/user/Documents
+    command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
 
   - action: overlay
     description: Install environment file

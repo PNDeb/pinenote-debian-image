@@ -24,35 +24,13 @@ mkdir -p ${outdir}/rockchip
 dd if=/dev/mmcblk0p3 of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
 ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
 
-# do not (yet) call this script here as it takes ca. 20 minutes to complete!!!
-# python3 /root/parse_waveforms_and_modify.py
-
-# 2) Get wifi/bluetooth firmware from Android partition
-# note: should not be required anymore
-# dmsetup create --concise "$(/root/parse-android-dynparts /dev/mmcblk0p13)"
-# ls /dev/mapper/dynpart-*
-
-# mount /dev/mapper/dynpart-vendor /mnt
-# cd /mnt/etc/firmware
-# # tar -c -j -f /sdcard/firmware.tar.bz2 *
-# cp * ${outdir}
-
-# cd ${outdir}
-
-# cp fw_bcm43455c0_ag_cy.bin brcm/brcmfmac43455-sdio.bin
-# cp nvram_ap6255_cy.txt brcm/brcmfmac43455-sdio.txt
-# cp fw_bcm43455c0_ag_cy.bin brcm/brcmfmac43455-sdio.pine64,pinenote.bin
-# cp nvram_ap6255_cy.txt brcm/brcmfmac43455-sdio.pine64,pinenote.txt
-# cp BCM4345C0.hcd brcm/BCM4345C0.hcd
-
-# umount  /mnt
-# dmsetup remove /dev/mapper/dynpart-*
-
 # by default we assume / on /dev/mmcblk0p8, but we check when running this
 # script and make sure other root partitions are properly taken care of in the
 # extlinux.conf file on new reboot
 new_root=`mount | grep "on / type" | cut -d " " -f 1 | cut -c 6-`
-sed -i "s/mmcblk0p8/${new_root}/" /etc/default/u-boot
+# sed -i "s/mmcblk0p8/${new_root}/" /etc/default/u-boot
+ sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p[0-9].\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /etc/default/u-boot
+
 # Now that we have the firmware, regenerate the initrd for the kernel
 update-initramfs -c -k all
 u-boot-update
@@ -65,6 +43,14 @@ dpkg-reconfigure openssh-server
 # the partition
 echo "Growing root fs to the edge of the partition"
 resize2fs /dev/"${new_root}"
+
+# HOME directory options
+
+# we only want to react to files specific to this partition
+use_as_home_var="pn_use_as_home_${new_root}"
+transfer_files_var="pn_transfer_files_${new_root}"
+grow_fs_var="pn_grow_fs_${new_root}"
+recreate_fs_var="pn_recreate_fs_${new_root}"
 
 # check if partition 10 should be used as /home
 mnt_point="/tmp_pn_mount_p10"
@@ -82,7 +68,7 @@ then
 		then
 			echo "Found a valid ext4 fs on ${target_partition}"
 			# Do we want this partition as /home ?
-			if [ -e "${mnt_point}/pn_use_as_home" ]; then
+			if [ -e "${mnt_point}/${use_as_home_var}" ]; then
 				echo "Using ${target_partition} as /home"
 				fstab_line="${target_partition} /home              ext4   defaults"
 				echo "Adding line to /etc/fstab"
@@ -91,23 +77,21 @@ then
 				echo "Changes will take effect after reboot"
 			fi
 			transfer_user_files=0
-			if [ -e "${mnt_point}/pn_transfer_files" ]; then
+			if [ -e "${mnt_point}/${transfer_files_var}" ]; then
 				transfer_user_files=1
 			fi
 
 			grow_part=0
-			if [ -e "${mnt_point}/pn_grow_fs" ]; then
+			if [ -e "${mnt_point}/${grow_fs_var}" ]; then
 				grow_part=1
 				echo "Growing partition to full size"
 			fi
 
 			recreate_part=0
-			if [ -e "${mnt_point}/pn_recreate_fs" ]; then
+			if [ -e "${mnt_point}/${recreate_fs_var}" ]; then
 				recreate_part=1
 				echo "Recreating ext4 fs"
 			fi
-
-
 		fi
 
 		umount "${mnt_point}"
@@ -122,7 +106,7 @@ then
 			mkfs.ext4 "${target_partition}"
 			mount "${target_partition}" "${mnt_point}"
 			# we want to keep this, but none of the other control files
-			touch "${mnt_point}/pn_use_as_home"
+			touch "${mnt_point}/${use_as_home_var}"
 			umount "${mnt_point}"
 		fi
 

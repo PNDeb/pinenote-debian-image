@@ -1,6 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
-{{- $prevtargz := or .prevtargz "08_greeter.tar.gz" }}
-{{- $targz := or .targz "09_xournalpp.tar.gz" }}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz}}
 
 architecture: {{ $architecture }}
 
@@ -19,30 +19,10 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/xournalpp*.deb
 
-  - action: overlay
-    description: Install xpp scripts to /home/user/bin/
-    source: overlays/xpp/activation_scripts/
-    destination: /home/user/bin/
-
-  - action: overlay
-    description: Install xpp settings
-    source: overlays/xpp/settings/
-    destination: /home/user/.config/xournalpp/
-
-  - action: run
-    description: Add ~/bin to user-$PATH
-    chroot: true
-    command: echo "PATH=$HOME/bin:$PATH" >> $HOME/.bashrc
-
-  - action: run
-    description: chown /home/user/.config/autostart to user
-    chroot: true
-    command: chown -R user:user /home/user/.config/
-
-  - action: run
-    description: chown /home/user/.config/autostart to user
-    chroot: true
-    command: chown -R user:user /home/user/bin/ /home/user/.bashrc
+  # - action: run
+  #   description: Install Xournalpp default configuration
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/pn-defaut-xpp-config_*.deb
 
   - action: pack
     file: {{ $targz }}

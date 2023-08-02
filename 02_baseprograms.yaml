@@ -15,6 +15,7 @@ actions:
 
   - action: apt
     recommends: false
+    update: true
     description: Install base programs
     packages:
       - sudo
@@ -51,6 +52,8 @@ actions:
       - rsync
       - locales
       - unzip
+      - screen
+      - evtest
 
   - action: pack
     file: {{ $targz }}

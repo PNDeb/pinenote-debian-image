@@ -15,5 +15,15 @@ actions:
       - non-free-firmware
     mirror: http://deb.debian.org/debian
 
+  - action: overlay
+    description: Copy PNDeb keyring
+    source: overlays/keyrings/
+    destination: /usr/share/keyrings/
+
+  - action: overlay
+    description: Copy apt config for PNDeb
+    source: overlays/apt/
+    destination: /etc/apt/
+
   - action: pack
     file: {{ $targz }}

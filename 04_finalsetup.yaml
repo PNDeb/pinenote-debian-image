@@ -1,8 +1,6 @@
 {{- $architecture := or .architecture "arm64" -}}
 {{- $prevtargz := .prevtargz }}
 {{- $targz := .targz }}
-{{- $username := or .username "user" -}}
-{{- $password := or .password "1234" -}}
 {{- $hostname := or .hostname "pinenote" -}}
 
 architecture: {{ $architecture }}
@@ -10,16 +8,6 @@ architecture: {{ $architecture }}
 actions:
   - action: unpack
     file: {{ $prevtargz }}
-
-  - action: overlay
-    description: Copy the remaining firmware files
-    source: overlays/firmware/
-    destination: /usr/lib/firmware/
-
-  - action: run
-    description: Prepare the fallback for the wifi nvram txt firmware file
-    chroot: true
-    command: cp /usr/lib/firmware/brcm/brcmfmac43455-sdio.AW-CM256SM.txt  /usr/lib/firmware/brcm/brcmfmac43455-sdio.txt
 
   - action: overlay
     description: Copy default configurations (like u-boot)
@@ -34,11 +22,6 @@ actions:
       # we already have sudo in baseprograms.yaml, but maybe you want to build without that
       - sudo
       - aptitude
-
-  - action: run
-    description: Set up default user
-    chroot: true
-    script: scripts/setup-user.sh {{ $username }} {{ $password }}
 
   - action: run
     description: Set up system
@@ -64,11 +47,6 @@ actions:
     description: Activate first-boot-script
     chroot: true
     command: ln -s /etc/systemd/system/run_on_first_startup.service /etc/systemd/system/multi-user.target.wants/run_on_first_startup.service
-
-  - action: run
-    description: Activate reload cyttsp5 script
-    chroot: true
-    command: ln -s /etc/systemd/system/reload_cyttsp5.service /etc/systemd/system/multi-user.target.wants/reload_cyttsp5.service
 
   - action: pack
     file: {{ $targz }}

@@ -1,20 +1,16 @@
 #!/usr/bin/env sh
 
-test -d tmp_kernel && rm -r tmp_kernel
-mkdir tmp_kernel && cd tmp_kernel
-# wget https://github.com/m-weigand/linux/releases/download/20221013/pinenote_kernel_modules_dtb.zip
-#wget https://github.com/m-weigand/linux/releases/download/v20221207/pinenote_kernel_modules_dtb.zip
-wget https://github.com/m-weigand/linux/releases/download/v20230119/pinenote_kernel_modules_dtb.zip
-unzip pinenote_kernel_modules_dtb.zip
+cd overlays/kernel/
+rm *.deb
+# 6.3_v2 kernel
+# wget https://github.com/m-weigand/linux/releases/download/v20230605/linux-image-6.3.0-pinenote-202306050736-g0f64a7bedfee_6.3.0-g0f64a7bedfee-1_arm64_no_compression.deb
+# wget https://github.com/m-weigand/linux/releases/download/v20230605/linux-headers-6.3.0-pinenote-202306050736-g0f64a7bedfee_6.3.0-g0f64a7bedfee-1_arm64.deb
 
-# test -e overlays/modules/kernel-modules.tar.gz && rm overlays/modules/kernel-modules.tar.gz
+# 6.3.10_v1
+# wget https://github.com/m-weigand/linux/releases/download/v20230727/linux-image-6.3.10-pinenote-202307271912-g616dc3bce559_6.3.10-g616dc3bce559-1_arm64_no_compression.deb
+# wget https://github.com/m-weigand/linux/releases/download/v20230727/linux-headers-6.3.10-pinenote-202307271912-g616dc3bce559_6.3.10-g616dc3bce559-1_arm64.deb
 
-# # image and dtb
-# cp rk3566-pinenote-v1.2.dtb ../overlays/boot/
-# cp Image ../overlays/boot/
-# cp modules.tar.gz ../overlays/modules/kernel-modules.tar.gz
-
-cp linux-image*no_compression.deb ../overlays/kernel/
-
-cd ..
-rm -r tmp_kernel
+# 6.3.10_v1
+wget https://github.com/m-weigand/linux/releases/download/v20230802/linux-image-6.3.10-pinenote-202308011945-ge6603de5834c_6.3.10-ge6603de5834c-1_arm64_no_compression.deb
+wget https://github.com/m-weigand/linux/releases/download/v20230802/linux-headers-6.3.10-pinenote-202308011945-ge6603de5834c_6.3.10-ge6603de5834c-1_arm64.deb
+cd ../../
