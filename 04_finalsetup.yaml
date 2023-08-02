@@ -14,6 +14,16 @@ actions:
     source: overlays/default/
     destination: /etc/default/
 
+  - action: overlay
+    description: Copy network manager configs
+    source: overlays/networkmanager/
+    destination: /usr/lib/NetworkManager/conf.d/
+
+  - action: overlay
+    description: Copy resolved config fragments
+    source: overlays/resolved/
+    destination: /usr/lib/systemd/resolved.conf.d/
+
   - action: apt
     recommends: false
     description: Install initramfs-tools at the end so it builds the initrd only once
