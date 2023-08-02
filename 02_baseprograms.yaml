@@ -54,6 +54,7 @@ actions:
       - unzip
       - screen
       - evtest
+      - systemd-resolved
 
   - action: pack
     file: {{ $targz }}
