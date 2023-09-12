@@ -5,9 +5,7 @@ pwd=$PWD
 # koreader
 cd overlays/custom_debs/
 rm koreader*.deb*
-# wget https://github.com/koreader/koreader/releases/download/v2022.10/koreader-2022.10-arm64.deb
-# wget https://github.com/koreader/koreader/releases/download/v2023.04/koreader-2023.04-arm64.deb
-wget -nv https://github.com/koreader/koreader/releases/download/v2023.05.1/koreader-2023.05.1-arm64.deb
+wget -nv https://github.com/koreader/koreader/releases/download/v2023.08/koreader-2023.08-arm64.deb
 cd ${pwd}
 
 # evsieve
@@ -31,10 +29,9 @@ wget -nv https://github.com/m-weigand/pinenote_dbus_service/releases/download/v2
 cd "${pwd}"
 
 # 2023.05.17: (temporarily) fixed brcm firmware
-# https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4221052/artifacts/browse/debian/output/
 cd overlays/custom_debs
 test -e firmware-brcm80211_20230625-1+salsaci_all.deb && rm firmware-brcm80211_20230625-1+salsaci_all.deb
-wget -nv https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4652912/artifacts/file/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb
+wget -nv https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4652912/artifacts/raw/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb?inline=false
 cd "${pwd}"
 
 cd overlays/custom_debs
