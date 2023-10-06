@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         # generate images for the following partition numbers
-        partition: [17, ]
+        partition: [8, 9]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
