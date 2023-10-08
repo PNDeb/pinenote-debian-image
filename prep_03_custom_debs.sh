@@ -31,7 +31,8 @@ cd "${pwd}"
 # 2023.05.17: (temporarily) fixed brcm firmware
 cd overlays/custom_debs
 test -e firmware-brcm80211_20230625-1+salsaci_all.deb && rm firmware-brcm80211_20230625-1+salsaci_all.deb
-wget -nv -O firmware-brcm80211_20230625-1+salsaci_all.deb https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4652912/artifacts/raw/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb?inline=false
+# wget -nv -O firmware-brcm80211_20230625-1+salsaci_all.deb https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4652912/artifacts/raw/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb?inline=false
+wget -nv -O firmware-brcm80211_20230625-1+salsaci_all.deb https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4774107/artifacts/raw/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb?inline=false
 cd "${pwd}"
 
 cd overlays/custom_debs
