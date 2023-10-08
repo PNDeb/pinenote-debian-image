@@ -113,6 +113,7 @@ DEBOS_CMD=debos
 previous_recipe=
 
 recipes=`grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'`
+rcounter=0
 for recipe in $recipes; do
 	echo "|-- Procesing $recipe --|"
 	if [ ! -f "$recipe" ]; then
@@ -127,21 +128,27 @@ for recipe in $recipes; do
 		echo "complete directory:"
 		du -sh .
 		df -h
+		# delete previous archives to save space
+		for to_del in `seq 1 $((rcounter-0))`; do
+		   	rm `printf %02i $to_del;`_*.tar.gz;
+	   	done
+		echo "Directory size after cleanup: `df -h`"
 	else
 		echo " build not needed, skipping."
 	fi
 	previous_recipe="$recipe"
+	rcounter=$((rcounter+1))
 done
 echo "$ARGS" > lastbuildoptions
 echo "|-- build done. --|"
 
 # we build as root, but modify/manage as user
-chown -R mweigand:mweigand .
+# chown -R mweigand:mweigand .
 
 # rename the final tar.gz file to a standardized name
-final_targz="pinenote_arm64_debian_bookworm.tar.gz"
-test -e "${final_targz}" && rm "${final_targz}"
+# final_targz="pinenote_arm64_debian_bookworm.tar.gz"
+# test -e "${final_targz}" && rm "${final_targz}"
 
-last_targz_file=$(ls -1 *.tar.gz | tail -1)
-echo "Renaming ${last_targz_file} to ${final_targz}"
-mv "${last_targz_file}" "${final_targz}"
+# last_targz_file=$(ls -1 *.tar.gz | tail -1)
+# echo "Renaming ${last_targz_file} to ${final_targz}"
+# mv "${last_targz_file}" "${final_targz}"
