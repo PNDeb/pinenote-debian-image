@@ -122,8 +122,11 @@ for recipe in $recipes; do
 	if needs_build "$recipe" "$previous_recipe"; then
 		echo " needs build "
 		build "$recipe" "$previous_recipe"
+		echo "Individual files:"
 		du -sh *
+		echo "complete directory:"
 		du -sh .
+		df -h
 	else
 		echo " build not needed, skipping."
 	fi
