@@ -11,8 +11,8 @@ jobs:
     strategy:
       matrix:
         # generate images for the following partition numbers
-        partition: [8, 9]
-    runs-on: ubuntu-latest
+        partition: [8, ]
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
 
@@ -20,7 +20,7 @@ jobs:
       run: sudo apt -y update && sudo apt install debos
 
     - name: Disc usage 1
-      run: df -h
+      run: pwd && df -h
 
     - name: Prep step
       run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
@@ -29,155 +29,155 @@ jobs:
       run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p8"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
 
     - name: Disc usage 2
-      run: df -h
+      run: pwd && df -h
 
     - name: Build
       run: sudo ./build.sh
 
     - name: Disc usage 3
-      run: df -h
+      run: pwd && df -h
 
-    - name: Rename rootfs tar.gz
-      run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_${{matrix.partition}}.tar.gz
+    # - name: Rename rootfs tar.gz
+    #   run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_${{matrix.partition}}.tar.gz
 
-    - name: Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: rootfs_archive_partition_${{matrix.partition}}
-        path: pinenote_arm64_debian_bookworm_partition_${{matrix.partition}}.tar.gz
+    # - name: Artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: rootfs_archive_partition_${{matrix.partition}}
+    #     path: pinenote_arm64_debian_bookworm_partition_${{matrix.partition}}.tar.gz
 
-    - name: Rename debian.img.zst
-      run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
+    # - name: Rename debian.img.zst
+    #   run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
 
-    - name: Artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: disc_image_partition_${{matrix.partition}}
-        path: debian_partition_${{matrix.partition}}.img.zst
+    # - name: Artifacts
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: disc_image_partition_${{matrix.partition}}
+    #     path: debian_partition_${{matrix.partition}}.img.zst
 
-  create_data_partition_dummy:
-    strategy:
-      matrix:
-        # generate images for the following partition numbers
-        partition: [8, 9, ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
-      - name: Create dummy partition
-        run: |
-          fallocate -l 40MB data_part_dummy_p${{matrix.partition}}.bin
-          mkfs.ext4 data_part_dummy_p${{matrix.partition}}.bin
-          mkdir tmp
-          sudo mount -v -o loop data_part_dummy_p${{matrix.partition}}.bin tmp
-          sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
-          sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
-          sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
-          sudo umount tmp
-          rm -r tmp
+  # create_data_partition_dummy:
+  #   strategy:
+  #     matrix:
+  #       # generate images for the following partition numbers
+  #       partition: [8, 9, ]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
+  #     - name: Create dummy partition
+  #       run: |
+  #         fallocate -l 40MB data_part_dummy_p${{matrix.partition}}.bin
+  #         mkfs.ext4 data_part_dummy_p${{matrix.partition}}.bin
+  #         mkdir tmp
+  #         sudo mount -v -o loop data_part_dummy_p${{matrix.partition}}.bin tmp
+  #         sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
+  #         sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
+  #         sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
+  #         sudo umount tmp
+  #         rm -r tmp
 
-      - name: Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: data_part_dummy_partition_${{matrix.partition}}
-          path: data_part_dummy_p${{matrix.partition}}.bin
+  #     - name: Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: data_part_dummy_partition_${{matrix.partition}}
+  #         path: data_part_dummy_p${{matrix.partition}}.bin
 
-  create_empty_uboot_env_partition:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
-      - name: Install dosfstools
-        run: sudo apt -y install dosfstools
-      - name: Create u-boot environment partition
-        run: |
-          fallocate -l 4MB data_part_uboot_env.bin
-          mkfs.vfat data_part_uboot_env.bin
+  # create_empty_uboot_env_partition:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
+  #     - name: Install dosfstools
+  #       run: sudo apt -y install dosfstools
+  #     - name: Create u-boot environment partition
+  #       run: |
+  #         fallocate -l 4MB data_part_uboot_env.bin
+  #         mkfs.vfat data_part_uboot_env.bin
 
-      - name: Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: data_part_uboot_env
-          path: data_part_uboot_env.bin
+  #     - name: Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: data_part_uboot_env
+  #         path: data_part_uboot_env.bin
 
-  compile_uboot:
-    runs-on: ubuntu-latest
-    name: compile uboot for the PineNote
-    steps:
-      - name: Prepare environment
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install build-essential crossbuild-essential-arm64 device-tree-compiler python3-pyelftools
-      - name: Checkout rkbin
-        run: |
-          test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
-          test -d u-boot-pinenote || git clone --branch branch_pinenote2 --depth 1 https://github.com/m-weigand/u-boot-pinenote
-          cd u-boot-pinenote
-          export CROSS_COMPILE=aarch64-linux-gnu-
-          make clean;
-          make rk3566-pinenote_defconfig;
-          ./make.sh
-          ./make.sh trust
-      - name: Upload files
-        uses: actions/upload-artifact@v3
-        with:
-          name: uboot-files
-          path: |
-            u-boot-pinenote/uboot.img
-            u-boot-pinenote/trust.img
-            u-boot-pinenote/idblock.bin
+  # compile_uboot:
+  #   runs-on: ubuntu-latest
+  #   name: compile uboot for the PineNote
+  #   steps:
+  #     - name: Prepare environment
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get -y install build-essential crossbuild-essential-arm64 device-tree-compiler python3-pyelftools
+  #     - name: Checkout rkbin
+  #       run: |
+  #         test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
+  #         test -d u-boot-pinenote || git clone --branch branch_pinenote2 --depth 1 https://github.com/m-weigand/u-boot-pinenote
+  #         cd u-boot-pinenote
+  #         export CROSS_COMPILE=aarch64-linux-gnu-
+  #         make clean;
+  #         make rk3566-pinenote_defconfig;
+  #         ./make.sh
+  #         ./make.sh trust
+  #     - name: Upload files
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         name: uboot-files
+  #         path: |
+  #           u-boot-pinenote/uboot.img
+  #           u-boot-pinenote/trust.img
+  #           u-boot-pinenote/idblock.bin
 
-  generate_spl_boot_file:
-    runs-on: ubuntu-latest
-    name: Geneate rk356x_spl_loader_v1.12.112.bin
-    steps:
-      - name: Prepare environment
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install build-essential crossbuild-essential-arm64 device-tree-compiler python3-pyelftools
-      - name: Checkout rkbin
-        run: |
-          test -d rkbin && rm -rf rkbin
-          git clone --shallow-since="2022-01-02T00:00:00Z" https://github.com/rockchip-linux/rkbin
-          cd rkbin
-          git checkout b6354b9
-          tools/boot_merger RKBOOT/RK3566MINIALL.ini
-      - name: Upload files
-        uses: actions/upload-artifact@v3
-        with:
-          name: rk356x_spl_loader_v1.12.112.bin
-          path: |
-            rkbin/rk356x_spl_loader_v1.12.112.bin
+#   generate_spl_boot_file:
+#     runs-on: ubuntu-latest
+#     name: Geneate rk356x_spl_loader_v1.12.112.bin
+#     steps:
+#       - name: Prepare environment
+#         run: |
+#           sudo apt-get update
+#           sudo apt-get -y install build-essential crossbuild-essential-arm64 device-tree-compiler python3-pyelftools
+#       - name: Checkout rkbin
+#         run: |
+#           test -d rkbin && rm -rf rkbin
+#           git clone --shallow-since="2022-01-02T00:00:00Z" https://github.com/rockchip-linux/rkbin
+#           cd rkbin
+#           git checkout b6354b9
+#           tools/boot_merger RKBOOT/RK3566MINIALL.ini
+#       - name: Upload files
+#         uses: actions/upload-artifact@v3
+#         with:
+#           name: rk356x_spl_loader_v1.12.112.bin
+#           path: |
+#             rkbin/rk356x_spl_loader_v1.12.112.bin
 
-  do_release:
-    # if: startsWith(github.ref, 'refs/tags/')
-    # if: contains(github.ref, "main")
-    runs-on: ubuntu-latest
-    needs:
-      - build_images
-      - create_data_partition_dummy
-      - compile_uboot
-      - generate_spl_boot_file
-    steps:
-      - name: Clone workflow repository
-        uses: actions/checkout@v3
-      - name: Download image artifacts
-        uses: actions/download-artifact@v3
-        with:
-          path: artifacts/
-      - name: Make release
-        uses: softprops/action-gh-release@v0.1.15
-        with:
-          draft: true
-          files: |
-            artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
-            artifacts/uboot-files/uboot.img
-            artifacts/uboot-files/trust.img
-            artifacts/uboot-files/idblock.bin
-            artifacts/data_part_uboot_env/data_part_uboot_env.bin
-            artifacts/disc_image_partition_8/debian_partition_8.img.zst
-            artifacts/disc_image_partition_9/debian_partition_9.img.zst
-            artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
-            artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
-            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_8.tar.gz
-            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_9.tar.gz
+#   do_release:
+#     # if: startsWith(github.ref, 'refs/tags/')
+#     # if: contains(github.ref, "main")
+#     runs-on: ubuntu-latest
+#     needs:
+#       - build_images
+#       - create_data_partition_dummy
+#       - compile_uboot
+#       - generate_spl_boot_file
+#     steps:
+#       - name: Clone workflow repository
+#         uses: actions/checkout@v3
+#       - name: Download image artifacts
+#         uses: actions/download-artifact@v3
+#         with:
+#           path: artifacts/
+#       - name: Make release
+#         uses: softprops/action-gh-release@v0.1.15
+#         with:
+#           draft: true
+#           files: |
+#             artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
+#             artifacts/uboot-files/uboot.img
+#             artifacts/uboot-files/trust.img
+#             artifacts/uboot-files/idblock.bin
+#             artifacts/data_part_uboot_env/data_part_uboot_env.bin
+#             artifacts/disc_image_partition_8/debian_partition_8.img.zst
+#             artifacts/disc_image_partition_9/debian_partition_9.img.zst
+#             artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
+#             artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
+#             artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_8.tar.gz
+#             artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_9.tar.gz
