@@ -132,7 +132,8 @@ for recipe in $recipes; do
 		for to_del in `seq 1 $((rcounter-0))`; do
 		   	rm `printf %02i $to_del;`_*.tar.gz;
 	   	done
-		echo "Directory size after cleanup: `df -h`"
+		echo "Directory size after cleanup: `du -sh .`"
+		df -h
 	else
 		echo " build not needed, skipping."
 	fi
