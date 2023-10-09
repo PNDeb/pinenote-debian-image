@@ -31,5 +31,5 @@
 
 # # take from the disk image only our partition
 # takeoutpartition.yaml
-12_create_disk_image.yaml
+12_create_disc_image.yaml
 13_extract_partition_image.yaml
