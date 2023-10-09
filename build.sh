@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This "build system" assumes that the recipes are part of a build "pipeline":
 # each recipe in the pipeline continues the work done by the previous recipe.
