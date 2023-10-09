@@ -130,6 +130,7 @@ for recipe in $recipes; do
 		df -h
 		# delete previous archives to save space
 		for to_del in `seq 1 $((rcounter-0))`; do
+		   	echo "Deleting: `printf %02i $to_del;`_*.tar.gz;"
 		   	rm `printf %02i $to_del;`_*.tar.gz;
 	   	done
 		echo "Directory size after cleanup: `du -sh .`"
