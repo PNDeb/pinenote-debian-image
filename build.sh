@@ -112,9 +112,9 @@ DEBOS_CMD=debos
 
 previous_recipe=
 
-recipes=`grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'`
+recipes=(`grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'`)
 rcounter=0
-for recipe in $recipes; do
+for recipe in ${recipes[@]}; do
 	echo "|-- Procesing $recipe --|"
 	if [ ! -f "$recipe" ]; then
 		echo Recipe not found. Aborting.
@@ -131,7 +131,10 @@ for recipe in $recipes; do
 		# delete previous archives to save space
 		for to_del in `seq 1 $((rcounter-0))`; do
 		   	echo "Deleting: `printf %02i $to_del;`_*.tar.gz;"
-		   	rm `printf %02i $to_del;`_*.tar.gz;
+			# we want to keep the last tar.gz file, which is generated in step 11
+			if [ $to_del -lt 11 ]; then
+		   		rm `printf %02i $to_del;`_*.tar.gz;
+			fi
 	   	done
 		echo "Directory size after cleanup: `du -sh .`"
 		df -h
