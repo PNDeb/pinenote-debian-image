@@ -112,7 +112,7 @@ DEBOS_CMD=debos
 
 previous_recipe=
 
-recipes=(`grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'`)
+recipes=( `grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'` )
 rcounter=0
 for recipe in ${recipes[@]}; do
 	echo "|-- Procesing $recipe --|"
