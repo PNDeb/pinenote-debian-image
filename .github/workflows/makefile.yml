@@ -37,23 +37,23 @@ jobs:
     - name: Disc usage 3
       run: pwd && df -h
 
-    # - name: Rename rootfs tar.gz
-    #   run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_${{matrix.partition}}.tar.gz
+    - name: Rename rootfs tar.gz
+      run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_${{matrix.partition}}.tar.gz
 
-    # - name: Artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: rootfs_archive_partition_${{matrix.partition}}
-    #     path: pinenote_arm64_debian_bookworm_partition_${{matrix.partition}}.tar.gz
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: rootfs_archive_partition_${{matrix.partition}}
+        path: pinenote_arm64_debian_bookworm_partition_${{matrix.partition}}.tar.gz
 
-    # - name: Rename debian.img.zst
-    #   run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
+    - name: Rename debian.img.zst
+      run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
 
-    # - name: Artifacts
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: disc_image_partition_${{matrix.partition}}
-    #     path: debian_partition_${{matrix.partition}}.img.zst
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: disc_image_partition_${{matrix.partition}}
+        path: debian_partition_${{matrix.partition}}.img.zst
 
   # create_data_partition_dummy:
   #   strategy:
