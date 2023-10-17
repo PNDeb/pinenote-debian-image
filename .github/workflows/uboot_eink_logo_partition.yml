@@ -8,7 +8,7 @@ on:
 
 jobs:
   generate_logo_partition:
-    runs-on: ubuntu-20.04
+    runs-on: latest
     steps:
     - uses: actions/checkout@v3
 
