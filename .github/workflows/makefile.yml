@@ -59,7 +59,7 @@ jobs:
     strategy:
       matrix:
         # generate images for the following partition numbers
-        partition: [8, 9, ]
+        partition: [6, 7, 8, 9, ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -111,7 +111,7 @@ jobs:
       - name: Checkout rkbin
         run: |
           test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
-          test -d u-boot-pinenote || git clone --branch branch_pinenote2 --depth 1 https://github.com/m-weigand/u-boot-pinenote
+          test -d u-boot-pinenote || git clone --branch branch_cyttsp5ub --depth 1 https://github.com/m-weigand/u-boot-pinenote
           cd u-boot-pinenote
           export CROSS_COMPILE=aarch64-linux-gnu-
           make clean;
@@ -175,9 +175,11 @@ jobs:
             artifacts/uboot-files/trust.img
             artifacts/uboot-files/idblock.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/disc_image_partition_6/debian_partition_6.img.zst
+            artifacts/disc_image_partition_7/debian_partition_7.img.zst
             artifacts/disc_image_partition_8/debian_partition_8.img.zst
             artifacts/disc_image_partition_9/debian_partition_9.img.zst
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p6.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p7.bin
             artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
             artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
-            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_8.tar.gz
-            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_9.tar.gz
