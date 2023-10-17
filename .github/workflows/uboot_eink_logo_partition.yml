@@ -1,0 +1,32 @@
+name: Build new logo partition
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate_logo_partition:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt -y update && sudo apt install python3-pillow imagemagick libpng-dev cmake
+
+    - name: Prepare Compilation of logotool
+      run: cd custom_logos_uboot/logotool_mod; mkdir build; cd build; cmake ../
+
+    - name: Compilation of logotool
+      run: cd custom_logos_uboot/logotool_mod/build; make
+
+    - name: Generate free logos
+      run: cd custom_logos_uboot && ./01_draw_free_logos.py
+
+    - name: Generate default bootmenu entries
+      run: cd custom_logos_uboot && ./02_gen_default_bootmenu_entries.py
+
+    - name: Generate image partition
+      run: cd custom_logos_uboot && ./03_write_logo_partition.sh
+
