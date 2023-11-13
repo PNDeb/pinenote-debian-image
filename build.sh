@@ -64,8 +64,8 @@ recipes_pipeline=recipes-pipeline
 # '900MB' - enough to extract the last tar.gz; resize fs at runtime
 image_size=
 
-# ARGS="-m 8G -v --show-boot"
-ARGS="-m 8G -v "
+ARGS="-m 8G -v --show-boot"
+# ARGS="-m 8G -v "
 
 read_options() {
 	while getopts "x:H:p:u:r:s:" opt
