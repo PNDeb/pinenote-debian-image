@@ -18,6 +18,7 @@ mousekeys-enable=false
 stickykeys-enable=true
 
 [org/gnome/desktop/interface]
+clock-show-date=false
 clock-show-weekday=false
 cursor-blink=false
 cursor-size=24
