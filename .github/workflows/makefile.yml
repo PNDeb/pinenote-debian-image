@@ -20,6 +20,9 @@ jobs:
     - name: Upgrade system
       run: sudo apt -y update && sudo apt upgrade
 
+    - name: Install systemd
+      run: sudo apt install systemd
+
     - name: Install debos
       run: sudo apt install debos
 
