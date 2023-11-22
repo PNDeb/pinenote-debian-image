@@ -45,7 +45,7 @@ build() {
 	if [ ! -z "$2" ]; then
 		tars="$tars -t prevtargz:${2%.yaml}.tar.gz "
 	fi
-	$DEBOS_CMD $ARGS -disable-fakemachine $tars "$1" || exit 34
+	$DEBOS_CMD $ARGS --disable-fakemachine $tars "$1" || exit 34
 }
 
 # The default values (see *.yaml) are in each comment above the variable
