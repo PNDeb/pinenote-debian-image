@@ -55,6 +55,7 @@ actions:
       - screen
       - evtest
       - systemd-resolved
+      - ntp
 
   - action: pack
     file: {{ $targz }}
