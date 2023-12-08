@@ -24,8 +24,9 @@ cd "${pwd}"
 
 # pinenote dbus service
 cd overlays/custom_debs
-test -e pinenote_dbus_service_0.1.0_arm64.deb && rm pinenote_dbus_service*.deb
-wget -nv https://github.com/m-weigand/pinenote_dbus_service/releases/download/v20221207/pinenote_dbus_service_0.1.0_arm64.deb
+test -e pinenote-dbus-service*.deb && rm pinenote-dbus-service*.deb
+wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v20231208/pinenote-dbus-service_0.2.0-dev-1_arm64.deb
+# wget -nv https://github.com/m-weigand/pinenote_dbus_service/releases/download/v20221207/pinenote_dbus_service_0.1.0_arm64.deb
 cd "${pwd}"
 
 # 2023.05.17: (temporarily) fixed brcm firmware
