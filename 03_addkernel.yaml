@@ -145,6 +145,12 @@ actions:
     chroot: true
     script: scripts/kernel_prepare_emergency_files.sh
 
+  - action: apt
+    recommends: false
+    description: Install new kernel from repository
+    packages:
+      - linux-image-6.3.10-pinenote-202312092104-gd4dec0cb83b9
+
 
   - action: pack
     file: {{ $targz }}
