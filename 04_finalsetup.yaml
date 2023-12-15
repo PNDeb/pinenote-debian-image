@@ -73,7 +73,7 @@ actions:
   - action: run
     description: Copy our umtpd-config file
     chroot: true
-    command: mkdir /etc/umtprd/cp /root/usb_gadget/umtprd.conf /etc/umtprd/umtprd.conf
+    command: mkdir /etc/umtprd/ && cp /root/usb_gadget/umtprd.conf /etc/umtprd/umtprd.conf
 
   - action: run
     description: Copy the basic usb mtp gadget service file
