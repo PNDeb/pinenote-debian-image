@@ -63,10 +63,16 @@ actions:
     source: overlays/gnome_default_applications
     destination: /usr/share/gnome/applications/
 
-  - action: run
-    description: Install pnhelper gnome extension
-    chroot: true
-    command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
+#   - action: run
+#     description: Install pnhelper gnome extension
+#     chroot: true
+#     command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
+
+  - action: apt
+    recommends: false
+    description: Install pnhelper gnome extension from repository
+    packages:
+      - pinenote-gnome-extension
 
   - action: overlay
     description: Install environment file
