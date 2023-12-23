@@ -8,12 +8,12 @@ on:
 
 jobs:
   generate_logo_partition:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: sudo apt -y update && sudo apt install python3-pillow imagemagick libpng-dev cmake
+      run: sudo apt -y update && sudo apt install python3-pillow imagemagick libpng-dev cmake  	fonts-freefont-ttf
 
     - name: Prepare Compilation of logotool
       run: cd custom_logos_uboot/logotool_mod; mkdir build; cd build; cmake ../

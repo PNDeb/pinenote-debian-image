@@ -1,8 +1,16 @@
 #!/usr/bin/env python
+import sys
 
 import pandas as pd
+
+if len(sys.argv) >= 2:
+    input_file = sys.argv[1]
+else:
+    input_file = 'table_standard1.txt'
+print('Using file {} for input'.format(input_file))
+
 df = pd.read_csv(
-    'table_standard1.txt',
+    input_file,
     delim_whitespace=True,
     comment='#', names=['start', 'size', 'label', 'bootable']
 )

@@ -24,12 +24,12 @@
 
 10_pin_custom_debs.yaml
 
-90_adduser.yaml
+11_adduser.yaml
 
 # # create a gpt disk image, with one partition
 # creatediskimage.yaml
 
 # # take from the disk image only our partition
 # takeoutpartition.yaml
-98_create_disk_image.yaml
-99_extract_partition_image.yaml
+12_create_disc_image.yaml
+13_extract_partition_image.yaml

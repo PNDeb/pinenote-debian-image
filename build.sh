@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This "build system" assumes that the recipes are part of a build "pipeline":
 # each recipe in the pipeline continues the work done by the previous recipe.
@@ -45,7 +45,7 @@ build() {
 	if [ ! -z "$2" ]; then
 		tars="$tars -t prevtargz:${2%.yaml}.tar.gz "
 	fi
-	$DEBOS_CMD $ARGS $tars "$1" || exit 34
+	$DEBOS_CMD $ARGS --disable-fakemachine $tars "$1" || exit 34
 }
 
 # The default values (see *.yaml) are in each comment above the variable
@@ -112,8 +112,9 @@ DEBOS_CMD=debos
 
 previous_recipe=
 
-recipes=`grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'`
-for recipe in $recipes; do
+recipes=( `grep -v '#' "$recipes_pipeline" | grep '.*\.yaml'` )
+rcounter=0
+for recipe in ${recipes[@]}; do
 	echo "|-- Procesing $recipe --|"
 	if [ ! -f "$recipe" ]; then
 		echo Recipe not found. Aborting.
@@ -122,16 +123,34 @@ for recipe in $recipes; do
 	if needs_build "$recipe" "$previous_recipe"; then
 		echo " needs build "
 		build "$recipe" "$previous_recipe"
+		echo "Individual files:"
+		du -sh *
+		echo "complete directory:"
+		du -sh .
+		df -h
+		# delete previous archives to save space
+		for to_del in `seq 1 $((rcounter-0))`; do
+		   	echo "Deleting: `printf %02i $to_del;`_*.tar.gz;"
+			# we want to keep the last tar.gz file, which is generated in step 11
+			if [ $to_del -lt 11 ]; then
+		   		rm `printf %02i $to_del;`_*.tar.gz;
+			fi
+	   	done
+		echo "Directory size after cleanup: `du -sh .`"
+		df -h
 	else
 		echo " build not needed, skipping."
 	fi
 	previous_recipe="$recipe"
+	rcounter=$((rcounter+1))
 done
 echo "$ARGS" > lastbuildoptions
 echo "|-- build done. --|"
 
+ls
+
 # we build as root, but modify/manage as user
-chown -R mweigand:mweigand .
+# chown -R mweigand:mweigand .
 
 # rename the final tar.gz file to a standardized name
 final_targz="pinenote_arm64_debian_bookworm.tar.gz"

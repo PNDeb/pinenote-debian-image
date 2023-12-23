@@ -15,6 +15,7 @@ actions:
       - gnome
       - gnome-shell-extension-prefs
       - lightdm
+      - portfolio-filemanager
 
   - action: pack
     file: {{ $targz }}

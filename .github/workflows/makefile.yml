@@ -11,13 +11,13 @@ jobs:
     strategy:
       matrix:
         # generate images for the following partition numbers
-        partition: [8, 9, ]
-    runs-on: ubuntu-latest
+        partition: [6, 7, 8, 9, 17]
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: sudo apt -y update && sudo apt install debos syncthing
+      run: sudo apt -y update && sudo apt install debos
 
     - name: Prep step
       run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
@@ -29,7 +29,7 @@ jobs:
       run: sudo ./build.sh
 
     - name: Rename rootfs tar.gz
-      run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_${{matrix.partition}}.tar.gz
+      run: mv pinenote_arm64_debian_bookworm.tar.gz pinenote_arm64_debian_bookworm_partition_${{matrix.partition}}.tar.gz
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
@@ -50,8 +50,10 @@ jobs:
     strategy:
       matrix:
         # generate images for the following partition numbers
-        partition: [8, 9, ]
+        partition: [6, 7, 8, 9, ]
     runs-on: ubuntu-latest
+    needs:
+      - build_images
     steps:
       - uses: actions/checkout@v3
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
@@ -75,6 +77,8 @@ jobs:
 
   create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
+    needs:
+      - build_images
     steps:
       - uses: actions/checkout@v3
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
@@ -94,6 +98,8 @@ jobs:
   compile_uboot:
     runs-on: ubuntu-latest
     name: compile uboot for the PineNote
+    needs:
+      - build_images
     steps:
       - name: Prepare environment
         run: |
@@ -102,7 +108,7 @@ jobs:
       - name: Checkout rkbin
         run: |
           test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
-          test -d u-boot-pinenote || git clone --branch branch_pinenote2 --depth 1 https://github.com/m-weigand/u-boot-pinenote
+          test -d u-boot-pinenote || git clone --branch branch_cyttsp5ub --depth 1 https://github.com/m-weigand/u-boot-pinenote
           cd u-boot-pinenote
           export CROSS_COMPILE=aarch64-linux-gnu-
           make clean;
@@ -120,6 +126,8 @@ jobs:
 
   generate_spl_boot_file:
     runs-on: ubuntu-latest
+    needs:
+      - build_images
     name: Geneate rk356x_spl_loader_v1.12.112.bin
     steps:
       - name: Prepare environment
@@ -166,9 +174,11 @@ jobs:
             artifacts/uboot-files/trust.img
             artifacts/uboot-files/idblock.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/disc_image_partition_6/debian_partition_6.img.zst
+            artifacts/disc_image_partition_7/debian_partition_7.img.zst
             artifacts/disc_image_partition_8/debian_partition_8.img.zst
             artifacts/disc_image_partition_9/debian_partition_9.img.zst
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p6.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p7.bin
             artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
             artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
-            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_8.tar.gz
-            artifacts/rootfs_archive_partition_8/pinenote_arm64_debian_bookworm_partition_9.tar.gz
