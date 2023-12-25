@@ -1,0 +1,8 @@
+# units in sectors (1 sector = 512 bytes)
+# [start] can be either a hex number or character 'C' - then the next free
+# sector is used
+# [start] [size] [label] [bootable]
+0x4000 0x3000 uboot 0
+0x7000 0x1000 waveform 0
+0x8000 0x20000 logo 0
+C      grow os1 1
