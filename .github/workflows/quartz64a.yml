@@ -28,8 +28,8 @@ jobs:
     - name: Fix dts for Q64-A
       run:  sed -i 's/U_BOOT_FDT="rockchip\/rk3566-pinenote-v1.2.dtb"/U_BOOT_FDT="rockchip\/rk3566-quartz64-a.dtb"/' overlays/default/u-boot
 
-    - name: Limit RAM to 4G
-      run: sed -i 's/U_BOOT_PARAMETERS="/U_BOOT_PARAMETERS="mem=4G /' overlays/default/u-boot
+    # - name: Limit RAM to 4G
+    #   run: sed -i 's/U_BOOT_PARAMETERS="/U_BOOT_PARAMETERS="mem=4G /' overlays/default/u-boot
 
     - name: Adjust waveform partition
       run: sed -i 's/mmcblk0p3/mmcblk1p3/' overlays/root/first_startup.sh
