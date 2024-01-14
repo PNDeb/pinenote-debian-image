@@ -149,7 +149,7 @@ actions:
     recommends: false
     description: Install new kernel from repository
     packages:
-      - linux-image-6.3.10-pinenote-202312092104-gd4dec0cb83b9
+      - linux-image-pinenote-testing
 
 
   - action: pack
