@@ -13,10 +13,10 @@ actions:
     source: overlays/custom_debs/
     destination: /root/custom_debs/
 
-  - action: run
-    description: Install firmware-brcm80211*.deb
-    chroot: true
-    command: dpkg -i /root/custom_debs/firmware-brcm80211_*.deb
+  # - action: run
+  #   description: Install firmware-brcm80211*.deb
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/firmware-brcm80211_*.deb
 
   - action: apt
     description: install koreader dependencies
