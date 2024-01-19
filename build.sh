@@ -153,7 +153,7 @@ ls
 # chown -R mweigand:mweigand .
 
 # rename the final tar.gz file to a standardized name
-final_targz="pinenote_arm64_debian_bookworm.tar.gz"
+final_targz="pinenote_arm64_debian_trixie.tar.gz"
 test -e "${final_targz}" && rm "${final_targz}"
 
 last_targz_file=$(ls -1 *.tar.gz | tail -1)
