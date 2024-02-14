@@ -13,8 +13,8 @@
 # # # setup hostname, first user, initrd (using dracut)
 04_finalsetup.yaml
 
-05_gnome.yaml
-06_custom_debs.yaml
+# 05_gnome.yaml
+# 06_custom_debs.yaml
 
 # 07_gnome_customize.yaml
 
