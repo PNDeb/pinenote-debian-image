@@ -1,5 +1,5 @@
 Types: deb
 URIs: http://pinenote.mweigand.net/repository/
-Suites: bookworm
+Suites: bookworm trixie
 Components: main
 Signed-By: /usr/share/keyrings/pinenote_repo_key_3.gpg
