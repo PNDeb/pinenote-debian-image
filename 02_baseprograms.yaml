@@ -56,6 +56,9 @@ actions:
       - evtest
       - systemd-resolved
       - ntp
+      - speech-dispatcher-espeak-ng
+      - espeak-ng
+
 
   - action: pack
     file: {{ $targz }}

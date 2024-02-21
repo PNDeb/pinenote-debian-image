@@ -16,6 +16,7 @@ actions:
       - gnome-shell-extension-prefs
       - lightdm
       - portfolio-filemanager
+      - vlc
 
   - action: pack
     file: {{ $targz }}

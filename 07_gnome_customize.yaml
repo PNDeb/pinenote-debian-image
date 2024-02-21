@@ -88,6 +88,11 @@ actions:
 #     description: Enable wayland support for firefox
 #     chroot: true
 #     command: echo "MOZ_ENABLE_WAYLAND=1" >> /etc/environment
+#
+  - action: run
+    description: Remove packagekit
+    chroot: true
+    command: apt -y remove packagekit
 
   - action: pack
     file: {{ $targz }}
