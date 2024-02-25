@@ -58,6 +58,8 @@ actions:
       - ntp
       - speech-dispatcher-espeak-ng
       - espeak-ng
+      - silversearcher-ag
+      - stress
 
 
   - action: pack
