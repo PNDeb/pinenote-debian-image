@@ -12,7 +12,7 @@ jobs:
       matrix:
         # generate images for the following partition numbers
         # partition: [6, 7, 8, 9, 17]
-        partition: [9, ]
+        partition: [8, 9, ]
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v3
