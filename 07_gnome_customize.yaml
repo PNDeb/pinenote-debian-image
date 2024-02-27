@@ -17,6 +17,7 @@ actions:
       - epiphany-browser
       - libllvm14
       - syncthing
+      - gnome-shell-extension-maximized-by-default
 
   # - action: run
   #   description: Install modified mutter debs
