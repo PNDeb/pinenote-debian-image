@@ -50,6 +50,11 @@ actions:
     destination: /etc/dconf/db/local.d/
 
   - action: overlay
+    description: Background for each user
+    source: overlays/skel/
+    destination: /etc/skel/
+
+  - action: overlay
     description: Configuration for GNOME, nr. 2
     source: overlays/dconf_profile_user
     destination: /etc/dconf/profile/
