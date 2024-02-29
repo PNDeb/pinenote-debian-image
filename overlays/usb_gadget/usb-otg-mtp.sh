@@ -29,7 +29,7 @@ sleep 2
 # run the mtp responder
 
 trap cleanup SIGINT SIGTERM
-/home/user/uMTP-Responder/umtprd
+umtprd
 trap - SIGINT SIGTERM
 
 # clean up

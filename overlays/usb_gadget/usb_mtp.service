@@ -2,7 +2,7 @@
 Description=Set up MTP for USB
 
 [Service]
-ExecStart=/bin/bash /root/usb-otg-mtp.sh
+ExecStart=/bin/bash /root/usb_gadget/usb-otg-mtp.sh
 
 [Install]
 WantedBy=multi-user.target
