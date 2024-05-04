@@ -60,6 +60,7 @@ actions:
       - espeak-ng
       - silversearcher-ag
       - stress
+      - dialog
 
 
   - action: pack

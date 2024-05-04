@@ -158,6 +158,28 @@ Things you might want to setup after the installation:
 
 Change the **default password** before connection to public networks.
 
+## Changing the default boot order
+
+(this is work-in-progress)
+
+* u-boot must be configured to
+
+	CONFIG_ENV_IS_IN_FAT=y
+	CONFIG_ENV_FAT_INTERFACE="mmc"
+	CONFIG_ENV_FAT_DEVICE_AND_PART="0:4"
+
+* Run /root/uboot_change_bootmenu.sh
+
+* Default bootmenu can be modified with:
+
+	fw_setenv bootmenu_0 "Boot OS1=sysboot mmc 0:8 any \${scriptaddr} /boot/extlinux/extlinux.conf"
+	fw_setenv bootmenu_0 "Boot OS2=sysboot mmc 0:9 any \${scriptaddr} /boot/extlinux/extlinux.conf"
+	fw_setenv bootmenu_0 "Search for extlinux.conf on all partitions=run scan_dev_for_boot_part"
+
+* A sample uboot env can be manually placed in partition 4 (vfat-formatted).
+  See subdirectory uboot_env in this directory
+
+
 ### PineNote-specific Debian repository
 
 ** builds after 26. June 2023 should include the repository configuration by default! **
@@ -195,10 +217,10 @@ The repository and the associated gpg key must be added manually:
 		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_2.gpg] http://pinenote.mweigand.net/repository/ bookworm main
 
 	* (optional) maybe check that certain packages have not been put on hold, i.e.:
- 
+
 		apt-mark showhold
  		apt-mark unhold mutter* libmutter-11-0 gir1.2-mutter-11
-   
+
 	* apt update && apt upgrade
 
 ### Wifi

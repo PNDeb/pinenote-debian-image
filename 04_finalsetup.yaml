@@ -80,5 +80,10 @@ actions:
     chroot: true
     command: cp /root/usb_gadget/usb_mtp.service /etc/systemd/system/usb_mtp.service
 
+  - action: run
+    description: Create /uboot_config for interfacing with the u-boot environment
+    chroot: true
+    command: mkdir /uboot_config
+
   - action: pack
     file: {{ $targz }}
