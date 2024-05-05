@@ -15,9 +15,9 @@ actions:
       - firefox-esr
       - foliate
       - epiphany-browser
-      - libllvm14
       - syncthing
       - gnome-shell-extension-maximized-by-default
+      # - libllvm14
 
   # - action: run
   #   description: Install modified mutter debs
