@@ -14,6 +14,12 @@ actions:
     source: overlays/default/
     destination: /etc/default/
 
+  # https://wiki.debian.org/Locale
+  - action: run
+    description: Regenerate locales
+    chroot: true
+    command: locale-gen
+
   - action: overlay
     description: Copy network manager configs
     source: overlays/networkmanager/
