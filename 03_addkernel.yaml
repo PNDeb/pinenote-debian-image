@@ -35,10 +35,10 @@ actions:
     source: overlays/modprobe.d/
     destination: /etc/modprobe.d/
 
-  - action: overlay
-    description: Copy kernel files to /root/kernel
-    source: overlays/kernel/
-    destination: /root/kernel/
+#   - action: overlay
+#     description: Copy kernel files to /root/kernel
+#     source: overlays/kernel/
+#     destination: /root/kernel/
 
   - action: overlay
     description: Copy default configurations (like u-boot)
@@ -60,10 +60,10 @@ actions:
     chroot: true
     command: cp /etc/off_and_suspend_screen/pn_bg_3.bin /lib/firmware/rockchip/rockchip_ebc_default_screen.bin
 
-  - action: run
-    description: Install all kernel-related .deb packages
-    chroot: true
-    command: dpkg -i /root/kernel/*.deb
+  # - action: run
+  #   description: Install all kernel-related .deb packages
+  #   chroot: true
+  #   command: dpkg -i /root/kernel/*.deb
 
   - action: apt
     recommends: false
@@ -87,10 +87,10 @@ actions:
     chroot: true
     command: ln -s /boot/extlinux/extlinux.conf /boot/extlinux.conf
 
-  - action: run
-    description: Clean up kernel-deb files
-    chroot: true
-    command: rm /root/kernel/*.deb
+  # - action: run
+  #   description: Clean up kernel-deb files
+  #   chroot: true
+  #   command: rm /root/kernel/*.deb
 
   # - action: overlay
   #   description: Copy kernel, dtb, extlinux.conf into /boot
@@ -98,7 +98,7 @@ actions:
   #   destination: /extlinux/
 
   - action: overlay
-    description: Copy parse-android-dynparts (for legacy/debug purposes)
+    description: Copy root scripts
     source: overlays/root/
     destination: /root/
 
@@ -144,7 +144,7 @@ actions:
     recommends: false
     description: Install new kernel from repository
     packages:
-      - linux-image-pinenote-testing
+      - linux-image-pinenote-stable
 
 
   - action: pack
