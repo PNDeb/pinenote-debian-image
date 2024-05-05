@@ -25,5 +25,16 @@ actions:
     source: overlays/apt/
     destination: /etc/apt/
 
+  - action: overlay
+    description: Install etc/ overlays
+    source: overlays/etc/
+    destination: /etc/
+
+  # https://wiki.debian.org/Locale
+  - action: run
+    description: Regenerate locales
+    chroot: true
+    command: locale-gen
+
   - action: pack
     file: {{ $targz }}

@@ -21,11 +21,6 @@ actions:
       - imagemagick # required to render/convert png files for the u-boot logo partition
 
   - action: overlay
-    description: Install etc/ overlays
-    source: overlays/etc/
-    destination: /etc/
-
-  - action: overlay
     description: Install wip tools to generate u-boot logos (and partition image)
     source: custom_logos_uboot/
     destination: /root/custom_logos_uboot/
