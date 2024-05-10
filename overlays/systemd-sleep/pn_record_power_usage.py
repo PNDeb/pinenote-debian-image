@@ -2,7 +2,7 @@
 """
 Record power usage during sleep
 
-Place in: /lib/systemd/system-sleep
+Place in: /lib/systemd/systemd-sleep
 
 """
 import os
@@ -15,9 +15,18 @@ if len(sys.argv) < 3:
 
 persistent_file = '/root/energy_use.dat'
 tmp_file = '/tmp/tmp_charge.dat'
-bat_dir = ''.join((
+bat_dir_old = ''.join((
     '/sys/bus/i2c/devices/0-0020/rk817-charger/power_supply/rk817-battery/'
 ))
+bat_dir_new = ''.join((
+    '/sys/bus/i2c/devices/0-0020/',
+    'rk817-charger.6.auto/power_supply/rk817-battery'
+))
+bat_dirs = (bat_dir_old, bat_dir_new)
+for directory in bat_dirs:
+    if os.path.isdir(directory):
+        bat_dir = directory + os.sep
+        break
 
 charge_full_file = bat_dir + 'charge_full'
 charge_full_mah = int(open(charge_full_file, 'r').readline().strip())
