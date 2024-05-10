@@ -14,6 +14,11 @@ actions:
     source: overlays/default/
     destination: /etc/default/
 
+  - action: overlay
+    description: Copy energy-usage-in-sleep logger script
+    source: overlays/systemd-sleep/
+    destination: /lib/systemd/system-sleep/
+
   # https://wiki.debian.org/Locale
   - action: run
     description: Regenerate locales
