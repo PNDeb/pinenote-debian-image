@@ -17,7 +17,7 @@ actions:
   - action: overlay
     description: Copy energy-usage-in-sleep logger script
     source: overlays/systemd-sleep/
-    destination: /lib/systemd/systemd-sleep/
+    destination: /lib/systemd/system-sleep/
 
   # https://wiki.debian.org/Locale
   - action: run

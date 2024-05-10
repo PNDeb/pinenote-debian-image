@@ -2,7 +2,7 @@
 """
 Record power usage during sleep
 
-Place in: /lib/systemd/systemd-sleep
+Place in: /lib/systemd/system-sleep
 
 """
 import os
