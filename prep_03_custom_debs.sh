@@ -5,7 +5,7 @@ pwd=$PWD
 # koreader
 cd overlays/custom_debs/
 test -e koreader-2023.08-arm64.deb && rm koreader*.deb
-wget -nv https://github.com/koreader/koreader/releases/download/v2023.08/koreader-2023.08-arm64.deb
+wget -nv https://github.com/koreader/koreader/releases/download/v2024.04/koreader-2024.04-arm64.deb
 cd ${pwd}
 
 # evsieve
@@ -17,9 +17,6 @@ cd "${pwd}"
 # xournalpp
 cd overlays/custom_debs/
 rm xournalpp*.deb
-# wget https://github.com/m-weigand/xournalpp_pn/releases/download/v20221201/xournalpp-1.1.2+dev--unknown-unknown.deb
-# wget -nv https://github.com/m-weigand/xournalpp_pn/releases/download/v20221210/xournalpp-1.1.2+dev-Debian-bookworm-unknown.deb
-# wget -nv https://github.com/m-weigand/xournalpp_pn/releases/download/v20230729/xournalpp-1.1.2+dev-pinenote-Debian-bookworm-unknown.deb
 wget -nv https://github.com/m-weigand/xournalpp_pn/releases/download/v20231223_v1/xournalpp-1.1.2+dev-pinenote-Debian-bookworm-unknown.deb
 cd "${pwd}"
 
