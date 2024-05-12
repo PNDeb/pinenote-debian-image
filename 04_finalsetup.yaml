@@ -96,5 +96,10 @@ actions:
     chroot: true
     command: mkdir /uboot_config
 
+  - action: overlay
+    description: Copy usb-gadget files to root
+    source: overlays/journald.conf.d
+    destination: /etc/systemd/journald.conf.d/
+
   - action: pack
     file: {{ $targz }}
