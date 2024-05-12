@@ -1,0 +1,5 @@
+[Default Applications]
+application/epub+zip=koreader.desktop
+
+[Added Associations]
+application/epub+zip=koreader.desktop;
