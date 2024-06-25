@@ -17,6 +17,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Update image
+      run: sudo apt update && sudo apt upgrade
+
     - name: Install dependencies
       run: sudo apt -y update && sudo apt install debos
 
