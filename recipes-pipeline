@@ -1,35 +1,35 @@
 # calls debootstrap
 01_rootminfs.yaml
 
-# installs base programs like network-manager, sudo, parted ...
-02_baseprograms.yaml
+# # installs base programs like network-manager, sudo, parted ...
+# 02_baseprograms.yaml
 
-# # # Install local provided deb packages (like the kernel)
-# # localdebs.yaml
+# # # # Install local provided deb packages (like the kernel)
+# # # localdebs.yaml
 
-# # add kernel, kernel modules, firmware files
-03_addkernel.yaml
+# # # add kernel, kernel modules, firmware files
+# 03_addkernel.yaml
 
-# # # setup hostname, first user, initrd (using dracut)
-04_finalsetup.yaml
+# # # # setup hostname, first user, initrd (using dracut)
+# 04_finalsetup.yaml
 
-05_gnome.yaml
-06_custom_debs.yaml
+# 05_gnome.yaml
+# 06_custom_debs.yaml
 
-07_gnome_customize.yaml
+# 07_gnome_customize.yaml
 
-08_greeter.yaml
+# 08_greeter.yaml
 
-09_xournalpp.yaml
+# 09_xournalpp.yaml
 
-10_pin_custom_debs.yaml
+# 10_pin_custom_debs.yaml
 
-11_adduser.yaml
+# 11_adduser.yaml
 
-# # # create a gpt disk image, with one partition
-# # creatediskimage.yaml
+# # # # create a gpt disk image, with one partition
+# # # creatediskimage.yaml
 
-# # # take from the disk image only our partition
-# # takeoutpartition.yaml
-12_create_disc_image.yaml
-13_extract_partition_image.yaml
+# # # # take from the disk image only our partition
+# # # takeoutpartition.yaml
+# 12_create_disc_image.yaml
+# 13_extract_partition_image.yaml
