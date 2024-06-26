@@ -23,6 +23,11 @@ jobs:
     - name: Install dependencies
       run: sudo apt -y update && sudo apt install debos
 
+    - name: Install newer debootstrap
+      run: |
+        wget -O /tmp/debootstrap.deb http://ftp.bg.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.136_all.deb
+        sudo dpkg -i /tmp/debootstrap.deb
+
     - name: Prep step
       run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
 
