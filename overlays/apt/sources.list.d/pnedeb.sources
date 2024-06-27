@@ -1,4 +1,4 @@
-Types: deb
+Types: deb deb-src
 URIs: http://pinenote.mweigand.net/repository/
 Suites: bookworm trixie
 Components: main
