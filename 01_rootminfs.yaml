@@ -30,5 +30,13 @@ actions:
     source: overlays/etc/
     destination: /etc/
 
+  - action: apt
+    recommends: false
+    update: true
+    description: Install base programs
+    packages:
+      gdm3
+      gnome
+
   - action: pack
     file: {{ $targz }}
