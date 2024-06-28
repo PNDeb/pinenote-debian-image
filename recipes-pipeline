@@ -2,7 +2,7 @@
 01_rootminfs.yaml
 
 # # # installs base programs like network-manager, sudo, parted ...
-# 02_baseprograms.yaml
+02_baseprograms.yaml
 
 # # # # # Install local provided deb packages (like the kernel)
 # # # # localdebs.yaml

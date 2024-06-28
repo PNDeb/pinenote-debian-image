@@ -132,9 +132,9 @@ for recipe in ${recipes[@]}; do
 		for to_del in `seq 1 $((rcounter-0))`; do
 		   	echo "Deleting: `printf %02i $to_del;`_*.tar.gz;"
 			# we want to keep the last tar.gz file, which is generated in step 11
-			if [ $to_del -lt 11 ]; then
-		   		rm `printf %02i $to_del;`_*.tar.gz;
-			fi
+			# if [ $to_del -lt 11 ]; then
+		   		# rm `printf %02i $to_del;`_*.tar.gz;
+			# fi
 	   	done
 		echo "Directory size after cleanup: `du -sh .`"
 		df -h
@@ -153,9 +153,9 @@ ls
 # chown -R mweigand:mweigand .
 
 # rename the final tar.gz file to a standardized name
-final_targz="pinenote_arm64_debian_trixie.tar.gz"
-test -e "${final_targz}" && rm "${final_targz}"
+# final_targz="pinenote_arm64_debian_trixie.tar.gz"
+# test -e "${final_targz}" && rm "${final_targz}"
 
-last_targz_file=$(ls -1 *.tar.gz | tail -1)
-echo "Renaming ${last_targz_file} to ${final_targz}"
-mv "${last_targz_file}" "${final_targz}"
+# last_targz_file=$(ls -1 *.tar.gz | tail -1)
+# echo "Renaming ${last_targz_file} to ${final_targz}"
+# mv "${last_targz_file}" "${final_targz}"

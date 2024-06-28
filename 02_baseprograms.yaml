@@ -8,6 +8,34 @@ actions:
   - action: unpack
     file: {{ $prevtargz }}
 
+  - action: apt
+    recommends: false
+    update: true
+    description: Install aptitude
+    packages:
+      - aptitude
+
+  - action: run
+    description: sda
+    chroot: true
+    command: |
+      aptitude versions gnome-shell
+
+  - action: run
+    description: sda
+    chroot: true
+    command: |
+      aptitude versions gnome-session
+
+  - action: apt
+    recommends: false
+    update: true
+    description: Install GNOME (tests)
+    packages:
+      - gnome-session
+      - gdm3
+      - gnome
+
   - action: run
     description: apt fix install
     chroot: true
