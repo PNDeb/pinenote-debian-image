@@ -20,16 +20,16 @@
 
 # 08_greeter.yaml
 
-# 09_xournalpp.yaml
+09_xournalpp.yaml
 
-# 10_pin_custom_debs.yaml
+10_pin_custom_debs.yaml
 
-# 11_adduser.yaml
+11_adduser.yaml
 
 # # # # create a gpt disk image, with one partition
 # # # creatediskimage.yaml
 
 # # # # take from the disk image only our partition
 # # # takeoutpartition.yaml
-# 12_create_disc_image.yaml
-# 13_extract_partition_image.yaml
+12_create_disc_image.yaml
+13_extract_partition_image.yaml
