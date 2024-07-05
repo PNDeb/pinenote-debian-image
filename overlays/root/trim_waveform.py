@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Read in the waveform file for the epd display from the Pine64 PineNote
+# Then trim the A2 waveform by removing a few frames
+
 # Same licence as
 # https://github.com/smaeul/linux/blob/rk35/ebc-drm-v5/drivers/gpu/drm/ \
 #   drm_epd_helper.c
@@ -748,10 +751,10 @@ if __name__ == '__main__':
 
     # later: modification
     for i in range(4):
-        del(nwff.waveforms.waveforms[6].temp_luts[18].phases[0])
-        del(nwff.waveforms.waveforms[6].temp_luts[21].phases[0])
-        del(nwff.waveforms.waveforms[6].temp_luts[24].phases[0])
-        del(nwff.waveforms.waveforms[6].temp_luts[27].phases[0])
+        del (nwff.waveforms.waveforms[6].temp_luts[18].phases[0])
+        del (nwff.waveforms.waveforms[6].temp_luts[21].phases[0])
+        del (nwff.waveforms.waveforms[6].temp_luts[24].phases[0])
+        del (nwff.waveforms.waveforms[6].temp_luts[27].phases[0])
 
     # Warning: This probably DC-biases the panel!!!
     # for temp in [18, 21, 24, 27]:
@@ -770,3 +773,22 @@ if __name__ == '__main__':
 
     # export
     nwff.export_to_file('/usr/lib/firmware/rockchip/ebc_modified.wbf')
+
+    print('Trimming the waveform finished')
+    print('The trimmed waveforms can be found here:')
+    print('/usr/lib/firmware/rockchip/ebc_modified.wbf')
+    print('To use them, create a symlink to /usr/lib/firmware/ebc.wbf')
+    print('rm /usr/lib/firmware/rockchip/ebc.wbf ')
+    print(
+        'ln -s /usr/lib/firmware/rockchip/ebc.wbf ' +
+        '/usr/lib/firmware/rockchip/ebc_modified.wbf'
+    )
+    print('To go back to the original waveforms, symlink to ' +
+          '/usr/lib/firmware/rockchip/ebc_orig.wbf')
+    print('rm /usr/lib/firmware/rockchip/ebc.wbf ')
+    print(
+        'ln -s /usr/lib/firmware/rockchip/ebc.wbf ' +
+        '/usr/lib/firmware/rockchip/ebc_orig.wbf'
+    )
+    print('After each change to the waveform, regenerate initrds:')
+    print('update-initramfs -u -k all')
