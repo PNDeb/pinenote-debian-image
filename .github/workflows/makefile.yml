@@ -13,8 +13,6 @@ jobs:
         # generate images for the following partition numbers
         partition: [6, 7, 8, 9, ]
     runs-on: ubuntu-latest
-    needs:
-      - build_images
     steps:
       - uses: actions/checkout@v3
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
@@ -64,8 +62,6 @@ jobs:
   compile_uboot:
     runs-on: ubuntu-latest
     name: compile uboot for the PineNote
-    needs:
-      - build_images
     steps:
       - name: Prepare environment
         run: |
@@ -92,8 +88,6 @@ jobs:
 
   generate_spl_boot_file:
     runs-on: ubuntu-latest
-    needs:
-      - build_images
     name: Geneate rk356x_spl_loader_v1.12.112.bin
     steps:
       - name: Prepare environment
