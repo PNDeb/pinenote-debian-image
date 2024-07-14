@@ -33,7 +33,7 @@ Videos showcasing what **can** be achieved with the PineNote | _
  :-: | :-:
 Annotating scientific papers <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/69ab243c-a1a3-42c7-8a03-e9f5555407ce"></video> | A little bit of light vim editing: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/544d34f8-061f-4383-9067-ae271d7879ff"></video>
 Yes, we can play doom: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/aa61ef02-2d12-426a-83dd-5f91ccea83bd"></video> | U-Boot has basic eink support:<p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/3f9e354d-000d-42ca-ba1c-23d49e3cbc9f">/video>
-
+The PineNote can act as an USB-Tablet: <p> <video src="https://github.com/user-attachments/assets/4f8ef15c-6714-4795-ba7a-30291dbde979"></video> | 
 
 ## First-boot activity
 
