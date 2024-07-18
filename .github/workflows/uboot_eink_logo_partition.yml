@@ -39,3 +39,22 @@ jobs:
         name: logo_partition.img
         path: custom_logos_uboot/logo_new.img
 
+  do_release:
+    # if: startsWith(github.ref, 'refs/tags/')
+    # if: contains(github.ref, "main")
+    runs-on: ubuntu-latest
+    needs:
+      - generate_logo_partition
+    steps:
+      - name: Clone workflow repository
+        uses: actions/checkout@v3
+      - name: Download image artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+      - name: Make release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          draft: true
+          files: |
+            artifacts/logo_partition.img
