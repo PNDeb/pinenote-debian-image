@@ -30,3 +30,12 @@ jobs:
     - name: Generate image partition
       run: cd custom_logos_uboot && ./03_write_logo_partition.sh
 
+    - name: debug-ls
+      run: ls
+
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: logo_partition.img
+        path: logo_new.img
+
