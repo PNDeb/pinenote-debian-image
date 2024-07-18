@@ -36,7 +36,7 @@ jobs:
     - name: Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: logo_partition.img
+        name: logo_partition
         path: custom_logos_uboot/logo_new.img
 
   do_release:
@@ -59,4 +59,4 @@ jobs:
         with:
           draft: true
           files: |
-            artifacts/logo_partition.img
+            artifacts/logo_partition/logo_new.img
