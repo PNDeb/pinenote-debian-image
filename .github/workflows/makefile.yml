@@ -7,6 +7,58 @@ on:
   workflow_dispatch:
 
 jobs:
+  build_images:
+    strategy:
+      matrix:
+        # generate images for the following partition numbers
+        partition: [6, 7, 8, 9, 17]
+          # partition: [8, 9, ]
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    # Note: 2024.06.26: debootstrap started to fail for multiple reasons
+    # In the end, installing debootstrap 136 from debian sid seems to solve the
+    # problem
+    - name: Update image
+      # run: sudo apt update && sudo apt upgrade
+      run: sudo apt update && sudo apt install debootstrap debian-archive-keyring debian-keyring
+
+    - name: Install newer debootstrap
+      run: |
+        wget -O /tmp/debootstrap.deb http://ftp.bg.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.136_all.deb
+        sudo dpkg -i /tmp/debootstrap.deb
+
+    - name: Install dependencies
+      run: sudo apt -y update && sudo apt install debos
+
+    - name: Prep step
+      run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
+
+    - name: Set root partition number
+      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p8"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
+
+    - name: Build
+      run: sudo ./build.sh
+
+    - name: Rename rootfs tar.gz
+      run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
+
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: rootfs_archive_partition_${{matrix.partition}}
+        path: pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
+
+    - name: Rename debian.img.zst
+      run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
+
+    - name: Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: disc_image_partition_${{matrix.partition}}
+        path: debian_partition_${{matrix.partition}}.img.zst
+
   create_data_partition_dummy:
     strategy:
       matrix:
@@ -36,8 +88,10 @@ jobs:
           name: data_part_dummy_partition_${{matrix.partition}}
           path: data_part_dummy_p${{matrix.partition}}.bin
 
-  create_uboot_env_partition:
+  create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
+    needs:
+      - build_images
     steps:
       - uses: actions/checkout@v3
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
@@ -45,15 +99,8 @@ jobs:
         run: sudo apt -y install dosfstools
       - name: Create u-boot environment partition
         run: |
-          ls
-          pwd
           fallocate -l 4MB data_part_uboot_env.bin
           mkfs.vfat data_part_uboot_env.bin
-          mkdir tmp_ub
-          sudo mount -v -o loop data_part_uboot_env.bin tmp_ub
-          sudo cp uboot_env/uboot.env tmp_ub/
-          sudo umount tmp_ub
-          rm -r tmp_ub
 
       - name: Artifacts
         uses: actions/upload-artifact@v3
@@ -113,3 +160,38 @@ jobs:
           name: rk356x_spl_loader_v1.12.112.bin
           path: |
             rkbin/rk356x_spl_loader_v1.12.112.bin
+
+  do_release:
+    # if: startsWith(github.ref, 'refs/tags/')
+    # if: contains(github.ref, "main")
+    runs-on: ubuntu-latest
+    needs:
+      - build_images
+      - create_data_partition_dummy
+      - compile_uboot
+      - generate_spl_boot_file
+    steps:
+      - name: Clone workflow repository
+        uses: actions/checkout@v3
+      - name: Download image artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts/
+      - name: Make release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          draft: true
+          files: |
+            artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
+            artifacts/uboot-files/uboot.img
+            artifacts/uboot-files/trust.img
+            artifacts/uboot-files/idblock.bin
+            artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/disc_image_partition_6/debian_partition_6.img.zst
+            artifacts/disc_image_partition_7/debian_partition_7.img.zst
+            artifacts/disc_image_partition_8/debian_partition_8.img.zst
+            artifacts/disc_image_partition_9/debian_partition_9.img.zst
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p6.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p7.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
+            artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
