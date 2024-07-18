@@ -10,7 +10,7 @@ jobs:
   generate_logo_partition:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install dependencies
       run: sudo apt -y update && sudo apt install python3-pillow imagemagick libpng-dev cmake fonts-freefont-ttf tree
@@ -34,7 +34,7 @@ jobs:
       run: tree custom_logos_uboot
 
     - name: Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: logo_partition.img
         path: custom_logos_uboot/logo_new.img
@@ -47,13 +47,13 @@ jobs:
       - generate_logo_partition
     steps:
       - name: Clone workflow repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download image artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts/
       - name: Make release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           draft: true
           files: |
