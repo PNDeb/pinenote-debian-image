@@ -15,7 +15,7 @@ jobs:
           # partition: [8, 9, ]
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     # Note: 2024.06.26: debootstrap started to fail for multiple reasons
     # In the end, installing debootstrap 136 from debian sid seems to solve the
@@ -45,7 +45,7 @@ jobs:
       run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
 
     - name: Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: rootfs_archive_partition_${{matrix.partition}}
         path: pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
@@ -54,7 +54,7 @@ jobs:
       run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
 
     - name: Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: disc_image_partition_${{matrix.partition}}
         path: debian_partition_${{matrix.partition}}.img.zst
@@ -68,7 +68,7 @@ jobs:
     needs:
       - build_images
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Create dummy partition
         run: |
@@ -83,7 +83,7 @@ jobs:
           rm -r tmp
 
       - name: Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: data_part_dummy_partition_${{matrix.partition}}
           path: data_part_dummy_p${{matrix.partition}}.bin
@@ -93,7 +93,7 @@ jobs:
     needs:
       - build_images
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Install dosfstools
         run: sudo apt -y install dosfstools
@@ -103,7 +103,7 @@ jobs:
           mkfs.vfat data_part_uboot_env.bin
 
       - name: Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: data_part_uboot_env
           path: data_part_uboot_env.bin
@@ -129,7 +129,7 @@ jobs:
           ./make.sh
           ./make.sh trust
       - name: Upload files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: uboot-files
           path: |
@@ -155,7 +155,7 @@ jobs:
           git checkout b6354b9
           tools/boot_merger RKBOOT/RK3566MINIALL.ini
       - name: Upload files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rk356x_spl_loader_v1.12.112.bin
           path: |
@@ -172,13 +172,13 @@ jobs:
       - generate_spl_boot_file
     steps:
       - name: Clone workflow repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Download image artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: artifacts/
       - name: Make release
-        uses: softprops/action-gh-release@v0.1.15
+        uses: softprops/action-gh-release@v2
         with:
           draft: true
           files: |
