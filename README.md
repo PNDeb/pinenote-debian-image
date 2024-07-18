@@ -1,4 +1,4 @@
-# Debian Bookworm Image for the Pine64 Pinenote
+# Debian Trixie Image for the Pine64 Pinenote
 
 This repository provides means to build a full Debian rootfs and disc image for
 the PineNote eink tablet that directly boots into GNOME, thereby providing a
@@ -9,12 +9,13 @@ https://salsa.debian.org/eugenrh/pinenote-debian-recipes, which provides a
 Debian base rootfs/image without any GUI.
 It uses [debos](https://github.com/go-debos/debos) to build a set of recipes
 organized as a build pipeline.
-The end results, are a `tar.gz` file can be extracted onto an existing
-partition on the PineNote and a filesystem image that can be directly flashed
-using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool),
-or written to a partition using dd.
+The resulting images can be either extracted into an existing
+partition on the PineNote, or can be flashed to an arbitrary partition using `dd.
+This can also be accomplished via USB and maskrom mode
+using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
 
-Currently, in order to install a Linux distribution on the PineNote, someone
+[TODO: move this section elsewhere, we do not need to root Android anymore for the installation]
+In order to install a Linux distribution on the PineNote, someone
 would follow installation guides like the ones written by Martyn\[1\] or
 Dorian\[2\], to prepare for dual booting linux alongside Android.
 
@@ -25,6 +26,14 @@ touching the factory-testing Android installation.
   \[1\]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
 
   \[2\]:  [https://github.com/DorianRudolph/pinenotes](https://github.com/DorianRudolph/pinenotes)
+
+## What can be done with the PineNote ?
+
+Videos showcasing what **can** be achieved with the PineNote | _
+ :-: | :-:
+Annotating scientific papers <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/69ab243c-a1a3-42c7-8a03-e9f5555407ce"></video> | A little bit of light vim editing: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/544d34f8-061f-4383-9067-ae271d7879ff"></video>
+Yes, we can play doom: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/aa61ef02-2d12-426a-83dd-5f91ccea83bd"></video> | U-Boot has basic eink support:<p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/3f9e354d-000d-42ca-ba1c-23d49e3cbc9f">/video>
+The PineNote can act as an USB-Tablet: <p> <video src="https://github.com/user-attachments/assets/4f8ef15c-6714-4795-ba7a-30291dbde979"></video> | 
 
 ## First-boot activity
 
@@ -184,7 +193,7 @@ Change the **default password** before connection to public networks.
 
 ** builds after 26. June 2023 should include the repository configuration by default! **
 
-Download the gpg key here: [pinenote_repo_key_2.gpg](overlays/keyrings/pinenote_repo_key_2.gpg)
+Download the gpg key here: [pinenote_repo_key_4.gpg](overlays/keyrings/pinenote_repo_key_4.gpg)
 
 At this point no stable update procedures for patched packages is implemented.
 However, a package repository is being tested to provide updates to those
