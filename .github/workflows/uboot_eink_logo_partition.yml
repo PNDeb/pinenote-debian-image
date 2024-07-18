@@ -52,6 +52,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts/
+      - name: debug-ls
+        run: tree artifacts
       - name: Make release
         uses: softprops/action-gh-release@v2
         with:
