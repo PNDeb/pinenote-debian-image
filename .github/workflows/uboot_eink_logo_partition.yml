@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Install dependencies
-      run: sudo apt -y update && sudo apt install python3-pillow imagemagick libpng-dev cmake  	fonts-freefont-ttf
+      run: sudo apt -y update && sudo apt install python3-pillow imagemagick libpng-dev cmake fonts-freefont-ttf tree
 
     - name: Prepare Compilation of logotool
       run: cd custom_logos_uboot/logotool_mod; mkdir build; cd build; cmake ../
@@ -31,11 +31,11 @@ jobs:
       run: cd custom_logos_uboot && ./03_write_logo_partition.sh
 
     - name: debug-ls
-      run: ls
+      run: tree custom_logos_uboot
 
     - name: Artifacts
       uses: actions/upload-artifact@v3
       with:
         name: logo_partition.img
-        path: logo_new.img
+        path: custom_logos_uboot/logo_new.img
 
