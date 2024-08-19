@@ -26,7 +26,7 @@ jobs:
 
     - name: Install newer debootstrap
       run: |
-        wget -O /tmp/debootstrap.deb http://ftp.bg.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.136_all.deb
+        wget -O /tmp/debootstrap.deb http://ftp.cz.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.137_all.deb
         sudo dpkg -i /tmp/debootstrap.deb
 
     - name: Install dependencies
