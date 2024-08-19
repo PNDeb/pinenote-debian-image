@@ -1,5 +1,11 @@
 Types: deb deb-src
-URIs: http://pinenote.mweigand.net/repository/
+URIs: http://pinenote.mweigand.net/repo_pn_stable/
 Suites: trixie
 Components: main
 Signed-By: /usr/share/keyrings/pinenote_repo_key_4.gpg
+
+# Types: deb deb-src
+# URIs: http://pinenote.mweigand.net/repo_pn_testing/
+# Suites: trixie
+# Components: main
+# Signed-By: /usr/share/keyrings/pinenote_repo_key_4.gpg
