@@ -19,25 +19,10 @@ actions:
       - gnome-shell-extension-maximized-by-default
       # - libllvm14
 
-  # - action: run
-  #   description: Install modified mutter debs
-  #   chroot: true
-  #   command: dpkg -i /root/custom_debs/mutter/*.deb
-
-  # - action: run
-  #   description: Install modified MESA debs
-  #   chroot: true
-  #   command: dpkg -i /root/custom_debs/mesa/*.deb
-
   - action: run
     description: Fix mesa rockchip_ebc
     chroot: true
     command: ln -s /usr/lib/aarch64-linux-gnu/dri/rockchip_ebc_dri.so /usr/lib/aarch64-linux-gnu/dri/rockchip-ebc_dri.so
-
-  # - action: overlay
-  #   description: Configuration for lightdm
-  #   source: overlays/lightdm/
-  #   destination: /etc/
 
   - action: overlay
     description: Configuration for gdm3, auto-login
@@ -69,10 +54,10 @@ actions:
     source: overlays/gnome_default_applications
     destination: /usr/share/gnome/applications/
 
-#   - action: run
-#     description: Install pnhelper gnome extension
-#     chroot: true
-#     command: dpkg -i /root/custom_debs/pinenote-gnome-*.deb
+  - action: overlay
+    description: Install environment file
+    source: overlays/environment.d
+    destination: /etc/environment.d
 
   - action: apt
     recommends: false
@@ -81,20 +66,10 @@ actions:
       - pinenote-gnome-extension
 
   - action: overlay
-    description: Install environment file
-    source: overlays/environment.d
-    destination: /etc/environment.d
-
-  - action: overlay
     description: Install PNEink Gnome theme
     source: overlays/gnome_theme
     destination: /usr/share/themes
 
-#   - action: run
-#     description: Enable wayland support for firefox
-#     chroot: true
-#     command: echo "MOZ_ENABLE_WAYLAND=1" >> /etc/environment
-#
   - action: run
     description: Remove packagekit
     chroot: true
