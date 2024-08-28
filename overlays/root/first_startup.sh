@@ -4,6 +4,8 @@
 # +CONFIG_BLK_DEV_DM=m
 # and https://github.com/tchebb/parse-android-dynparts
 lockfile="/boot/waveform_firmware_recovered"
+# we read the waveform data from this partition
+waveform_partition="/dev/disk/by-partlabel/waveform"
 
 test -e "${lockfile}" && exit
 
@@ -21,7 +23,7 @@ mkdir -p ${outdir}/rockchip
 
 # 1) Get epd/eink waveforms from the waveform partition
 # md5sum: 62a4817fda54ed39602a51229099ff02
-dd if=/dev/mmcblk0p3 of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
+dd if="${waveform_partition}" of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
 ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
 
 # by default we assume / on /dev/mmcblk0p8, but we check when running this
@@ -53,11 +55,11 @@ grow_fs_var="pn_grow_fs_${new_root}"
 recreate_fs_var="pn_recreate_fs_${new_root}"
 
 # check if partition 10 should be used as /home
-mnt_point="/tmp_pn_mount_p10"
+mnt_point="/tmp_pn_mount_data"
 # only proceed if the mount point does not exist
 if [ ! -e "${mnt_point}" ];
 then
-	target_partition="/dev/mmcblk0p10"
+	target_partition="/dev/disk/by-partlabel/data"
 	if [ -e "${target_partition}" ];
 	then
 		mkdir "${mnt_point}"
