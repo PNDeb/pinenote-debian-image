@@ -63,7 +63,7 @@ actions:
       - dialog
       - locales
       - byobu
-      - rust-pinenote-dbus-service
+      - pinenote-dbus-service
 
   - action: pack
     file: {{ $targz }}
