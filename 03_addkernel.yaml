@@ -19,6 +19,14 @@ actions:
       - mesa-utils # contains eglinfo, which is used to keep the gpu alive on boot
       - libubootenv-tool # required to modify the u-boot environment
       - imagemagick # required to render/convert png files for the u-boot logo partition
+      - plymouth
+      - plymouth-themes
+
+  - action: overlay
+    description: Install plymouth config
+    source: overlays/plymouth/
+    destination: /etc/plymouth/
+
 
   - action: overlay
     description: Install wip tools to generate u-boot logos (and partition image)
