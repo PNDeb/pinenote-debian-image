@@ -8,21 +8,10 @@ actions:
   - action: unpack
     file: {{ $prevtargz }}
 
-  - action: apt
-    recommends: false
-    description: Install xournalpp so we get all dependencies
-    packages:
-      - xournalpp
-
   - action: run
     description: Install our custom Xournalpp deb
     chroot: true
     command: dpkg -i /root/custom_debs/xournalpp*.deb
-
-  # - action: run
-  #   description: Install Xournalpp default configuration
-  #   chroot: true
-  #   command: dpkg -i /root/custom_debs/pn-defaut-xpp-config_*.deb
 
   - action: pack
     file: {{ $targz }}

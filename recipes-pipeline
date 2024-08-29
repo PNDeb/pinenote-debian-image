@@ -16,9 +16,7 @@
 05_gnome.yaml
 06_custom_debs.yaml
 
-07_gnome_customize.yaml
-
-08_greeter.yaml
+# 07_gnome_customize.yaml
 
 09_xournalpp.yaml
 

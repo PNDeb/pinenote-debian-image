@@ -18,5 +18,71 @@ actions:
       - portfolio-filemanager
       - vlc
 
+  - action: apt
+    recommends: false
+    description: Install firefox
+    packages:
+      - firefox-esr
+      - foliate
+      - epiphany-browser
+      - syncthing
+      - gnome-shell-extension-maximized-by-default
+      # - libllvm14
+
+  - action: run
+    description: Fix mesa rockchip_ebc
+    chroot: true
+    command: ln -s /usr/lib/aarch64-linux-gnu/dri/rockchip_ebc_dri.so /usr/lib/aarch64-linux-gnu/dri/rockchip-ebc_dri.so
+
+  - action: overlay
+    description: Configuration for gdm3, auto-login
+    source: overlays/gdm3_config/
+    destination: /etc/gdm3/
+
+  - action: overlay
+    description: Configuration for GNOME
+    source: overlays/gnome_config/
+    destination: /etc/dconf/db/local.d/
+
+  - action: overlay
+    description: Background for each user
+    source: overlays/skel/
+    destination: /etc/skel/
+
+  - action: overlay
+    description: Configuration for GNOME, nr. 2
+    source: overlays/dconf_profile_user
+    destination: /etc/dconf/profile/
+
+  - action: run
+    description: dconf update
+    chroot: true
+    command: dconf update
+
+  - action: overlay
+    description: Default applications for GNOME
+    source: overlays/gnome_default_applications
+    destination: /usr/share/gnome/applications/
+
+  - action: overlay
+    description: Install environment file
+    source: overlays/environment.d
+    destination: /etc/environment.d
+
+  - action: apt
+    recommends: false
+    description: Install pnhelper gnome extension from repository
+    packages:
+      - pinenote-gnome-extension
+
+  - action: overlay
+    description: Install PNEink Gnome theme
+    source: overlays/gnome_theme
+    destination: /usr/share/themes
+
+  - action: run
+    description: Remove packagekit
+    chroot: true
+    command: apt -y remove packagekit
   - action: pack
     file: {{ $targz }}

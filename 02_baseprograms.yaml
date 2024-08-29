@@ -64,6 +64,7 @@ actions:
       - locales
       - byobu
       - pinenote-dbus-service
+      - xournalpp
 
   - action: pack
     file: {{ $targz }}

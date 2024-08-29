@@ -24,10 +24,10 @@ actions:
     chroot: true
     command: dpkg -i /root/custom_debs/koreader*.deb
 
-  - action: run
-    description: Install Pinenote DBUS Service
-    chroot: true
-    command: dpkg -i /root/custom_debs/pinenote-dbus-service*.deb
+  # - action: run
+  #   description: Install Pinenote DBUS Service
+  #   chroot: true
+  #   command: dpkg -i /root/custom_debs/pinenote-dbus-service*.deb
 
   - action: run
     description: Install evsieve
