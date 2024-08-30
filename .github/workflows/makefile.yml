@@ -59,6 +59,12 @@ jobs:
         path: debian_partition_${{matrix.partition}}.img.zst
 
   create_data_partition_dummy:
+    # this job creates small ext4 partition images meant to be flashed to the
+    # data partition
+    # this partition contains files that will be parsed on first boot by the
+    # first-boot-script, leading to certain actions
+    # the partition number refers to the os partition of the linux system that
+    # will use the data partition as /home
     strategy:
       matrix:
         # generate images for the following partition numbers
@@ -71,10 +77,10 @@ jobs:
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Create dummy partition
         run: |
-          fallocate -l 40MB data_part_dummy_p${{matrix.partition}}.bin
-          mkfs.ext4 data_part_dummy_p${{matrix.partition}}.bin
+          fallocate -l 40MB data_part_dummy_for_os_p${{matrix.partition}}.bin
+          mkfs.ext4 data_part_dummy_for_os_p${{matrix.partition}}.bin
           mkdir tmp
-          sudo mount -v -o loop data_part_dummy_p${{matrix.partition}}.bin tmp
+          sudo mount -v -o loop data_part_dummy_for_os_p${{matrix.partition}}.bin tmp
           sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
           sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
           sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
@@ -84,8 +90,8 @@ jobs:
       - name: Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: data_part_dummy_partition_${{matrix.partition}}
-          path: data_part_dummy_p${{matrix.partition}}.bin
+          name: data_part_dummy_partition_for_os_${{matrix.partition}}
+          path: data_part_dummy_for_os_p${{matrix.partition}}.bin
 
   create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
@@ -183,14 +189,15 @@ jobs:
           files: |
             artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
             artifacts/uboot-files/uboot.img
-            artifacts/uboot-files/trust.img
             artifacts/uboot-files/idblock.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/disc_image_partition_6/debian_partition_5.img.zst
             artifacts/disc_image_partition_6/debian_partition_6.img.zst
             artifacts/disc_image_partition_7/debian_partition_7.img.zst
             artifacts/disc_image_partition_8/debian_partition_8.img.zst
             artifacts/disc_image_partition_9/debian_partition_9.img.zst
-            artifacts/data_part_dummy_partition_8/data_part_dummy_p6.bin
-            artifacts/data_part_dummy_partition_8/data_part_dummy_p7.bin
-            artifacts/data_part_dummy_partition_8/data_part_dummy_p8.bin
-            artifacts/data_part_dummy_partition_9/data_part_dummy_p9.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_for_os_p5.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_for_os_p6.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_for_os_p7.bin
+            artifacts/data_part_dummy_partition_8/data_part_dummy_for_os_p8.bin
+            artifacts/data_part_dummy_partition_9/data_part_dummy_for_os_p9.bin
