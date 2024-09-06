@@ -104,7 +104,7 @@ jobs:
         run: sudo apt -y install dosfstools
       - name: Create u-boot environment partition
         run: |
-          fallocate -l 4MB data_part_uboot_env.bin
+          fallocate -l 1MB data_part_uboot_env.bin
           mkfs.vfat data_part_uboot_env.bin
 
       - name: Artifacts
