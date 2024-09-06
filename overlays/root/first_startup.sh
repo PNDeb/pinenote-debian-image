@@ -64,8 +64,10 @@ then
 	then
 		mkdir "${mnt_point}"
 		mount "${target_partition}" "${mnt_point}"
+		device=`readlink -f ${target_partition}`
+
 		# check that the partition is mounted and contains an ext4 fs
-		check_mount=`mount | grep "${target_partition}" | grep ext4 | grep "${mnt_point}" | wc -l`
+		check_mount=`mount | grep "${device}" | grep ext4 | grep "${mnt_point}" | wc -l`
 		if [ "${check_mount}" -eq 1 ]
 		then
 			echo "Found a valid ext4 fs on ${target_partition}"
