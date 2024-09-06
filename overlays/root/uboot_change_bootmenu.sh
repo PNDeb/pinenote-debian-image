@@ -9,8 +9,8 @@ function quit_with_warning(){
 test -e /uboot_config/uboot.env || quit_with_warning
 
 
-items=(1 "Partition 8"
-       2 "Partition 9"
+items=(1 "Partition 5 (OS 1)"
+	   2 "Partition 6 (OS 2)"
        3 "AUTO")
 
 choice=$(dialog --title "$TITLE" \
@@ -18,12 +18,12 @@ choice=$(dialog --title "$TITLE" \
                  2>&1 >/dev/tty)
 case $choice in
         1)
-		echo "Setting boot partition to: Partition 8"
-		fw_setenv bootmenu_0 "Boot OS1=sysboot mmc 0:8 any \${scriptaddr} /boot/extlinux/extlinux.conf"
+		echo "Setting boot partition to: Partition 5"
+		fw_setenv bootmenu_0 "Boot OS1=sysboot mmc 0:5 any \${scriptaddr} /boot/extlinux/extlinux.conf"
 	       	;; # some action on 1
-        2) 
-		echo "Setting boot partition to: Partition 9"
-		fw_setenv bootmenu_0 "Boot OS2=sysboot mmc 0:9 any \${scriptaddr} /boot/extlinux/extlinux.conf"
+        2)
+		echo "Setting boot partition to: Partition 6"
+		fw_setenv bootmenu_0 "Boot OS2=sysboot mmc 0:6 any \${scriptaddr} /boot/extlinux/extlinux.conf"
 		;; # some action on 2
 	3)
 		echo "Setting boot partition to: AUTO"
