@@ -21,22 +21,10 @@ wget -nv https://github.com/m-weigand/xournalpp_pn/releases/download/v20231223_v
 cd "${pwd}"
 
 # pinenote dbus service
-cd overlays/custom_debs
-test -e pinenote-dbus-service*.deb && rm pinenote-dbus-service*.deb
-# wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v0.2.1-dev/pinenote-dbus-service_0.2.1-dev-1_arm64.deb
-wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v0.2.2-dev1/pinenote-dbus-service_0.2.2.dev1-1_arm64.deb
-# wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v20231208/pinenote-dbus-service_0.2.0-dev-1_arm64.deb
-# wget -nv https://github.com/m-weigand/pinenote_dbus_service/releases/download/v20221207/pinenote_dbus_service_0.1.0_arm64.deb
-cd "${pwd}"
-
-# 2023.05.17: (temporarily) fixed brcm firmware
 # cd overlays/custom_debs
-# test -e firmware-brcm80211_20230625-1+salsaci_all.deb && rm firmware-brcm80211_20230625-1+salsaci_all.deb
-# # wget -nv -O firmware-brcm80211_20230625-1+salsaci_all.deb https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4652912/artifacts/raw/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb?inline=false
-# wget -nv -O firmware-brcm80211_20230625-1+salsaci_all.deb https://salsa.debian.org/diederik/firmware-nonfree/-/jobs/4774107/artifacts/raw/debian/output/firmware-brcm80211_20230625-1+salsaci_all.deb?inline=false
-# cd "${pwd}"
-
-# cd overlays/custom_debs
-# rm pinenote-gnome-extension*.deb
-# wget -nv https://github.com/PNDeb/pinenote-gnome-extension/releases/download/v1.0/pinenote-gnome-extension_1.0_all.deb
+# test -e pinenote-dbus-service*.deb && rm pinenote-dbus-service*.deb
+# # wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v0.2.1-dev/pinenote-dbus-service_0.2.1-dev-1_arm64.deb
+# wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v0.2.2-dev1/pinenote-dbus-service_0.2.2.dev1-1_arm64.deb
+# # wget -nv https://github.com/PNDeb/pinenote_dbus_service/releases/download/v20231208/pinenote-dbus-service_0.2.0-dev-1_arm64.deb
+# # wget -nv https://github.com/m-weigand/pinenote_dbus_service/releases/download/v20221207/pinenote_dbus_service_0.1.0_arm64.deb
 # cd "${pwd}"
