@@ -20,10 +20,10 @@ jobs:
       run: sudo apt -y update && sudo apt install debos
 
     - name: Prep step
-      run: ./prep_00_get_kernel_files.sh && ./prep_02_get_parse-android-dynparts.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
+      run: ./prep_00_get_kernel_files.sh && ./prep_03_custom_debs.sh && ./prep_05_get_external_files.sh
 
     - name: Set root partition number
-      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p8"/U_BOOT_ROOT="root=\/dev\/mmcblk1p${{matrix.partition}}"/' overlays/default/u-boot
+      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk1p${{matrix.partition}}"/' overlays/default/u-boot
 
     - name: Fix dts for Q64-A
       run:  sed -i 's/U_BOOT_FDT="rockchip\/rk3566-pinenote-v1.2.dtb"/U_BOOT_FDT="rockchip\/rk3566-quartz64-a.dtb"/' overlays/default/u-boot

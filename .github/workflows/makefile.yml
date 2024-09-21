@@ -35,7 +35,7 @@ jobs:
       run: ./prep_00_get_kernel_files.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
 
     - name: Set root partition number
-      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p8"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
+      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
 
     - name: Build
       run: sudo ./build.sh
