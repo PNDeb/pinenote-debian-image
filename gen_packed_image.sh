@@ -7,7 +7,7 @@ test -d mnt || mkdir mnt
 mkfs.ext4 "${outfile}"
 mount -o loop "${outfile}" mnt
 cd mnt
-tar xvzf ../10_pin_custom_debs.tar.gz 
+tar xvzf ../pinenote_arm64_debian_trixie.tar.gz
 cd ..
 
 umount mnt
