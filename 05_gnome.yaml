@@ -75,10 +75,11 @@ actions:
     packages:
       - pinenote-gnome-extension
 
-  - action: overlay
+  - action: apt
+    recommends: false
     description: Install PNEink Gnome theme
-    source: overlays/gnome_theme
-    destination: /usr/share/themes
+    packages:
+      - pneink
 
   - action: run
     description: Remove packagekit
