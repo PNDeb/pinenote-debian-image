@@ -85,5 +85,12 @@ actions:
     description: Remove packagekit
     chroot: true
     command: apt -y remove packagekit
+
+  # https://gitlab.freedesktop.org/mesa/mesa/-/issues/11892
+  - action: run
+    description: Add GDK_GL_DISABLE=base-instance to /etc/profile.d/pinenote.sh
+    chroot: true
+    command: echo "export GDK_GL_DISABLE=base-instance" > /etc/profile.d/pinenote.sh
+
   - action: pack
     file: {{ $targz }}
