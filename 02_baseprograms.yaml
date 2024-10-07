@@ -18,7 +18,6 @@ actions:
     update: true
     description: Install base programs
     packages:
-      - sudo
       - ca-certificates
       - man-db
       - console-setup
@@ -30,7 +29,6 @@ actions:
       - bzip2
       - xz-utils
       - vim-nox
-      - w3m
       - mc
       - bluetooth
       - iw
@@ -43,9 +41,6 @@ actions:
       - ssh
       - alsa-utils
       - busybox
-      - u-boot-menu
-      - zstd
-      - firmware-brcm80211
       - bluez-firmware
       - tree
       - htop
@@ -57,14 +52,15 @@ actions:
       - systemd-resolved
       - ntp
       - speech-dispatcher-espeak-ng
+      - w3m
       - espeak-ng
       - silversearcher-ag
       - stress
       - dialog
       - locales
       - byobu
-      - pinenote-dbus-service
       - xournalpp
+      - pinenote-dbus-service
 
   - action: pack
     file: {{ $targz }}
