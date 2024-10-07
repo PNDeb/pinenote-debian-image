@@ -16,19 +16,89 @@ actions:
     mirror: http://deb.debian.org/debian
 
   - action: overlay
-    description: Copy PNDeb keyring
-    source: overlays/keyrings/
-    destination: /usr/share/keyrings/
+    description: Copy basic packages
+    source: overlays/basic_support/
+    destination: /root/basic_support/
+
+  - action: run
+    description: Install basic support .deb packages
+    chroot: true
+    command: |
+      dpkg -i /root/basic_support/*.deb
+      rm -r /root/basic_support
+
+  - action: apt
+    recommends: false
+    description: Install various boot/kernel-related packages
+    packages:
+      - sudo
+      - zstd
+      - firmware-brcm80211
+      - u-boot-tools
+      - u-boot-menu
+      - python3-numpy # required for the python script that trims the A2 waveform
+      - mesa-utils # contains eglinfo, which is used to keep the gpu alive on boot
+      - libubootenv-tool # required to modify the u-boot environment
+      - imagemagick # required to render/convert png files for the u-boot logo partition
+      - initramfs-tools
+      - plymouth
+      - plymouth-themes
 
   - action: overlay
-    description: Copy apt config for PNDeb
-    source: overlays/apt/
-    destination: /etc/apt/
+    description: Install plymouth config
+    source: overlays/plymouth/
+    destination: /etc/plymouth/
 
   - action: overlay
-    description: Install etc/ overlays
-    source: overlays/etc/
-    destination: /etc/
+    description: Install wip tools to generate u-boot logos (and partition image)
+    source: custom_logos_uboot/
+    destination: /root/custom_logos_uboot/
+
+  - action: overlay
+    description: Install off-/suspend-screen data
+    source: overlays/off_and_suspend_screen/
+    destination: /etc/off_and_suspend_screen/
+
+  - action: run
+    description: Create rockchip firmware directory
+    chroot: true
+    command: mkdir -p /lib/firmware/rockchip/
+
+  - action: run
+    description: Copy offscreen image
+    chroot: true
+    command: cp /etc/off_and_suspend_screen/pn_bg_3.bin /lib/firmware/rockchip/rockchip_ebc_default_screen.bin
+
+  - action: overlay
+    description: Copy kernel files to /root/kernel
+    source: overlays/kernel/
+    destination: /root/kernel/
+
+  - action: run
+    description: Install all kernel-related .deb packages
+    chroot: true
+    command: dpkg -i /root/kernel/*.deb
+
+  - action: run
+    description: Clean up kernel-deb files
+    chroot: true
+    command: rm /root/kernel/*.deb
+
+  - action: run
+    description: Prepare u-boot emergency kernel files in /boot/emergency
+    chroot: true
+    script: scripts/kernel_prepare_emergency_files.sh
+
+  - action: apt
+    recommends: false
+    description: Install new kernel from repository
+    packages:
+      - linux-image-pinenote-stable
+
+  - action: overlay
+    description: Copy root scripts
+    source: overlays/root/
+    destination: /root/
 
   - action: pack
     file: {{ $targz }}
