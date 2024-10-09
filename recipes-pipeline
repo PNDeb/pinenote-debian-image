@@ -1,17 +1,13 @@
 # calls debootstrap
 01_rootminfs.yaml
-
-02_baseprograms.yaml
-
+# 01a_waveforms.yaml
+02_basic_system.yaml
+03_baseprograms.yaml
 04_finalsetup.yaml
-
 05_gnome.yaml
 06_custom_debs.yaml
-
 09_xournalpp.yaml
-
 10_pin_custom_debs.yaml
-
 11_adduser.yaml
 
 12_create_disc_image.yaml
