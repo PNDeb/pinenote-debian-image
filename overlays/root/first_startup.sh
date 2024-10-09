@@ -8,45 +8,38 @@ lockfile="/boot/waveform_firmware_recovered"
 waveform_partition="/dev/disk/by-partlabel/waveform"
 
 test -e "${lockfile}" && exit
+# prevent some error messages until we re-generated the key
+echo "Stopping ssh service"
+systemctl stop ssh
 
 echo "First boot with the Pinenote!!!"
-echo "Press [ENTER] to continue"
 echo "Sleeping 3 seconds"
 sleep 3
 echo "Done"
 
-cd /root
-pwd=$PWD
-outdir="/usr/lib/firmware"
-mkdir -p ${outdir}/brcm
-mkdir -p ${outdir}/rockchip
-
-# 1) Get epd/eink waveforms from the waveform partition
-# md5sum: 62a4817fda54ed39602a51229099ff02
-dd if="${waveform_partition}" of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
-ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
-
-# by default we assume / on /dev/mmcblk0p8, but we check when running this
-# script and make sure other root partitions are properly taken care of in the
-# extlinux.conf file on new reboot
+# detect current root partition
 new_root=`mount | grep "on / type" | cut -d " " -f 1 | cut -c 6-`
-# sed -i "s/mmcblk0p8/${new_root}/" /etc/default/u-boot
- sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p[0-9].\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /etc/default/u-boot
 
-# Now that we have the firmware, regenerate the initrd for the kernel
-update-initramfs -c -k all
-u-boot-update
-
+# #############################################################################
+# regenerate ssh key
+#
 # quirk: sshd is not properly configured at first boot and needs to generate
 # its certificate
+echo "Re-generating ssh keys"
 dpkg-reconfigure openssh-server
+echo "Starting ssh service"
+systemctl start ssh.service
 
+# #############################################################################
+# grow root partition
 # in case we install using an disc image, grow the ext4 rootfs to the edge of
 # the partition
 echo "Growing root fs to the edge of the partition"
 resize2fs /dev/"${new_root}"
 
+# #############################################################################
 # HOME directory options
+echo "Checking /home and data partition options"
 
 # we only want to react to files specific to this partition
 use_as_home_var="pn_use_as_home_${new_root}"
@@ -78,7 +71,9 @@ then
 				echo "Adding line to /etc/fstab"
 				echo "    ${fstab_line}"
 				echo "${fstab_line}" >> /etc/fstab
-				echo "Changes will take effect after reboot"
+				# make sure that the system is aware of the new home
+				echo "Initiating systemctl daemon-reload"
+				systemctl daemon-reload
 			fi
 			transfer_user_files=0
 			if [ -e "${mnt_point}/${transfer_files_var}" ]; then
@@ -101,12 +96,13 @@ then
 		umount "${mnt_point}"
 
 		if [ ${grow_part} -eq 1 ]; then
-			echo "Executing resize2fs"
+			echo "Executing resize2fs..."
 			e2fsck -fy "${target_partition}"
 			resize2fs "${target_partition}"
 		fi
 
 		if [ ${recreate_part} -eq 1 ]; then
+			echo "Re-creating partition..."
 			mkfs.ext4 "${target_partition}"
 			mount "${target_partition}" "${mnt_point}"
 			# we want to keep this, but none of the other control files
@@ -126,11 +122,62 @@ then
 			umount "${mnt_point}"
 		fi
 		test -d "${mnt_point}" && rm -r "${mnt_point}"
+
+		# now that everything is finished, potentially mount /home
+		if [ -e "${mnt_point}/${use_as_home_var}" ]; then
+			echo "Mounting home"
+			# mount home
+			mount /home
+		fi
 	fi
 fi
+
+cd /root
+
+# #############################################################################
+# Waveform extraction
+outdir="/usr/lib/firmware"
+mkdir -p ${outdir}/rockchip
+
+
+target_wbf_file="/usr/lib/firmware/rockchip/ebc.wbf"
+if [ -e "${target_wbf_file}" ]; then
+	echo 'EBC waveform file already exists. Will not reboot'
+	wbf_already_exists=1
+else
+	echo 'EBC waveform file does not already exist. Will reboot'
+	wbf_already_exists=0
+fi
+
+# 1) Get epd/eink waveforms from the waveform partition
+# md5sum: 62a4817fda54ed39602a51229099ff02
+dd if="${waveform_partition}" of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
+
+
+if [ -e "${target_wbf_file}" ]; then
+	echo "Found a waveform file at ${target_wbf_file}. Will move to .backup"
+	mv "${target_wbf_file}" "${target_wbf_file}".backup
+fi
+
+ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
+
+# by default we assume / on /dev/mmcblk0p5, but we check when running this
+# script and make sure other root partitions are properly taken care of in the
+# extlinux.conf file on new reboot
+sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p[0-9].\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /etc/default/u-boot
+
+# Now that we have the firmware, regenerate the initrd for the kernel
+if [ "${wbf_already_exists}" -eq 0 ]; then
+	update-initramfs -c -k all
+fi
+
+u-boot-update
 
 # we do not want to repeat running this script, see check at the beginning of
 # the file
 touch "${lockfile}"
+echo "This is a lockfile for the first-boot script of the PineNote. Do not delete" >> "${lockfile}"
 
-reboot
+if [ "${wbf_already_exists}" -eq 0 ]; then
+	reboot
+fi

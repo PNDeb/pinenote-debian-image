@@ -11,3 +11,6 @@ overlays/firmware/waveform.bin
 
 debian.img
 debian.img.zst
+
+# we do not every want to check in waveform data
+overlays/waveforms/

@@ -1,0 +1,23 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $debian_suite := or .debian_suite "trixie" -}}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: run
+    description: Create firmware directory
+    chroot: true
+    command: mkdir -p /usr/lib/firmware/rockchip/
+
+  - action: overlay
+    description: Copy waveform files
+    source: overlays/waveforms/
+    destination: /usr/lib/firmware/rockchip/
+
+  - action: pack
+    file: {{ $targz }}
