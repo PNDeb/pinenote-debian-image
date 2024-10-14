@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Default theme for Debian 12.0 Bookworm
+Description=An Emerald theme by Juliette Taka
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/pinenote
+ScriptFile=/usr/share/plymouth/themes/pinenote/pinenote.script

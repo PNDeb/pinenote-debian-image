@@ -7,7 +7,17 @@ lockfile="/boot/waveform_firmware_recovered"
 # we read the waveform data from this partition
 waveform_partition="/dev/disk/by-partlabel/waveform"
 
+# depending on whether this is our first boot, show a different screen content
+if [ -e "${lockfile}" ]; then
+	# show on each boot
+	fbi -T 1 -d /dev/fb0 etc/off_and_suspend_screen/logo_first_boot_v2_notext.png
+else
+	# show only on first boot
+	fbi -T 1 -d /dev/fb0 etc/off_and_suspend_screen/logo_first_boot_v2.png
+fi
+
 test -e "${lockfile}" && exit
+
 # prevent some error messages until we re-generated the key
 echo "Stopping ssh service"
 systemctl stop ssh

@@ -37,11 +37,17 @@ actions:
       - initramfs-tools
       - plymouth
       - plymouth-themes
+      - fbi
 
   - action: overlay
     description: Install plymouth config
-    source: overlays/plymouth/
+    source: overlays/plymouth/config/
     destination: /etc/plymouth/
+
+  - action: overlay
+    description: Install plymouth theme
+    source: overlays/plymouth/themes/
+    destination: /usr/share/plymouth/themes/
 
   - action: overlay
     description: Install wip tools to generate u-boot logos (and partition image)
