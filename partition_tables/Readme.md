@@ -30,7 +30,7 @@ This approach, if successfull, allows you to flash a new operating system to the
             tools/boot_merger RKBOOT/RK3566MINIALL.ini
 
 * Preparation:
-        * Download the new partition table file (from this repository): [partition_table_standard1.txt](partition_table_standard1.txt)
+        * Download the new partition table file (from this repository): [partition_table_standard2.txt](partition_table_standard2.txt)
 	* From the latest release (or latest CI build), download the following artifacts:
          * the spl loader:
            * **rk356x_spl_loader_v1.12.112.bin**
@@ -38,15 +38,15 @@ This approach, if successfull, allows you to flash a new operating system to the
            * **idblock.bin**
            * **trust.img**
            * **uboot.img**
-         * one disc image for either partition 8 (label: os1) or 9 (label: os2):
-           * **debian_partition_8.img.zst**
-           * or **debian_partition_9.img.zst**
-         * (optional) a dummy partition for the data partition (nr 10, label: data). This small blob is flashed to the partition to indicate that it should be used to mount /home for the newly installed system. Not recommended when os installed to both os1 and os2 partitions.
-           * **data_part_dummy_p8.img**
-           * or **data_part_dummy_p9.img**
+         * one disc image for either partition 5 (label: os1) or 6 (label: os2):
+           * **debian_partition_5.img.zst**
+           * or **debian_partition_6.img.zst**
+         * (optional) a dummy partition for the data partition (nr 7, label: data). This small blob is flashed to the partition to indicate that it should be used to mount /home for the newly installed system. Not recommended when os installed to both os1 and os2 partitions.
+           * **data_part_dummy_p5.img**
+           * or **data_part_dummy_p6.img**
 	* unzip the artifacts (and unzstd the disc image), for example:
 
-			unzip debian_partition_8.zip && unzstd debian_partition_8.img.zst
+			unzip debian_partition_5.zip && unzstd debian_partition_5.img.zst
 
 * Flashing commands:
 
@@ -73,27 +73,23 @@ This approach, if successfull, allows you to flash a new operating system to the
 	  # idblock.bin is only required if you compiled u-boot yourself (the rockchip u-boot)
 	  rkdeveloptool write 64 idblock.bin
 	  rkdeveloptool write-partition uboot uboot.img
-	  # for a self-compiled u-boot, trust.img should probably also be flashed,
-	  # but for now we can use the stock partition
 
 	  # write partitions that were moved
-	  rkdeveloptool write-partition boot part_boot.img
-	  rkdeveloptool write-partition dtbo part_dtbo.img
 	  rkdeveloptool write-partition logo part_logo.img
 
 	  # write debian image to bootable partition
-	  rkdeveloptool write-partition os1 debian_partition_8.img
+	  rkdeveloptool write-partition os1 debian_partition_5.img
           # alternatively:
-  	  # rkdeveloptool write-partition os2 debian_partition_0.img
+  	  # rkdeveloptool write-partition os2 debian_partition_6.img
 
 	  # (optional) write data partition dummy so this partition is used as /home
 	  # Note: This image is too small to hold an ext4 journal, I'm not sure just
 	  # calling resize2fs on it activates the journal. Consider this a bug in the
 	  # first_boot script
-	  rkdeveloptool write-partition data data_part_dummy_p8.bin
+	  rkdeveloptool write-partition data data_part_dummy_for_os_p5.bin
   	  # alternatively, and only if you want p10 as /home for os2!!!
-  	  # rkdeveloptool write-partition data data_part_dummy_p9.bin
-
+  	  # rkdeveloptool write-partition data data_part_dummy_for_os_p6.bin
+					  
 	  # just to make sure, turn the PineNote off by holding the power button for more than 10 seconds
 	  # then turn in on again and wait (takes a little bit for the first-boot script to extract the
 	  # waveforms and to reboot before linux can access the epd panel
