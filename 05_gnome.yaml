@@ -13,6 +13,7 @@ actions:
     description: Install gnome and related packages
     packages:
       - gnome
+      - gnome-software
       - gnome-shell-extension-prefs
       - lightdm
       - portfolio-filemanager
@@ -79,11 +80,6 @@ actions:
     description: Install PNEink Gnome theme
     packages:
       - pneink
-
-  - action: run
-    description: Remove packagekit
-    chroot: true
-    command: apt -y remove packagekit
 
   # https://gitlab.freedesktop.org/mesa/mesa/-/issues/11892
   - action: run
