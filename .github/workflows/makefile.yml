@@ -193,11 +193,5 @@ jobs:
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
             artifacts/disc_image_partition_5/debian_partition_5.img.zst
             artifacts/disc_image_partition_6/debian_partition_6.img.zst
-            artifacts/disc_image_partition_7/debian_partition_7.img.zst
-            artifacts/disc_image_partition_8/debian_partition_8.img.zst
-            artifacts/disc_image_partition_9/debian_partition_9.img.zst
             artifacts/data_part_dummy_partition_5/data_part_dummy_for_os_p5.bin
             artifacts/data_part_dummy_partition_6/data_part_dummy_for_os_p6.bin
-            artifacts/data_part_dummy_partition_7/data_part_dummy_for_os_p7.bin
-            artifacts/data_part_dummy_partition_8/data_part_dummy_for_os_p8.bin
-            artifacts/data_part_dummy_partition_9/data_part_dummy_for_os_p9.bin
