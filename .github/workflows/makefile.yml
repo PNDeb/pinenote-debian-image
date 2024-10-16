@@ -96,7 +96,7 @@ jobs:
   create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
     needs:
-      - build_images
+      # - build_images
     steps:
       - uses: actions/checkout@v4
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
@@ -104,14 +104,19 @@ jobs:
         run: sudo apt -y install dosfstools
       - name: Create u-boot environment partition
         run: |
-          fallocate -l 1MB data_part_uboot_env.bin
-          mkfs.vfat data_part_uboot_env.bin
+          fallocate -l 1MB data_part_uboot_env_defp5.bin
+          mkfs.vfat data_part_uboot_env_defp5.bin
+          mkdir tmp
+          sudo mount -v -o loop data_part_uboot_env_defp5.bin tmp
+          sudo cp uboot_env/uboot.env tmp/
+          sudo umount tmp
+          rm -r tmp
 
       - name: Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: data_part_uboot_env
-          path: data_part_uboot_env.bin
+          name: data_part_uboot_env_defp5
+          path: data_part_uboot_env_defp5.bin
 
   compile_uboot:
     runs-on: ubuntu-latest
@@ -191,6 +196,7 @@ jobs:
             artifacts/uboot-files/uboot.img
             artifacts/uboot-files/idblock.bin
             artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/data_part_uboot_env_defp5/data_part_uboot_env_defp5.bin
             artifacts/disc_image_partition_5/debian_partition_5.img.zst
             artifacts/disc_image_partition_6/debian_partition_6.img.zst
             artifacts/data_part_dummy_partition_5/data_part_dummy_for_os_p5.bin
