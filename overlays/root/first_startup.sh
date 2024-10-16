@@ -1,8 +1,6 @@
-#!/usr/bin/env sh
-# requires kernel options:
-# +CONFIG_MD=y
-# +CONFIG_BLK_DEV_DM=m
-# and https://github.com/tchebb/parse-android-dynparts
+#!/usr/bin/env bash
+# Note: this script uses arrays. Be careful when switching shells
+
 lockfile="/boot/waveform_firmware_recovered"
 # we read the waveform data from this partition
 waveform_partition="/dev/disk/by-partlabel/waveform"
@@ -163,22 +161,41 @@ fi
 # md5sum: 62a4817fda54ed39602a51229099ff02
 dd if="${waveform_partition}" of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=2048
 
+# this array contains hashes of known, good, waveform files
+# we only replace existing waveform files if the hashes match
+waveform_hashes=("62a4817fda54ed39602a51229099ff02")
+hash=$(md5sum /usr/lib/firmware/rockchip/ebc_orig.wbf | cut -d ' ' -f 1)
+echo "We got a waveform hash: ${hash}"
+hash_found=0
+for test_hash in ${waveform_hashes[@]}
+do
+	echo "Checking against known good waveform: ${test_hash}"
+	if [ "${hash}" == "${test_hash}" ]; then
+		echo "Found a correct hash"
+		hash_found=1
+	fi
+done
 
-if [ -e "${target_wbf_file}" ]; then
-	echo "Found a waveform file at ${target_wbf_file}. Will move to .backup"
-	mv "${target_wbf_file}" "${target_wbf_file}".backup
-fi
+# only proceed if the hash is known
+if [ "${hash_found}" -eq 1 ]; then
+	echo "Proceeding with setting the waveform"
 
-ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
+	if [ -e "${target_wbf_file}" ]; then
+		echo "Found a waveform file at ${target_wbf_file}. Will move to .backup"
+		mv "${target_wbf_file}" "${target_wbf_file}".backup
+	fi
 
-# by default we assume / on /dev/mmcblk0p5, but we check when running this
-# script and make sure other root partitions are properly taken care of in the
-# extlinux.conf file on new reboot
-sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p[0-9].\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /etc/default/u-boot
+	ln -s ${outdir}/rockchip/ebc_orig.wbf ${outdir}/rockchip/ebc.wbf
 
-# Now that we have the firmware, regenerate the initrd for the kernel
-if [ "${wbf_already_exists}" -eq 0 ]; then
-	update-initramfs -c -k all
+	# by default we assume / on /dev/mmcblk0p5, but we check when running this
+	# script and make sure other root partitions are properly taken care of in the
+	# extlinux.conf file on new reboot
+	sed -i "s/U_BOOT_ROOT=\"root=\/dev\/mmcblk0p[0-9].\"/U_BOOT_ROOT=\"root=\/dev\/${new_root}\"/" /etc/default/u-boot
+
+	# Now that we have the firmware, regenerate the initrd for the kernel
+	if [ "${wbf_already_exists}" -eq 0 ]; then
+		update-initramfs -c -k all
+	fi
 fi
 
 u-boot-update
