@@ -95,7 +95,7 @@ jobs:
 
   create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
-    needs:
+      # needs:
       # - build_images
     steps:
       - uses: actions/checkout@v4
