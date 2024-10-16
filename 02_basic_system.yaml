@@ -21,6 +21,11 @@ actions:
       dpkg -i /root/basic_support/*.deb
       rm -r /root/basic_support
 
+  - action: overlay
+    description: Install some /etc files
+    source: overlays/etc/
+    destination: /etc/
+
   - action: apt
     recommends: false
     description: Install various boot/kernel-related packages
