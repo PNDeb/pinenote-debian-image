@@ -1,0 +1,24 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $debian_suite := or .debian_suite "trixie" -}}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  # note: env variable $partition_nr was propagated by debos
+  - action: run
+    description: Fix boot partition
+    chroot: true
+    command: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${partition_nr}"/' /usr/share/u-boot-menu/conf.d/u-boot-pinenote.conf
+
+  - action: run
+    description: re-generate u-boot menu
+    chroot: true
+    command: u-boot-update
+
+  - action: pack
+    file: {{ $targz }}

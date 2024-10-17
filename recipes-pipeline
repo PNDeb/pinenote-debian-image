@@ -2,6 +2,7 @@
 01_rootminfs.yaml
 # 01a_waveforms.yaml
 02_basic_system.yaml
+02a_fix_root_partition.yaml
 03_baseprograms.yaml
 04_finalsetup.yaml
 05_gnome.yaml

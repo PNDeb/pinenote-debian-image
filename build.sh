@@ -45,6 +45,11 @@ build() {
 	if [ ! -z "$2" ]; then
 		tars="$tars -t prevtargz:${2%.yaml}.tar.gz "
 	fi
+	if [ -z ${target_root_partition} ]; then
+		echo "You need to set the variable target_root_partition!"
+		exit
+	fi
+	tars="$tars -e partition_nr:${target_root_partition} "
 	$DEBOS_CMD $ARGS --disable-fakemachine $tars "$1" || exit 34
 }
 

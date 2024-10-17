@@ -26,11 +26,12 @@ jobs:
     - name: Prep step
       run: ./prep_00_get_kernel_files.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
 
-    - name: Set root partition number
-      run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
+    # - name: Set root partition number
+    #   run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
 
     - name: Build
-      run: sudo ./build.sh
+      run: |
+        sudo target_root_partition={{matrix.partition}} ./build.sh
 
     - name: Rename rootfs tar.gz
       run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
