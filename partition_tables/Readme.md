@@ -67,7 +67,7 @@ This approach, if successfull, allows you to flash a new operating system to the
 	  rkdeveloptool boot rk356x_spl_loader_v1.12.112.bin
 
 	  # write new GPT partition table
-	  rkdeveloptool write-partition-table partition_table_standard1.txt
+	  rkdeveloptool write-partition-table partition_table_standard2.txt
 
 	  # (optional) write new u-boot
 	  # idblock.bin is only required if you compiled u-boot yourself (the rockchip u-boot)
