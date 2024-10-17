@@ -16,17 +16,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # Note: 2024.06.26: debootstrap started to fail for multiple reasons
-    # In the end, installing debootstrap 137 from debian sid seems to solve the
-    # problem
     - name: Update image
       # run: sudo apt update && sudo apt upgrade
       run: sudo apt update && sudo apt install debootstrap debian-archive-keyring debian-keyring
-
-    - name: Install newer debootstrap
-      run: |
-        wget -O /tmp/debootstrap.deb http://ftp.cz.debian.org/debian/pool/main/d/debootstrap/debootstrap_1.0.137_all.deb
-        sudo dpkg -i /tmp/debootstrap.deb
 
     - name: Install dependencies
       run: sudo apt -y update && sudo apt install debos
