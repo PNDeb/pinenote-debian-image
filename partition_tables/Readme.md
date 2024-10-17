@@ -50,49 +50,53 @@ This approach, if successfull, allows you to flash a new operating system to the
 
 * Flashing commands:
 
-	  # create backups (do this BEFORE altering any of the partitions!)
-	  # If you already altered partitions, skip this step and write back
-	  # partition backup you did before in the later step
-	  rkdeveloptool read 0 41943040 first_40mb_of_disc.img
-	  rkdeveloptool read-partition boot part_boot.img
-	  rkdeveloptool read-partition trust part_trust.img
-	  rkdeveloptool read-partition dtbo part_dtbo.img
-	  rkdeveloptool read-partition waveform part_waveform.img
-	  rkdeveloptool read-partition uboot part_uboot.img
-	  rkdeveloptool read-partition logo part_logo.img
-	  rkdeveloptool read-partition recovery part_recovery.img
+  * Backuping existing factory partitions (batch 1):
+    
+		  # create backups (do this BEFORE altering any of the partitions!)
+		  # If you already altered partitions, skip this step and write back
+		  # partition backup you did before in the later step
+		  rkdeveloptool read 0 41943040 first_40mb_of_disc.img
+		  rkdeveloptool read-partition boot part_boot.img
+		  rkdeveloptool read-partition trust part_trust.img
+		  rkdeveloptool read-partition dtbo part_dtbo.img
+		  rkdeveloptool read-partition waveform part_waveform.img
+		  rkdeveloptool read-partition uboot part_uboot.img
+		  rkdeveloptool read-partition logo part_logo.img
+		  rkdeveloptool read-partition recovery part_recovery.img
 
-	  # enable `write-partition-table` commands
-	  rkdeveloptool reboot-maskrom
-	  rkdeveloptool boot rk356x_spl_loader_v1.12.112.bin
-
-	  # write new GPT partition table
-	  rkdeveloptool write-partition-table partition_table_standard1.txt
-
-	  # (optional) write new u-boot
-	  # idblock.bin is only required if you compiled u-boot yourself (the rockchip u-boot)
-	  rkdeveloptool write 64 idblock.bin
-	  rkdeveloptool write-partition uboot uboot.img
-
-	  # write partitions that were moved
-	  rkdeveloptool write-partition logo part_logo.img
-
-	  # write debian image to bootable partition
-	  rkdeveloptool write-partition os1 debian_partition_5.img
-          # alternatively:
-  	  # rkdeveloptool write-partition os2 debian_partition_6.img
-
-	  # (optional) write data partition dummy so this partition is used as /home
-	  # Note: This image is too small to hold an ext4 journal, I'm not sure just
-	  # calling resize2fs on it activates the journal. Consider this a bug in the
-	  # first_boot script
-	  rkdeveloptool write-partition data data_part_dummy_for_os_p5.bin
-  	  # alternatively, and only if you want p10 as /home for os2!!!
-  	  # rkdeveloptool write-partition data data_part_dummy_for_os_p6.bin
-					  
-	  # just to make sure, turn the PineNote off by holding the power button for more than 10 seconds
-	  # then turn in on again and wait (takes a little bit for the first-boot script to extract the
-	  # waveforms and to reboot before linux can access the epd panel
+  * Flashing new partition layout and image:
+    
+		  # enable `write-partition-table` commands
+		  rkdeveloptool reboot-maskrom
+		  rkdeveloptool boot rk356x_spl_loader_v1.12.112.bin
+	
+		  # write new GPT partition table
+		  rkdeveloptool write-partition-table partition_table_standard2.txt
+	
+		  # (optional) write new u-boot
+		  # idblock.bin is only required if you compiled u-boot yourself (the rockchip u-boot)
+		  rkdeveloptool write 64 idblock.bin
+		  rkdeveloptool write-partition uboot uboot.img
+	
+		  # write partitions that were moved
+		  rkdeveloptool write-partition logo part_logo.img
+	
+		  # write debian image to bootable partition
+		  rkdeveloptool write-partition os1 debian_partition_5.img
+	          # alternatively:
+	  	  # rkdeveloptool write-partition os2 debian_partition_6.img
+	
+		  # (optional) write data partition dummy so this partition is used as /home
+		  # Note: This image is too small to hold an ext4 journal, I'm not sure just
+		  # calling resize2fs on it activates the journal. Consider this a bug in the
+		  # first_boot script
+		  rkdeveloptool write-partition data data_part_dummy_for_os_p5.bin
+	  	  # alternatively, and only if you want p10 as /home for os2!!!
+	  	  # rkdeveloptool write-partition data data_part_dummy_for_os_p6.bin
+						  
+		  # just to make sure, turn the PineNote off by holding the power button for more than 10 seconds
+		  # then turn in on again and wait (takes a little bit for the first-boot script to extract the
+		  # waveforms and to reboot before linux can access the epd panel
 
 ## The standard1 partition table will partition the PineNote disc as follows:
 
