@@ -1,12 +1,12 @@
 # calls debootstrap
 01_rootminfs.yaml
-# 01a_waveforms.yaml
-02_basic_system.yaml
-02a_fix_root_partition.yaml
-03_baseprograms.yaml
-04_finalsetup.yaml
-05_gnome.yaml
-06_custom_debs.yaml
+# 02_waveforms.yaml
+03_basic_system.yaml
+04_fix_root_partition.yaml
+05_baseprograms.yaml
+06_finalsetup.yaml
+07_gnome.yaml
+08_custom_debs.yaml
 11_adduser.yaml
 
 12_create_disc_image.yaml
