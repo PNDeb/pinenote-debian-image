@@ -31,7 +31,7 @@ jobs:
 
     - name: Build
       run: |
-        sudo target_root_partition={{matrix.partition}} ./build.sh
+        sudo target_root_partition=${{matrix.partition}} ./build.sh
 
     - name: Rename rootfs tar.gz
       run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
