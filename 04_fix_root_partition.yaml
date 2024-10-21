@@ -13,7 +13,7 @@ actions:
   - action: run
     description: Fix boot partition
     chroot: true
-    command: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${partition_nr}"/' /usr/share/u-boot-menu/conf.d/u-boot-pinenote.conf
+    command: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p{{ $partition_nr} }"/' /usr/share/u-boot-menu/conf.d/u-boot-pinenote.conf
 
   - action: run
     description: re-generate u-boot menu
