@@ -2,6 +2,7 @@
 {{- $debian_suite := or .debian_suite "trixie" -}}
 {{- $prevtargz := .prevtargz }}
 {{- $targz := .targz }}
+{{- $target_root_partition := .target_root_partition }}
 
 architecture: {{ $architecture }}
 
@@ -13,7 +14,9 @@ actions:
   - action: run
     description: Fix boot partition
     chroot: true
-    command: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p{{ $partition_nr} }"/' /usr/share/u-boot-menu/conf.d/u-boot-pinenote.conf
+    command: |
+      echo ${partition_nr}
+      sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p{{ $target_root_partition }}"/' /usr/share/u-boot-menu/conf.d/u-boot-pinenote.conf
 
   - action: run
     description: re-generate u-boot menu

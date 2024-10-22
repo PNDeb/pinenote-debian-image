@@ -50,6 +50,7 @@ build() {
 		exit
 	fi
 	tars="$tars -e partition_nr:${target_root_partition} "
+	tars="$tars -t target_root_partition:${target_root_partition} "
 	$DEBOS_CMD $ARGS --disable-fakemachine $tars "$1" || exit 34
 }
 
