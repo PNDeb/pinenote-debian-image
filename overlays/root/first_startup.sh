@@ -163,7 +163,8 @@ dd if="${waveform_partition}" of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=20
 
 # this array contains hashes of known, good, waveform files
 # we only replace existing waveform files if the hashes match
-waveform_hashes=("62a4817fda54ed39602a51229099ff02")
+# md5-hashes
+waveform_hashes=("62a4817fda54ed39602a51229099ff02" "086faea8714e6a365a0174850d0823c0")
 hash=$(md5sum /usr/lib/firmware/rockchip/ebc_orig.wbf | cut -d ' ' -f 1)
 echo "We got a waveform hash: ${hash}"
 hash_found=0
