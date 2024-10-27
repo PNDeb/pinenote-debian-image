@@ -59,7 +59,7 @@ prep_04_firmware_kernel_archive.sh).
 
 ## Default user and hostname
 
-Defaul hostname is `pinenote`, the configured (with auto-login via gdm3) user
+Default hostname is `pinenote`, the configured (with auto-login via gdm3) user
 is called `user` with password `1234` and `sudo` capabilities.
 
 ## Installation of disc image
