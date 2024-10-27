@@ -4,28 +4,22 @@ This repository provides means to build a full Debian rootfs and disc image for
 the PineNote eink tablet that directly boots into GNOME, thereby providing a
 robust linux experience.
 
-The project originates in the work of Eugen Răhăian at
+Please also take a look at the handbook that is provided in this Debian image:
+https://pndeb.github.io/pinenote-tweaks/.
+
+The project originated in the work of Eugen Răhăian at
 https://salsa.debian.org/eugenrh/pinenote-debian-recipes, which provides a
 Debian base rootfs/image without any GUI.
 It uses [debos](https://github.com/go-debos/debos) to build a set of recipes
 organized as a build pipeline.
 The resulting images can be either extracted into an existing
-partition on the PineNote, or can be flashed to an arbitrary partition using `dd.
+partition on the PineNote, or can be flashed to an arbitrary partition using `dd`.
 This can also be accomplished via USB and maskrom mode
 using [rkdeveloptool](https://gitlab.com/pine64-org/quartz-bsp/rkdeveloptool).
 
-[TODO: move this section elsewhere, we do not need to root Android anymore for the installation]
-In order to install a Linux distribution on the PineNote, someone
-would follow installation guides like the ones written by Martyn\[1\] or
-Dorian\[2\], to prepare for dual booting linux alongside Android.
-
-This project aims to simplifies things by providing disc images that can
-(potentially) directly be flashed over USB using rkdeveloptool, without
-touching the factory-testing Android installation.
-
-  \[1\]: [https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian](https://musings.martyn.berlin/dual-booting-the-pinenote-with-android-and-debian)
-
-  \[2\]:  [https://github.com/DorianRudolph/pinenotes](https://github.com/DorianRudolph/pinenotes)
+This project aims to simplify things by providing disc images that can directly
+be flashed over USB using rkdeveloptool, without touching the factory-testing
+Android installation.
 
 ## What can be done with the PineNote ?
 
@@ -33,7 +27,7 @@ Videos showcasing what **can** be achieved with the PineNote | _
  :-: | :-:
 Annotating scientific papers <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/69ab243c-a1a3-42c7-8a03-e9f5555407ce"></video> | A little bit of light vim editing: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/544d34f8-061f-4383-9067-ae271d7879ff"></video>
 Yes, we can play doom: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/aa61ef02-2d12-426a-83dd-5f91ccea83bd"></video> | U-Boot has basic eink support:<p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/3f9e354d-000d-42ca-ba1c-23d49e3cbc9f">/video>
-The PineNote can act as an USB-Tablet: <p> <video src="https://github.com/user-attachments/assets/4f8ef15c-6714-4795-ba7a-30291dbde979"></video> | 
+The PineNote can act as an USB-Tablet: <p> <video src="https://github.com/user-attachments/assets/4f8ef15c-6714-4795-ba7a-30291dbde979"></video> |
 
 ## First-boot activity
 
