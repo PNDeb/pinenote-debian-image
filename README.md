@@ -7,8 +7,8 @@ robust linux experience.
 Please also take a look at the handbook that is provided in this Debian image:
 https://pndeb.github.io/pinenote-tweaks/.
 
-The project originated in the work of Eugen Răhăian at
-https://salsa.debian.org/eugenrh/pinenote-debian-recipes, which provides a
+The project originated in the work of [Eugen Răhăian]
+(https://salsa.debian.org/eugenrh/pinenote-debian-recipes), which provides a
 Debian base rootfs/image without any GUI.
 It uses [debos](https://github.com/go-debos/debos) to build a set of recipes
 organized as a build pipeline.
@@ -21,6 +21,9 @@ This project aims to simplify things by providing disc images that can directly
 be flashed over USB using rkdeveloptool, without touching the factory-testing
 Android installation.
 
+If you are looking for installation instructions, please take a look
+[here](partition_tables/Readme.md).
+
 ## What can be done with the PineNote ?
 
 Videos showcasing what **can** be achieved with the PineNote | _
@@ -29,21 +32,26 @@ Annotating scientific papers <p> <video src="https://github.com/PNDeb/pinenote-d
 Yes, we can play doom: <p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/aa61ef02-2d12-426a-83dd-5f91ccea83bd"></video> | U-Boot has basic eink support:<p> <video src="https://github.com/PNDeb/pinenote-debian-image/assets/6685391/3f9e354d-000d-42ca-ba1c-23d49e3cbc9f">/video>
 The PineNote can act as an USB-Tablet: <p> <video src="https://github.com/user-attachments/assets/4f8ef15c-6714-4795-ba7a-30291dbde979"></video> |
 
+Additional videos, from earlier development activities, can be found
+[here](https://github.com/m-weigand/mw_pinenote_misc/tree/main/videos).
+
 ## First-boot activity
 
 On first boot a shell script (/root/first_startup.sh) is executed that will
 perform a few important tasks before executing an automatic reboot of the
 system.
 Depending in your method of booting you will need to supervise the UART output
-for manual intervention of the boot process.
+for manual intervention of the boot process (this only applied to units sold in
+2022 or earlier, due to misconfigured u-boot bootloaders).
 
 The Pinenote requires special waveform data to drive the epd display. It is
 common to flash individualised waveform data to devices to accommodate
 individual characteristics of the display panels.
 
-This Debian install will extract the waveform data from partition number 3
-(/dev/mmcblk0p03) and store it in /usr/lib/firmware/rockchip/ebc.wbf, where the
-rockchip_ebc driver can find it.
+This Debian install will extract the waveform data from
+**/dev/disk/by-label/waveform** and store it in
+/usr/lib/firmware/rockchip/ebc.wbf, where the *rockchip_ebc* driver can find it
+to drive the eink(ebc) panel.
 
 Earlier versions of this install would attempt to extract firmware required for
 WIFI and bluetooth from the factory Android installation.
@@ -66,10 +74,10 @@ information.
 ### Installation from an already running linux system
 
 Download the image file (here: debian.img.zst) and extract it, then copy it
-using dd to the desired partition (here: /dev/mmcblk0p8)::
+using dd to the desired partition (here: /dev/mmcblk0p5, label **os1**)::
 
 	zunstd debian.img.zst
-	dd if=debian.img of=/dev/mmcblk0p8 bs=4MB status=progress
+	dd if=debian.img of=/dev/mmcblk0p1 bs=4MB status=progress
 
 `debian.img` contains an `ext4` filesystem. You should probably flash it only
 on the `ext4` marked partitions on the device, unless you change the partition
@@ -85,13 +93,90 @@ partitions on first boot, and therefore it should not be necessary to rebuild
 the image just to install to another partition. See above for information on
 how to boot other partitions using the u-boot prompt.
 
+## First boot..
 
-## Installation of rootfs
+Things you might want to setup after the installation:
 
-The rootfs is a tar.gz file containing the compressed contents of the Debian
-root filesystem, to be extracted on an empty ext4 partition on the Pinenote.
+Change the **default password** before connection to public networks.
 
-[...]
+## Changing the default boot order
+
+(this is work-in-progress)
+
+* u-boot must be configured to
+
+	CONFIG_ENV_IS_IN_FAT=y
+	CONFIG_ENV_FAT_INTERFACE="mmc"
+	CONFIG_ENV_FAT_DEVICE_AND_PART="0:4"
+
+* Run /root/uboot_change_bootmenu.sh
+
+* Default bootmenu can be modified with:
+
+	fw_setenv bootmenu_0 "Boot OS1=sysboot mmc 0:8 any \${scriptaddr} /boot/extlinux/extlinux.conf"
+	fw_setenv bootmenu_0 "Boot OS2=sysboot mmc 0:9 any \${scriptaddr} /boot/extlinux/extlinux.conf"
+	fw_setenv bootmenu_0 "Search for extlinux.conf on all partitions=run scan_dev_for_boot_part"
+
+* A sample uboot env can be manually placed in partition 4 (vfat-formatted).
+  See subdirectory uboot_env in this directory
+
+
+### PineNote-specific Debian repository
+
+** builds after 26. June 2023 should include the repository configuration by default! **
+
+Download the gpg key here: [pinenote_repo_key_4.gpg](overlays/keyrings/pinenote_repo_key_4.gpg)
+
+At this point no stable update procedures for patched packages is implemented.
+However, a package repository is being tested to provide updates to those
+patches packages.
+
+WARNING: At this point, do use at your own risk and make sure to always double
+check any apt output before proceeding with updates.
+
+The repository and the associated gpg key must be added manually:
+
+	* Create the file **/etc/apt/preferences.d/98_pinenote.mweigand.net.pref** to
+	  make sure any package in the PineNote-specific repository will get
+	  higher priority than any stock Debian package:
+
+		Package: *
+		Pin: origin "pinenote.mweigand.net"
+		Pin-Priority: 1100
+
+	* Download the public gpg key of the repository (note: this key is very
+	  short-lived, with a life time of 1-6 months):
+
+		wget -O /etc/apt/keyrings/pinenote_repo_key_2.gpg https://github.com/PNDeb/pinenote-debian-image/raw/dev/overlays/keyrings/pinenote_repo_key_4.gpg
+
+	  sha256 checksum of the key files (use the latest one):
+
+		f0493a4c400af773d472e3b8b5d2f6d687e131b2cd2a87e421fcf5c10bbb1943  pinenote_repo_key_2.gpg
+		e6cb6ca19b39781f14aedd585e0c5b44ac2f6e4bb8e222eeb24a956db6acce08  pinenote_repo_key_3.gpg
+		5126ac76a25785133881d415ca7a1bf22a763a08e450db4a43056bd2a9c74ca0  pinenote_repo_key_4.gpg
+
+	* Add the repository **AT THE TOP** of the sources list file **/etc/apt/sources.list**:
+
+		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_4.gpg] http://pinenote.mweigand.net/repository/ bookworm main
+
+	* (optional) maybe check that certain packages have not been put on hold, i.e.:
+
+		apt-mark showhold
+ 		apt-mark unhold mutter* libmutter-11-0 gir1.2-mutter-11
+
+	* apt update && apt upgrade
+
+### Wifi
+
+`sudo nmtui-connect`
+
+(fixme: what needs to be set to do that without sudo?)
+
+### Misc
+
+* Ignore any ssh issues when testing the rootfs:
+
+	ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no user@pinenote
 
 ### Installation on partition /dev/mmcblk0p17
 
@@ -154,89 +239,6 @@ the (empty) file pn_use_as_home on partition 10.
 	* pn_use_as_home: If this file on a partition, then mount it as /home
 	* pn_grow_fs: if this file exists, grow the filesystem to the maximum size
 	  using resize2fs
-
-## First boot..
-
-Things you might want to setup after the installation:
-
-Change the **default password** before connection to public networks.
-
-## Changing the default boot order
-
-(this is work-in-progress)
-
-* u-boot must be configured to
-
-	CONFIG_ENV_IS_IN_FAT=y
-	CONFIG_ENV_FAT_INTERFACE="mmc"
-	CONFIG_ENV_FAT_DEVICE_AND_PART="0:4"
-
-* Run /root/uboot_change_bootmenu.sh
-
-* Default bootmenu can be modified with:
-
-	fw_setenv bootmenu_0 "Boot OS1=sysboot mmc 0:8 any \${scriptaddr} /boot/extlinux/extlinux.conf"
-	fw_setenv bootmenu_0 "Boot OS2=sysboot mmc 0:9 any \${scriptaddr} /boot/extlinux/extlinux.conf"
-	fw_setenv bootmenu_0 "Search for extlinux.conf on all partitions=run scan_dev_for_boot_part"
-
-* A sample uboot env can be manually placed in partition 4 (vfat-formatted).
-  See subdirectory uboot_env in this directory
-
-
-### PineNote-specific Debian repository
-
-** builds after 26. June 2023 should include the repository configuration by default! **
-
-Download the gpg key here: [pinenote_repo_key_4.gpg](overlays/keyrings/pinenote_repo_key_4.gpg)
-
-At this point no stable update procedures for patched packages is implemented.
-However, a package repository is being tested to provide updates to those
-patches packages.
-
-WARNING: At this point, do use at your own risk and make sure to always double
-check any apt output before proceeding with updates.
-
-The repository and the associated gpg key must be added manually:
-
-	* Create the file **/etc/apt/preferences.d/98_pinenote.mweigand.net.pref** to
-	  make sure any package in the PineNote-specific repository will get
-	  higher priority than any stock Debian package:
-
-		Package: *
-		Pin: origin "pinenote.mweigand.net"
-		Pin-Priority: 1100
-
-	* Download the public gpg key of the repository (note: this key is very
-	  short-lived, with a life time of 1-6 months):
-
-		wget -O /etc/apt/keyrings/pinenote_repo_key_2.gpg https://github.com/PNDeb/pinenote-debian-image/raw/dev/overlays/keyrings/pinenote_repo_key_2.gpg
-
-	  sha256 checksum of the key file:
-
-		f0493a4c400af773d472e3b8b5d2f6d687e131b2cd2a87e421fcf5c10bbb1943  pinenote_repo_key_2.gpg
-
-	* Add the repository **AT THE TOP** of the sources list file **/etc/apt/sources.list**:
-
-		deb [signed-by=/etc/apt/keyrings/pinenote_repo_key_2.gpg] http://pinenote.mweigand.net/repository/ bookworm main
-
-	* (optional) maybe check that certain packages have not been put on hold, i.e.:
-
-		apt-mark showhold
- 		apt-mark unhold mutter* libmutter-11-0 gir1.2-mutter-11
-
-	* apt update && apt upgrade
-
-### Wifi
-
-`sudo nmtui-connect`
-
-(fixme: what needs to be set to do that without sudo?)
-
-### Misc
-
-* Ignore any ssh issues when testing the rootfs:
-
-	ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no user@pinenote
 
 ## Building the rootfs/disc image using debos
 
@@ -303,7 +305,3 @@ This software is licensed under the terms of the GNU General Public License,
 version 3.
 
 Inspiration and some code parts are from [mobian-recipes project](https://salsa.debian.org/Mobian-team/mobian-recipes).
-
-# TEST: Video
-
-https://github.com/m-weigand/pinenote-debian-recipes/raw/dev/videos/20221210_xpp_faster_faster_faster_small.mp4
