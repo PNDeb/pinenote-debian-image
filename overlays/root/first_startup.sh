@@ -201,11 +201,17 @@ fi
 
 u-boot-update
 
+# Batch 2 factory image: We need to install u-boot on first boot
+# cd /root/uboot
+# bash install_stable_1056mhz_uboot.sh
+
 # we do not want to repeat running this script, see check at the beginning of
 # the file
 touch "${lockfile}"
 echo "This is a lockfile for the first-boot script of the PineNote. Do not delete" >> "${lockfile}"
 
+# only for batch 2 factory image
+# reboot
 if [ "${wbf_already_exists}" -eq 0 ]; then
 	reboot
 fi
