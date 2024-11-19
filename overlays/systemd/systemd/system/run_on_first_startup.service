@@ -18,7 +18,7 @@ TimeoutSec=0
 ExecStartPre=/bin/kill -SIGRTMIN+21 1
 ExecStartPre=-/bin/plymouth quit
 RemainAfterExit=true
-ExecStart=/root/first_startup.sh
+ExecStart=sh -c '/root/first_startup.sh 2>&1 | tee -a /boot/log_first_run_scrip.log'
 StandardOutput=syslog+console
 StandardInput=tty
 
