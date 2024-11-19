@@ -15,7 +15,7 @@ actions:
       - gnome
       - gnome-software
       - gnome-shell-extension-prefs
-      - lightdm
+      - gnome-shell-extension-user-theme
       - portfolio-filemanager
       - vlc
 
