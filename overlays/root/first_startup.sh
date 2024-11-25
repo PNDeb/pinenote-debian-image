@@ -164,18 +164,20 @@ dd if="${waveform_partition}" of=${outdir}/rockchip/ebc_orig.wbf  bs=1k count=20
 # this array contains hashes of known, good, waveform files
 # we only replace existing waveform files if the hashes match
 # md5-hashes
-waveform_hashes=("62a4817fda54ed39602a51229099ff02" "086faea8714e6a365a0174850d0823c0")
-hash=$(md5sum /usr/lib/firmware/rockchip/ebc_orig.wbf | cut -d ' ' -f 1)
-echo "We got a waveform hash: ${hash}"
-hash_found=0
-for test_hash in ${waveform_hashes[@]}
-do
-	echo "Checking against known good waveform: ${test_hash}"
-	if [ "${hash}" == "${test_hash}" ]; then
-		echo "Found a correct hash"
-		hash_found=1
-	fi
-done
+# waveform_hashes=("62a4817fda54ed39602a51229099ff02" "086faea8714e6a365a0174850d0823c0")
+# hash=$(md5sum /usr/lib/firmware/rockchip/ebc_orig.wbf | cut -d ' ' -f 1)
+# echo "We got a waveform hash: ${hash}"
+# hash_found=0
+# for test_hash in ${waveform_hashes[@]}
+# do
+# 	echo "Checking against known good waveform: ${test_hash}"
+# 	if [ "${hash}" == "${test_hash}" ]; then
+# 		echo "Found a correct hash"
+# 		hash_found=1
+# 	fi
+# done
+# 2024.11.25: disable hash-checking of the waveform for now
+hash_found=1
 
 # only proceed if the hash is known
 if [ "${hash_found}" -eq 1 ]; then
