@@ -3,7 +3,7 @@
 # Consult the keyboard(5) manual page.
 
 XKBMODEL="pc105"
-XKBLAYOUT="en"
+XKBLAYOUT="us"
 XKBVARIANT=""
 XKBOPTIONS=""
 
