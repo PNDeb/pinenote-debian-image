@@ -78,7 +78,8 @@ This approach, if successfull, allows you to flash a new operating system to the
 		  rkdeveloptool write 64 idblock.bin
 		  rkdeveloptool write-partition uboot uboot.img
 	
-		  # write partitions that were moved
+		  # write partitions that were moved (only for old partition layouts - not required for batch 2)
+      		  # for old PNs: use part_logo_new.img from recent release (ask in the chat if you do not find it - it's still in preparation)
 		  rkdeveloptool write-partition logo part_logo.img
 	
 		  # write debian image to bootable partition
