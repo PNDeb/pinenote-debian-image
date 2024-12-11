@@ -30,20 +30,21 @@ This approach, if successfull, allows you to flash a new operating system to the
             tools/boot_merger RKBOOT/RK3566MINIALL.ini
 
 * Preparation:
-        * Download the new partition table file (from this repository): [partition_table_standard2.txt](partition_table_standard2.txt)
+  
+	* Download the new partition table file (from this repository): [partition_table_standard2.txt](partition_table_standard2.txt)
 	* From the latest release (or latest CI build), download the following artifacts:
-         * the spl loader:
-           * **rk356x_spl_loader_v1.12.112.bin**
-         * (optional): the u-boot artifacts:
-           * **idblock.bin**
-           * **trust.img**
-           * **uboot.img**
-         * one disc image for either partition 5 (label: os1) or 6 (label: os2):
-           * **debian_partition_5.img.zst**
-           * or **debian_partition_6.img.zst**
-         * (optional) a dummy partition for the data partition (nr 7, label: data). This small blob is flashed to the partition to indicate that it should be used to mount /home for the newly installed system. Not recommended when os installed to both os1 and os2 partitions.
-           * **data_part_dummy_p5.img**
-           * or **data_part_dummy_p6.img**
+	 * the spl loader:
+	   * **rk356x_spl_loader_v1.12.112.bin**
+	 * (optional): the u-boot artifacts:
+	   * **idblock.bin**
+	   * **trust.img**
+	   * **uboot.img**
+	 * one disc image for either partition 5 (label: os1) or 6 (label: os2):
+	   * **debian_partition_5.img.zst**
+	   * or **debian_partition_6.img.zst**
+	 * (optional) a dummy partition for the data partition (nr 7, label: data). This small blob is flashed to the partition to indicate that it should be used to mount /home for the newly installed system. Not recommended when os installed to both os1 and os2 partitions.
+	   * **data_part_dummy_p5.img**
+	   * or **data_part_dummy_p6.img**
 	* unzip the artifacts (and unzstd the disc image), for example:
 
 			unzip debian_partition_5.zip && unzstd debian_partition_5.img.zst
