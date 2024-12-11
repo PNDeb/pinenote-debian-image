@@ -15,7 +15,7 @@ This approach, if successfull, allows you to flash a new operating system to the
 	* Have a full backup of the PineNote
 	* Be ready to recover from any errors (i.e., have the UART-board ready or
 	  tools to open up the PineNote)
-	* You need to have a u-boot that can access data beyond 32 mb on the disc and that automatically detects extlinux.conf files on the partitions.
+	* (only old, pre 2024 pinenotes): You need to have a u-boot that can access data beyond 32 mb on the disc and that automatically detects extlinux.conf files on the partitions.
 	  There are (at least) two possible ways to get such a u-boot:
 	    * Patch the factory-flashed u-boot (ONLY batch-1 PineNotes):
 	      * See https://github.com/DorianRudolph/pinenotes#fix-uboot for fixing the 32mb problem (there is a link to a backup binary that you could use)
