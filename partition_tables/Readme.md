@@ -17,7 +17,7 @@ This approach, if successfull, allows you to flash a new operating system to the
 	  tools to open up the PineNote)
 	* You need to have a u-boot that can access data beyond 32 mb on the disc and that automatically detects extlinux.conf files on the partitions.
 	  There are (at least) two possible ways to get such a u-boot:
-	    * Patch the factory-flashed u-boot:
+	    * Patch the factory-flashed u-boot (ONLY batch-1 PineNotes):
 	      * See https://github.com/DorianRudolph/pinenotes#fix-uboot for fixing the 32mb problem (there is a link to a backup binary that you could use)
 	      * Enabling the "search-for-exlinux.conf-file"-functionality in uboot can be accomplished by modifying the environment of the modified uboot partition (e.g., the backup provided by DorianRudolp). Use the file pinenote-uboot-envtool.py from  https://gist.github.com/charasyn/206b2537534b6679b0961be64cf9c35f, but instead of using the u-boot-patch provided by charasyn, just replace the *bootcmd* command of the environment with `bootcmd=run distro_bootcmd;` This modified image can be flashed using `rkdeveloptool write-partition uboot modifie_uboot.img
 	    * **(preferred option)** An alternative u-boot (idblock.bin, uboot.img, trust.img) can be found in the **uboot files**-artifact of the CI builds of this repository. Note that this u-boot version does only boot extlinux.conf linux distributions by default - you will loose (easy) access to any android systems.
