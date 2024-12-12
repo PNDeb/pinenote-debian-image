@@ -13,6 +13,7 @@ actions:
     description: Install sway and related packages
     packages:
       - brightnessctl
+      - fonts-font-awesome
       - fonts-noto-color-emoji
       - fonts-noto-hinted
       - foot
@@ -23,6 +24,7 @@ actions:
       - python3-pydbus
       - sway
       - swayidle
+      - waybar
       - wtype
 
   - action: overlay
