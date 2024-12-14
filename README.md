@@ -7,6 +7,13 @@ robust linux experience.
 Please also take a look at the handbook that is provided in this Debian image:
 https://pndeb.github.io/pinenote-tweaks/.
 
+A lot of subprojects used in the image are maintained in the [Github PNDeb
+organisation:](https://github.com/PNDeb/).
+
+The kernel for the image is maintained in [this Github
+repository](https://github.com/m-weigand/linux). Look for branches starting
+with **branch_pinenote**.
+
 The project originated in the work of [Eugen Răhăian]
 (https://salsa.debian.org/eugenrh/pinenote-debian-recipes), which provides a
 Debian base rootfs/image without any GUI.
