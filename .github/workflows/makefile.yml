@@ -194,7 +194,7 @@ jobs:
             artifacts/disc_image_partition_6/debian_partition_6.img.zst
             artifacts/disc_image_partition_8/debian_partition_8.img.zst
             artifacts/disc_image_partition_9/debian_partition_9.img.zst
-            artifacts/data_part_dummy_partition_5/data_part_dummy_for_os_p5.bin
-            artifacts/data_part_dummy_partition_6/data_part_dummy_for_os_p6.bin
-            artifacts/data_part_dummy_partition_8/data_part_dummy_for_os_p8.bin
-            artifacts/data_part_dummy_partition_9/data_part_dummy_for_os_p9.bin
+            artifacts/data_part_dummy_partition_for_os_5/data_part_dummy_for_os_p5.bin
+            artifacts/data_part_dummy_partition_for_os_6/data_part_dummy_for_os_p6.bin
+            artifacts/data_part_dummy_partition_for_os_8/data_part_dummy_for_os_p8.bin
+            artifacts/data_part_dummy_partition_for_os_9/data_part_dummy_for_os_p9.bin
