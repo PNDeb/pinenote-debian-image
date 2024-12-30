@@ -87,5 +87,10 @@ actions:
     chroot: true
     command: echo "export GDK_GL_DISABLE=base-instance" > /etc/profile.d/pinenote.sh
 
+  - action: run
+    description: Uninstall packagekit and associated packages
+    chroot: true
+    command: apt -Y remove packagekit
+
   - action: pack
     file: {{ $targz }}
