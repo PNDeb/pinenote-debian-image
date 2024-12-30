@@ -90,7 +90,7 @@ actions:
   - action: run
     description: Uninstall packagekit and associated packages
     chroot: true
-    command: apt -Y remove packagekit
+    command: apt-get --yes remove packagekit
 
   - action: pack
     file: {{ $targz }}
