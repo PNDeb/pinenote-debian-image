@@ -2,7 +2,8 @@
 
 function quit_with_warning(){
 	echo "Did not find /uboot_config/uboot.env"
-	echo "Try mounting /uboot_config"
+	echo "Try mounting /uboot_config using the command:"
+	echo "    mount /uboot_config"
 	exit
 }
 
