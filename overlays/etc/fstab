@@ -1,1 +1,1 @@
-/dev/mmcblk0p4 /uboot_config             vfat      defaults,noauto              0      0
+/dev/disk/by-partlabel/uboot_env /uboot_config             vfat      defaults,noauto              0      0
