@@ -31,6 +31,10 @@ Android installation.
 If you are looking for installation instructions, please take a look
 [here](partition_tables/Readme.md).
 
+## External Reviews
+
+For an external review of the 2024 PineNote, shipped with this Debian-based image, please take a look at [https://domistyle.gitlab.io/pinenote-2024/](https://domistyle.gitlab.io/pinenote-2024/).
+
 ## What can be done with the PineNote ?
 
 Videos showcasing what **can** be achieved with the PineNote | _
