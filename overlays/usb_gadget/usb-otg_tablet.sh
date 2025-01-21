@@ -7,6 +7,14 @@ modprobe libcomposite
 # go to configfs directory for USB gadgets
 CONFIGFS_ROOT=/sys/kernel/config # adapt to your machine
 
+# Unbind and remove any existing gadget named 'g1' to avoid conflicts
+if [ -d "${CONFIGFS_ROOT}/usb_gadget/g1" ]; then
+  # Unbind if bound
+  echo "" > "${CONFIGFS_ROOT}/usb_gadget/g1/UDC" 2>/dev/null || true
+  # Remove the gadget directory
+  rm -rf "${CONFIGFS_ROOT}/usb_gadget/g1"
+fi
+
 cd "${CONFIGFS_ROOT}"/usb_gadget
 
 # create gadget directory and enter it
