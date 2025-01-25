@@ -176,3 +176,7 @@ test -e "${final_targz}" && rm "${final_targz}"
 last_targz_file=$(ls -1 *.tar.gz | tail -1)
 echo "Renaming ${last_targz_file} to ${final_targz}"
 mv "${last_targz_file}" "${final_targz}"
+
+# when we build in a docker container, make sure we can delete files outside of
+# this container
+chmod 0777 *tar.gz
