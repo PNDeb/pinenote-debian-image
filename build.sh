@@ -150,7 +150,8 @@ for recipe in ${recipes[@]}; do
 		   	echo "Deleting: `printf %02i $to_del;`_*.tar.gz;"
 			# we want to keep the last tar.gz file, which is generated in step 11
 			if [ $to_del -lt 11 ]; then
-		   		rm `printf %02i $to_del;`_*.tar.gz;
+		   		# rm `printf %02i $to_del;`_*.tar.gz;
+				true;
 			fi
 	   	done
 		echo "Directory size after cleanup: `du -sh .`"

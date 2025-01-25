@@ -1,7 +1,7 @@
 # calls debootstrap
 01_rootminfs.yaml
 # only uncomment the next line if you have a eink waveform file to include
-# 02_waveforms.yaml
+02_waveforms.yaml
 03_basic_system.yaml
 04_fix_root_partition.yaml
 05_baseprograms.yaml
@@ -13,5 +13,5 @@
 # creating the disc image. Therefore, in those cases, comment out the next two
 # lines and use the local shell script 'gen_packed_image.sh' to generate a
 # flashable disc image
-12_create_disc_image.yaml
-13_extract_partition_image.yaml
+# 12_create_disc_image.yaml
+# 13_extract_partition_image.yaml
