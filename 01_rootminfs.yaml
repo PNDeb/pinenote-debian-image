@@ -15,5 +15,10 @@ actions:
       - non-free-firmware
     mirror: http://deb.debian.org/debian
 
+  - action: overlay
+    description: Copy information on the Debian image state
+    source: overlays/git_credentials
+    destination: /etc
+
   - action: pack
     file: {{ $targz }}

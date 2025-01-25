@@ -112,6 +112,17 @@ read_options() {
 
 # ===== main ===== #
 
+# prepare an overlay with the git credentials
+test -d overlays/git_credentials && rm -r overlays/git_credentials
+mkdir overlays/git_credentials
+outfile="overlays/git_credentials/pinenote_software_version"
+echo "This os image was generated on `date`" >> "${outfile}"
+echo "Git repository information:" >> "${outfile}"
+git remote get-url origin >> "${outfile}"
+git status -sb | head -1 >> "${outfile}"
+git log -n 1 --oneline >> "${outfile}"
+# done
+
 read_options $@
 
 DEBOS_CMD=debos
