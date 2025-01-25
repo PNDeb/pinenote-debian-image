@@ -112,7 +112,7 @@ jobs:
           path: data_part_uboot_env_defp5.bin
 
   compile_uboot:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: compile uboot for the PineNote
     needs:
       - build_images
