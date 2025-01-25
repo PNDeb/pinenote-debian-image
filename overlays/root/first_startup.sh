@@ -204,8 +204,11 @@ fi
 u-boot-update
 
 # Batch 2 factory image: We need to install u-boot on first boot
-# cd /root/uboot
-# bash install_stable_1056mhz_uboot.sh
+cd /root/uboot
+bash install_stable_1056mhz_uboot.sh
+# we really want to reboot here, so make sure to disable the wbf_already_exists
+# variable
+wbf_already_exists=0
 
 # we do not want to repeat running this script, see check at the beginning of
 # the file
