@@ -43,6 +43,7 @@ actions:
       - plymouth
       - plymouth-themes
       - fbi
+      - libwacom-bin
 
   - action: overlay
     description: Install plymouth config
