@@ -18,6 +18,7 @@ actions:
       - gnome-shell-extension-user-theme
       - portfolio-filemanager
       - vlc
+      - power-profiles-daemon
 
   - action: apt
     recommends: false
