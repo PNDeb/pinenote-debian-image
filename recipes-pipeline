@@ -8,6 +8,7 @@
 06_finalsetup.yaml
 07_gnome.yaml
 08_custom_debs.yaml
+09_sway.yaml
 11_adduser.yaml
 # If you build locally, in a docker container, sometimes errors occurred while
 # creating the disc image. Therefore, in those cases, comment out the next two
