@@ -1,0 +1,4 @@
+#!/bin/sh
+
+export XDG_SESSION_TYPE=wayland
+exec gnome-shell "$@"
