@@ -5,6 +5,7 @@ Record power usage during sleep
 Place in: /lib/systemd/systemd-sleep
 
 """
+import glob
 import os
 import sys
 import time
@@ -18,10 +19,11 @@ tmp_file = '/tmp/tmp_charge.dat'
 bat_dir_old = ''.join((
     '/sys/bus/i2c/devices/0-0020/rk817-charger/power_supply/rk817-battery/'
 ))
-bat_dir_new = ''.join((
-    '/sys/bus/i2c/devices/0-0020/',
-    'rk817-charger.6.auto/power_supply/rk817-battery'
-))
+charger_dir = glob.glob('/sys/bus/i2c/devices/0-0020/rk817-charger.*.auto')
+assert len(charger_dir) == 1
+bat_dir_new = charger_dir[0] + '/power_supply/rk817-battery'
+assert os.path.isdir(bat_dir_new)
+
 bat_dirs = (bat_dir_old, bat_dir_new)
 for directory in bat_dirs:
     if os.path.isdir(directory):
