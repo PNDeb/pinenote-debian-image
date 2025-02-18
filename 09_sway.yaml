@@ -1,0 +1,51 @@
+{{- $architecture := or .architecture "arm64" -}}
+{{- $prevtargz := .prevtargz }}
+{{- $targz := .targz }}
+
+architecture: {{ $architecture }}
+
+actions:
+  - action: unpack
+    file: {{ $prevtargz }}
+
+  - action: apt
+    recommends: false
+    description: Install sway and related packages
+    packages:
+      - brightnessctl
+      - fonts-font-awesome
+      - fonts-noto-color-emoji
+      - fonts-noto-hinted
+      - foot
+      - iio-sensor-proxy
+      - jq
+      - lisgd
+      - python3-i3ipc
+      - python3-pydbus
+      - sway
+      - swayidle
+      - waybar
+      - wtype
+
+  - action: overlay
+    description: Binaries for sway environment
+    source: overlays/sway_config/bin/
+    destination: /usr/local/bin/
+
+  - action: overlay
+    description: Pinned entries for nwg-menu
+    source: overlays/sway_config/cache/nwg-pin-cache
+    destination: /etc/skel/.cache/
+
+  - action: overlay
+    description: Configuration for sway
+    source: overlays/sway_config/sway/
+    destination: /etc/skel/.config/sway/
+
+  - action: overlay
+    description: Configuration for waybar
+    source: overlays/sway_config/waybar/
+    destination: /etc/skel/.config/waybar/
+
+  - action: pack
+    file: {{ $targz }}

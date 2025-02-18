@@ -1,0 +1,12 @@
+#!/bin/sh
+
+bw_mode_file=/sys/module/rockchip_ebc/parameters/bw_mode
+default_waveform_file=/sys/module/rockchip_ebc/parameters/default_waveform
+echo "$1" >"${bw_mode_file}"
+
+if [ $(cat "${bw_mode_file}") = 0 ]; then
+  echo 7 > "${default_waveform_file}"
+  #refresh_screen
+else
+  echo 1 > "${default_waveform_file}"
+fi
