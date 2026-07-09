@@ -6,7 +6,8 @@ cd overlays/custom_debs/
 test -e koreader-2023.08-arm64.deb && rm koreader*.deb
 # wget -nv https://github.com/koreader/koreader/releases/download/v2024.04/koreader-2024.04-arm64.deb
 # wget -nv https://github.com/koreader/koreader/releases/download/v2024.07/koreader-2024.07-arm64.deb
-wget -nv https://github.com/koreader/koreader/releases/download/v2024.11/koreader-2024.11-arm64.deb
+# wget -nv https://github.com/koreader/koreader/releases/download/v2024.11/koreader-2024.11-arm64.deb
+wget -nv https://github.com/koreader/koreader/releases/download/v2026.03/koreader_2026.03-1_arm64.deb
 cd ${pwd}
 
 # evsieve
