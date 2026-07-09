@@ -50,7 +50,7 @@ actions:
       - screen
       - evtest
       - systemd-resolved
-      - ntp
+      - openntpd
       - speech-dispatcher-espeak-ng
       - w3m
       - espeak-ng
