@@ -12,9 +12,9 @@ jobs:
       matrix:
         # generate images for the following partition numbers
         partition: [5, 6, 8, 9]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Update image
       # run: sudo apt update && sudo apt upgrade
@@ -37,7 +37,7 @@ jobs:
       run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
 
     - name: Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: rootfs_archive_partition_${{matrix.partition}}
         path: pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
@@ -46,7 +46,7 @@ jobs:
       run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
 
     - name: Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: disc_image_partition_${{matrix.partition}}
         path: debian_partition_${{matrix.partition}}.img.zst
@@ -66,7 +66,7 @@ jobs:
     needs:
       - build_images
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Create dummy partition
         run: |
@@ -81,7 +81,7 @@ jobs:
           rm -r tmp
 
       - name: Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: data_part_dummy_partition_for_os_${{matrix.partition}}
           path: data_part_dummy_for_os_p${{matrix.partition}}.bin
@@ -91,7 +91,7 @@ jobs:
       # needs:
       # - build_images
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
       - name: Install dosfstools
         run: sudo apt -y install dosfstools
@@ -106,7 +106,7 @@ jobs:
           rm -r tmp
 
       - name: Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: data_part_uboot_env_defp5
           path: data_part_uboot_env_defp5.bin
@@ -175,9 +175,9 @@ jobs:
       - generate_spl_boot_file
     steps:
       - name: Clone workflow repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Download image artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           path: artifacts/
       - name: Make release
