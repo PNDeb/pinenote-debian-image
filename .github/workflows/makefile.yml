@@ -114,7 +114,7 @@ jobs:
           path: data_part_uboot_env_defp5.bin
 
   compile_uboot:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     name: compile uboot for the PineNote
     # needs:
     #   - build_images
