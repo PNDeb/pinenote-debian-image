@@ -128,6 +128,8 @@ jobs:
           # TODO: Do we need to checkout a specific commit?
           test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
           test -d u-boot-pinenote || git clone --branch branch_cyttsp5ub --depth 1 https://github.com/m-weigand/u-boot-pinenote
+      - name: Compile u-boot
+        run: |
           cd u-boot-pinenote
           export CROSS_COMPILE=aarch64-linux-gnu-
           make clean;
