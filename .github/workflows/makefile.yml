@@ -7,86 +7,86 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build_images:
-  #   strategy:
-  #     matrix:
-  #       # generate images for the following partition numbers
-  #       # partition: [5, 6, 8, 9]
-  #       partition: [5, ]
+  build_images:
+    strategy:
+      matrix:
+        # generate images for the following partition numbers
+        # partition: [5, 6, 8, 9]
+        partition: [6, ]
 
-  #   runs-on: ubuntu-24.04
-  #   steps:
-  #   - uses: actions/checkout@v7
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v7
 
-  #   - name: Update image
-  #     # run: sudo apt update && sudo apt upgrade
-  #     run: sudo apt update && sudo apt install debootstrap debian-archive-keyring debian-keyring
+    - name: Update image
+      # run: sudo apt update && sudo apt upgrade
+      run: sudo apt update && sudo apt install debootstrap debian-archive-keyring debian-keyring
 
-  #   - name: Install dependencies
-  #     run: sudo apt -y update && sudo apt install debos
+    - name: Install dependencies
+      run: sudo apt -y update && sudo apt install debos
 
-  #   - name: Prep step
-  #     run: ./prep_00_get_kernel_files.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
+    - name: Prep step
+      run: ./prep_00_get_kernel_files.sh && ./prep_03_custom_debs.sh &&  ./prep_05_get_external_files.sh
 
-  #   # - name: Set root partition number
-  #   #   run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
+    # - name: Set root partition number
+    #   run: sed -i 's/U_BOOT_ROOT="root=\/dev\/mmcblk0p5"/U_BOOT_ROOT="root=\/dev\/mmcblk0p${{matrix.partition}}"/' overlays/default/u-boot
 
-  #   - name: Build
-  #     run: |
-  #       sudo target_root_partition=${{matrix.partition}} ./build.sh
+    - name: Build
+      run: |
+        sudo target_root_partition=${{matrix.partition}} ./build.sh
 
-  #   - name: Rename rootfs tar.gz
-  #     run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
+    - name: Rename rootfs tar.gz
+      run: mv pinenote_arm64_debian_trixie.tar.gz pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
 
-  #   - name: Artifacts
-  #     uses: actions/upload-artifact@v7
-  #     with:
-  #       name: rootfs_archive_partition_${{matrix.partition}}
-  #       path: pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
+    - name: Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: rootfs_archive_partition_${{matrix.partition}}
+        path: pinenote_arm64_debian_trixie_partition_${{matrix.partition}}.tar.gz
 
-  #   - name: Rename debian.img.zst
-  #     run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
+    - name: Rename debian.img.zst
+      run: mv debian.img.zst debian_partition_${{matrix.partition}}.img.zst
 
-  #   - name: Artifacts
-  #     uses: actions/upload-artifact@v7
-  #     with:
-  #       name: disc_image_partition_${{matrix.partition}}
-  #       path: debian_partition_${{matrix.partition}}.img.zst
+    - name: Artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: disc_image_partition_${{matrix.partition}}
+        path: debian_partition_${{matrix.partition}}.img.zst
 
-  # create_data_partition_dummy:
-  #   # this job creates small ext4 partition images meant to be flashed to the
-  #   # data partition
-  #   # this partition contains files that will be parsed on first boot by the
-  #   # first-boot-script, leading to certain actions
-  #   # the partition number refers to the os partition of the linux system that
-  #   # will use the data partition as /home
-  #   strategy:
-  #     matrix:
-  #       # generate images for the following partition numbers
-  #       partition: [5, 6, 8, 9, ]
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - build_images
-  #   steps:
-  #     - uses: actions/checkout@v7
-  #     # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
-  #     - name: Create dummy partition
-  #       run: |
-  #         fallocate -l 40MB data_part_dummy_for_os_p${{matrix.partition}}.bin
-  #         mkfs.ext4 data_part_dummy_for_os_p${{matrix.partition}}.bin
-  #         mkdir tmp
-  #         sudo mount -v -o loop data_part_dummy_for_os_p${{matrix.partition}}.bin tmp
-  #         sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
-  #         sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
-  #         sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
-  #         sudo umount tmp
-  #         rm -r tmp
+  create_data_partition_dummy:
+    # this job creates small ext4 partition images meant to be flashed to the
+    # data partition
+    # this partition contains files that will be parsed on first boot by the
+    # first-boot-script, leading to certain actions
+    # the partition number refers to the os partition of the linux system that
+    # will use the data partition as /home
+    strategy:
+      matrix:
+        # generate images for the following partition numbers
+        partition: [5, 6, 8, 9, ]
+    runs-on: ubuntu-latest
+    needs:
+      - build_images
+    steps:
+      - uses: actions/checkout@v7
+      # action is based on https://gitlab.com/pgwipeout/quartz64_ci/-/blob/main/.gitlab-ci.yml
+      - name: Create dummy partition
+        run: |
+          fallocate -l 40MB data_part_dummy_for_os_p${{matrix.partition}}.bin
+          mkfs.ext4 data_part_dummy_for_os_p${{matrix.partition}}.bin
+          mkdir tmp
+          sudo mount -v -o loop data_part_dummy_for_os_p${{matrix.partition}}.bin tmp
+          sudo touch tmp/pn_use_as_home_mmcblk0p${{matrix.partition}}
+          sudo touch tmp/pn_recreate_fs_mmcblk0p${{matrix.partition}}
+          sudo touch tmp/pn_transfer_files_mmcblk0p${{matrix.partition}}
+          sudo umount tmp
+          rm -r tmp
 
-  #     - name: Artifacts
-  #       uses: actions/upload-artifact@v7
-  #       with:
-  #         name: data_part_dummy_partition_for_os_${{matrix.partition}}
-  #         path: data_part_dummy_for_os_p${{matrix.partition}}.bin
+      - name: Artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: data_part_dummy_partition_for_os_${{matrix.partition}}
+          path: data_part_dummy_for_os_p${{matrix.partition}}.bin
 
   create_empty_uboot_env_partition:
     runs-on: ubuntu-latest
@@ -114,6 +114,8 @@ jobs:
           path: data_part_uboot_env_defp5.bin
 
   compile_uboot:
+    # compilation error on ubuntu-24.04
+    # runs-on: ubuntu-22.04
     runs-on: ubuntu-22.04
     name: compile uboot for the PineNote
     # needs:
@@ -155,7 +157,7 @@ jobs:
   generate_spl_boot_file:
     runs-on: ubuntu-latest
     # needs:
-      # - build_images
+    #   - build_images
     name: Geneate rk356x_spl_loader_v1.12.112.bin
     steps:
       - name: Prepare environment
@@ -176,37 +178,37 @@ jobs:
           path: |
             rkbin/rk356x_spl_loader_v1.12.112.bin
 
-  # do_release:
-  #   # if: startsWith(github.ref, 'refs/tags/')
-  #   # if: contains(github.ref, "main")
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - build_images
-  #     - create_data_partition_dummy
-  #     - compile_uboot
-  #     - generate_spl_boot_file
-  #   steps:
-  #     - name: Clone workflow repository
-  #       uses: actions/checkout@v7
-  #     - name: Download image artifacts
-  #       uses: actions/download-artifact@v7
-  #       with:
-  #         path: artifacts/
-  #     - name: Make release
-  #       uses: softprops/action-gh-release@v3
-  #       with:
-  #         draft: true
-  #         files: |
-  #           artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
-  #           artifacts/uboot-files/uboot.img
-  #           artifacts/uboot-files/idblock.bin
-  #           artifacts/data_part_uboot_env/data_part_uboot_env.bin
-  #           artifacts/data_part_uboot_env_defp5/data_part_uboot_env_defp5.bin
-  #           artifacts/disc_image_partition_5/debian_partition_5.img.zst
-  #           artifacts/disc_image_partition_6/debian_partition_6.img.zst
-  #           artifacts/disc_image_partition_8/debian_partition_8.img.zst
-  #           artifacts/disc_image_partition_9/debian_partition_9.img.zst
-  #           artifacts/data_part_dummy_partition_for_os_5/data_part_dummy_for_os_p5.bin
-  #           artifacts/data_part_dummy_partition_for_os_6/data_part_dummy_for_os_p6.bin
-  #           artifacts/data_part_dummy_partition_for_os_8/data_part_dummy_for_os_p8.bin
-  #           artifacts/data_part_dummy_partition_for_os_9/data_part_dummy_for_os_p9.bin
+  do_release:
+    # if: startsWith(github.ref, 'refs/tags/')
+    # if: contains(github.ref, "main")
+    runs-on: ubuntu-latest
+    needs:
+      - build_images
+      - create_data_partition_dummy
+      - compile_uboot
+      - generate_spl_boot_file
+    steps:
+      - name: Clone workflow repository
+        uses: actions/checkout@v7
+      - name: Download image artifacts
+        uses: actions/download-artifact@v7
+        with:
+          path: artifacts/
+      - name: Make release
+        uses: softprops/action-gh-release@v3
+        with:
+          draft: true
+          files: |
+            artifacts/rk356x_spl_loader_v1.12.112.bin/rk356x_spl_loader_v1.12.112.bin
+            artifacts/uboot-files/uboot.img
+            artifacts/uboot-files/idblock.bin
+            artifacts/data_part_uboot_env/data_part_uboot_env.bin
+            artifacts/data_part_uboot_env_defp5/data_part_uboot_env_defp5.bin
+            artifacts/disc_image_partition_5/debian_partition_5.img.zst
+            artifacts/disc_image_partition_6/debian_partition_6.img.zst
+            artifacts/disc_image_partition_8/debian_partition_8.img.zst
+            artifacts/disc_image_partition_9/debian_partition_9.img.zst
+            artifacts/data_part_dummy_partition_for_os_5/data_part_dummy_for_os_p5.bin
+            artifacts/data_part_dummy_partition_for_os_6/data_part_dummy_for_os_p6.bin
+            artifacts/data_part_dummy_partition_for_os_8/data_part_dummy_for_os_p8.bin
+            artifacts/data_part_dummy_partition_for_os_9/data_part_dummy_for_os_p9.bin
