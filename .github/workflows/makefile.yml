@@ -126,8 +126,15 @@ jobs:
       - name: Checkout rkbin
         run: |
           # TODO: Do we need to checkout a specific commit?
-          test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
+          # test -d rkbin || git clone --depth 1 --branch master https://github.com/rockchip-linux/rkbin.git
+          test -d rkbin && rm -rf rkin
+          git clone --shallow-since="2022-01-02T00:00:00Z" https://github.com/rockchip-linux/rkbin
+          cd rkbin
+          git checkout b6354b9
+          cd ..
           test -d u-boot-pinenote || git clone --branch branch_cyttsp5ub --depth 1 https://github.com/m-weigand/u-boot-pinenote
+          cd u-boot-pinenote
+          git log
       - name: Compile u-boot
         run: |
           cd u-boot-pinenote
