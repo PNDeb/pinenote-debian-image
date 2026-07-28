@@ -5,7 +5,6 @@ Record power usage during sleep
 Place in: /lib/systemd/systemd-sleep
 
 """
-import glob
 import os
 import sys
 import time
@@ -16,19 +15,22 @@ if len(sys.argv) < 3:
 
 persistent_file = '/root/energy_use.dat'
 tmp_file = '/tmp/tmp_charge.dat'
-bat_dir_old = ''.join((
-    '/sys/bus/i2c/devices/0-0020/rk817-charger/power_supply/rk817-battery/'
-))
-charger_dir = glob.glob('/sys/bus/i2c/devices/0-0020/rk817-charger.*.auto')
-assert len(charger_dir) == 1
-bat_dir_new = charger_dir[0] + '/power_supply/rk817-battery'
-assert os.path.isdir(bat_dir_new)
-
-bat_dirs = (bat_dir_old, bat_dir_new)
+# /sys/class/power_supply is the stable interface: the kernel points this
+# symlink at the battery wherever the driver instance happens to land, so
+# there is no platform instance number to glob for.
+bat_dirs = (
+    '/sys/class/power_supply/rk817-battery',
+    '/sys/bus/i2c/devices/0-0020/rk817-charger/power_supply/rk817-battery',
+)
+bat_dir = None
 for directory in bat_dirs:
     if os.path.isdir(directory):
         bat_dir = directory + os.sep
         break
+if bat_dir is None:
+    # No battery to read: nothing to record. Leaving quietly beats raising
+    # on every single suspend.
+    exit()
 
 charge_full_file = bat_dir + 'charge_full'
 charge_full_mah = int(open(charge_full_file, 'r').readline().strip())
