@@ -1,0 +1,33 @@
+* {
+	border: none;
+	border-radius: 0;
+	font-size: 22px;
+}
+
+#workspaces {
+	padding: 0 0px;
+	margin: 0 0px;
+}
+
+window#waybar {
+	background: #000000;
+	color: #ffffff;
+}
+
+button {
+	padding: 0 0px;
+	margin: 0 0px;
+	background: transparent;
+	color: #ffffff;
+}
+
+.battery {
+	padding: 0 10px;
+}
+
+button {
+	padding: 0 0px;
+	margin: 0 0px;
+	background: transparent;
+	color: #ffffff;
+}
