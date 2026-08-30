@@ -19,6 +19,7 @@ actions:
       - portfolio-filemanager
       - vlc
       - power-profiles-daemon
+      - iio-sensor-proxy
 
   - action: apt
     recommends: false
